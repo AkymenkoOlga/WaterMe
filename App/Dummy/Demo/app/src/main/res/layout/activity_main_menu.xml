@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_menu"
     android:layout_width="match_parent"
@@ -8,15 +10,94 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:textAlignment="center"
     tools:context="com.project.gta.demo.MainMenu">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/button1"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="58dp">
 
-    </GridLayout>
+
+    <!--*android:textStyle="italic"-->
+
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/Logo_WaterMe"
+        android:id="@+id/imageView"
+        android:cropToPadding="false"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="@string/help_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button19"
+        android:paddingLeft="74dp"
+        android:paddingRight="74dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/button18"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button16"
+        android:paddingLeft="69dp"
+        android:paddingRight="69dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        style="@style/Widget.AppCompat.Button"
+        android:text="@string/about_menu"
+        android:textIsSelectable="false"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/button19"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:fontFamily="sans-serif-condensed"
+        app:layout_widthPercent="50%"
+        app:layout_heightPercent="50%"
+        app:layout_marginTopPercent="25%"
+        app:layout_marginLeftPercent="25%"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="@string/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button18"
+        android:paddingLeft="59dp"
+        android:paddingRight="59dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/button17"
+        android:layout_centerHorizontal="true"
+        android:elegantTextHeight="false" />
+
+    <Button
+        android:text="@string/plant_menu"
+        android:layout_height="wrap_content"
+        android:id="@+id/button17"
+        android:paddingLeft="53dp"
+        android:paddingRight="53dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

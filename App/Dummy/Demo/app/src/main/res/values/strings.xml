@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">WaterMe</string>
-
+    <string name="plant_menu">My plants</string>
+    <string name="help_menu">Help</string>
+    <string name="settings">Settings</string>
+    <string name="about_menu">About</string>
 </resources>
