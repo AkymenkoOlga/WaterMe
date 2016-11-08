@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/Logo_WaterMe"
+        app:srcCompat="@drawable/logo_waterme"
         android:id="@+id/imageView"
         android:cropToPadding="false"
         android:layout_alignParentTop="true"
@@ -40,7 +40,8 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/button18"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="goto_help"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -55,7 +56,8 @@
         android:textIsSelectable="false"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/button19"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="goto_about"/>
 
     <TextView
         android:text="@string/app_name"
@@ -64,10 +66,6 @@
         android:id="@+id/textView3"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:fontFamily="sans-serif-condensed"
-        app:layout_widthPercent="50%"
-        app:layout_heightPercent="50%"
-        app:layout_marginTopPercent="25%"
-        app:layout_marginLeftPercent="25%"
         android:layout_marginTop="16dp"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true" />
@@ -85,7 +83,8 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/button17"
         android:layout_centerHorizontal="true"
-        android:elegantTextHeight="false" />
+        android:elegantTextHeight="false"
+        android:onClick="goto_settings"/>
 
     <Button
         android:text="@string/plant_menu"
@@ -98,6 +97,7 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="goto_plants"/>
 
 </RelativeLayout>
