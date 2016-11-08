@@ -12,6 +12,10 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
     }
+    public void goto_settings(View view){
+        setContentView(R.layout.activity_settings);
+    }
+
 /*   public void button_name(View view){    insert button_name
         setContentView(R.layout.activity_name);  insert activity_name
     }*/
