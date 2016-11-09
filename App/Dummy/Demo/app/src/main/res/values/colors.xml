@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#02a721</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <!--Farben für Logo 02a721 und 0e9cb6-->
     <color name="colorAccent">#FF4081</color>
 </resources>
