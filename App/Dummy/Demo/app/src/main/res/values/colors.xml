@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
     <color name="colorPrimary">#02a721</color>
     <color name="colorPrimaryDark">#000000</color>
     <!--Farben für Logo 02a721 und 0e9cb6-->
-=======
-    <color name="colorPrimary">#009714</color>
-    <color name="colorPrimaryDark">#303F9F</color>
->>>>>>> refs/remotes/origin/settings_layout
+
     <color name="colorAccent">#FF4081</color>
     <color name="colorTiles">#e6ffe6</color>
 </resources>
