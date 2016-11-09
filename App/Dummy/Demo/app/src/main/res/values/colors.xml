@@ -3,7 +3,7 @@
     <color name="colorPrimary">#02a721</color>
     <color name="colorPrimaryDark">#000000</color>
     <!--Farben für Logo 02a721 und 0e9cb6-->
-
+    <!--Hallo Test-->
     <color name="colorAccent">#FF4081</color>
     <color name="colorTiles">#e6ffe6</color>
 </resources>
