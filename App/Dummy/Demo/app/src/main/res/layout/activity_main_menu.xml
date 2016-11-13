@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_menu"
@@ -12,7 +12,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:textAlignment="center"
     tools:context="com.project.gta.demo.MainMenu"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="1">
 
 
 
@@ -24,81 +26,52 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/logo_waterme_300x300"
-        android:id="@+id/imageView"
+        android:id="@+id/icon"
         android:cropToPadding="false"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:contentDescription="@string/logo" />
 
-    <Button
-        android:text="@string/help_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button19"
-        android:paddingLeft="74dp"
-        android:paddingRight="74dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/button18"
-        android:gravity="center"
-        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="269dp"
+        android:id="@+id/hauptmenue"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button16"
-        android:paddingLeft="69dp"
-        android:paddingRight="69dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        style="@style/Widget.AppCompat.Button"
-        android:text="@string/about_menu"
-        android:textIsSelectable="false"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/button19"
-        android:layout_centerHorizontal="true"
-        android:gravity="center" />
+        <TextView
+            android:text="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
-    <TextView
-        android:text="@string/app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:text="@string/plant_menu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/myplants" />
 
-    <Button
-        android:text="@string/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button18"
-        android:paddingLeft="59dp"
-        android:paddingRight="59dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/button17"
-        android:layout_centerHorizontal="true"
-        android:gravity="center" />
+        <Button
+            android:text="@string/settings"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/settings" />
 
-    <Button
-        android:text="@string/plant_menu"
-        android:layout_height="wrap_content"
-        android:id="@+id/button17"
-        android:paddingLeft="53dp"
-        android:paddingRight="53dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/button18"
-        android:gravity="center" />
+        <Button
+            android:text="@string/help_menu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/help" />
 
-</RelativeLayout>
+        <Button
+            android:text="@string/about_menu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/about" />
+
+    </LinearLayout>
+
+</LinearLayout>
