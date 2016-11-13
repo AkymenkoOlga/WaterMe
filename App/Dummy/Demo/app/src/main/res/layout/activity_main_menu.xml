@@ -11,7 +11,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:textAlignment="center"
-    tools:context="com.project.gta.demo.MainMenu">
+    tools:context="com.project.gta.demo.MainMenu"
+    android:gravity="center">
 
 
 
@@ -22,11 +23,12 @@
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/logo_waterme"
+        app:srcCompat="@drawable/logo_waterme_300x300"
         android:id="@+id/imageView"
         android:cropToPadding="false"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logo" />
 
     <Button
         android:text="@string/help_menu"
@@ -40,8 +42,8 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/button18"
-        android:layout_centerHorizontal="true"
-        android:onClick="goto_help"/>
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -57,7 +59,7 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/button19"
         android:layout_centerHorizontal="true"
-        android:onClick="goto_about"/>
+        android:gravity="center" />
 
     <TextView
         android:text="@string/app_name"
@@ -83,8 +85,7 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/button17"
         android:layout_centerHorizontal="true"
-        android:elegantTextHeight="false"
-        android:onClick="goto_settings"/>
+        android:gravity="center" />
 
     <Button
         android:text="@string/plant_menu"
@@ -97,7 +98,7 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="goto_plants"/>
+        android:layout_alignStart="@+id/button18"
+        android:gravity="center" />
 
 </RelativeLayout>

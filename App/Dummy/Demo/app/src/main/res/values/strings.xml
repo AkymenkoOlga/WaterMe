@@ -4,4 +4,8 @@
     <string name="help_menu">Help</string>
     <string name="settings">Settings</string>
     <string name="about_menu">About</string>
+    <string name="notifications">Notifications</string>
+    <string name="raspberry_leds">Raspberry LEDs</string>
+    <string name="raspberry_wifi">Raspberry WiFi</string>
+    <string name="logo">Logo von WaterMe</string>
 </resources>

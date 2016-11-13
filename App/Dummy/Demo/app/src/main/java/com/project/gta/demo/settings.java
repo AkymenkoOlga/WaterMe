@@ -11,7 +11,4 @@ public class settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
     }
-    public void goto_main_menu(View view){
-        setContentView(R.layout.activity_main_menu);
-    }
 }

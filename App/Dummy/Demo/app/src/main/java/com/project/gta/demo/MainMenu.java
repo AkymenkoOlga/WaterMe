@@ -1,23 +1,30 @@
 package com.project.gta.demo;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
+    /* Erläuterung: Interface OnClickListener definiert Methode OnClick(),
+    deshalb muss in dieser Klasse die Methode onClick() implementiert werden */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        Button button = (Button) findViewById(R.id.button18);
 
+        /* dem Button muss gesagt werden, dass er die laufende Activity (MainMenu) als seinen
+        OnClickListener verwendet */
+
+        button.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity
     }
-    public void goto_settings(View view){
-        setContentView(R.layout.activity_settings);
+    @Override
+    public void onClick(View v) {
+    startActivity(new Intent(this,settings.class));
+        /* Intent-Object definiert, welche Klasse Android
+        für die zu startende Activity verwenden soll*/
     }
-
-/*   public void button_name(View view){    insert button_name
-        setContentView(R.layout.activity_name);  insert activity_name
-    }*/
-
 }
