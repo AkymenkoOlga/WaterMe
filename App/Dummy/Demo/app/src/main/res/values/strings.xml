@@ -8,4 +8,5 @@
     <string name="raspberry_leds">Raspberry LEDs</string>
     <string name="raspberry_wifi">Raspberry WiFi</string>
     <string name="logo">Logo von WaterMe</string>
+    <string name="sounds">Sounds</string>
 </resources>
