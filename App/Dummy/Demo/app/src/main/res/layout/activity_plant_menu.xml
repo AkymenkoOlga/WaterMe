@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100"
+    android:background="#F3F3F3">
+
+    <!-- icon -->
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/plant2" />
+
+    <!-- title -->
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center_horizontal"
+        android:text="Mein Löwenzahn <3"
+        android:textSize="30dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/item_icon" />
+
+
+</RelativeLayout>
+
+    <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="48dp"
+
+android:background="#F3F3F3">
+
+<!-- title -->
+<TextView
+    android:id="@+id/header"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:textSize="16dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginBottom="4dp"
+    android:layout_alignParentBottom="true" />
+
+<!--  divider -->
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginBottom="1dp"
+    android:layout_alignParentBottom="true"
+    android:background="#DADADC" ></View>
+
+</RelativeLayout>

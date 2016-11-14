@@ -21,10 +21,12 @@
         <activity
             android:name=".settings"
             android:label="@string/settings"
-            android:parentActivityName=".MainMenu"/>
-        <activity android:name=".raspberrywifi"
+            android:parentActivityName=".MainMenu" />
+        <activity
+            android:name=".raspberrywifi"
             android:label="@string/raspberry_wifi"
-            android:parentActivityName=".settings"/>
+            android:parentActivityName=".settings" />
+        <activity android:name=".PlantMenu"></activity>
     </application>
 
 </manifest>
