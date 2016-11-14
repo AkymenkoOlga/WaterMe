@@ -6,5 +6,6 @@
     <color name="colorTiles">#e6ffe6</color>
     <!--Farben für Logo 02a721 und 0e9cb6-->
     <color name="white">#ffffff</color>
+    <color name="water">#BB0e9cb6</color>
 
 </resources>

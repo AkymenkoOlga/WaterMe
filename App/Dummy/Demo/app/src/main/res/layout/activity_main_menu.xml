@@ -52,25 +52,33 @@
             android:text="@string/plant_menu"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/myplants" />
+            android:id="@+id/myplants"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@color/water" />
 
         <Button
             android:text="@string/settings"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/settings" />
+            android:id="@+id/settings"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@color/water" />
 
         <Button
             android:text="@string/help_menu"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/help" />
+            android:id="@+id/help"
+            android:backgroundTint="@color/water"
+            style="@style/Widget.AppCompat.Button.Colored" />
 
         <Button
             android:text="@string/about_menu"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/about" />
+            android:id="@+id/about"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@color/water" />
 
     </LinearLayout>
 
