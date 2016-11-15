@@ -26,7 +26,13 @@
             android:name=".raspberrywifi"
             android:label="@string/raspberry_wifi"
             android:parentActivityName=".settings" />
-        <activity android:name=".PlantMenu"></activity>
+        <activity android:name=".PlantMenu"/>
+        <activity android:name=".help_menu"
+            android:parentActivityName=".MainMenu"
+            android:label="@string/help_menu"/>
+        <activity android:name=".about"
+            android:parentActivityName=".MainMenu"
+            android:label="@string/about"/>
     </application>
 
 </manifest>

@@ -73,7 +73,7 @@
             style="@style/Widget.AppCompat.Button.Colored" />
 
         <Button
-            android:text="@string/about_menu"
+            android:text="@string/about"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:id="@+id/about"

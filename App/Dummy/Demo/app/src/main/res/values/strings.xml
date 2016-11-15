@@ -3,7 +3,7 @@
     <string name="plant_menu">My plants</string>
     <string name="help_menu">Help</string>
     <string name="settings">Settings</string>
-    <string name="about_menu">About</string>
+    <string name="about">About</string>
     <string name="notifications">Notifications</string>
     <string name="raspberry_leds">Raspberry LEDs</string>
     <string name="raspberry_wifi">Raspberry WiFi</string>
