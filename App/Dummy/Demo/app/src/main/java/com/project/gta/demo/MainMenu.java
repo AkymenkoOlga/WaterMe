@@ -21,7 +21,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         /* dem Button muss gesagt werden, dass er die laufende Activity (MainMenu) als seinen
         OnClickListener verwendet */
 
-        settingsB.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity#
+        settingsB.setOnClickListener(this); //this = Referenz aufs aktuelle ObjeKt -> die laufende Activity#
         helpB.setOnClickListener(this);
         aboutB.setOnClickListener(this);
         myplantsB.setOnClickListener(this);

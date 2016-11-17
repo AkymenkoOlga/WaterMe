@@ -1,17 +1,17 @@
 package com.project.gta.demo;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.Set;
 
-public class bluetooth extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
+public class bluetooth extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     private BluetoothAdapter BA;
     private final int REQUEST_ENABLE_BT = 1;
@@ -21,10 +21,15 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
 
-        Switch bluetoothSw = (Switch)findViewById(R.id.bluetoothsw);
+        Switch bluetoothSw = (Switch) findViewById(R.id.bluetoothsw);
         bluetoothSw.setOnCheckedChangeListener(this);
 
+        //Button o list_paired_devices activity
+        Button listpaireddevicesB = (Button) findViewById(R.id.listpaireddevices);
+        //Bluetooth adapter
         BA = BluetoothAdapter.getDefaultAdapter();
+
+        listpaireddevicesB.setOnClickListener(this);
 
     }
     @Override
@@ -48,4 +53,12 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
             }
         }
     }
+
+
+    @Override
+    public void onClick(View v) {
+        startActivity(new Intent(this,ListPairedDevicesActivity.class));
+    }
 }
+
+
