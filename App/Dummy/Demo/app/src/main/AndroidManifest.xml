@@ -2,12 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.gta.demo">
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainMenu"
             android:icon="@drawable/logo_waterme_300x300"
@@ -18,21 +22,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".settings"
             android:label="@string/settings"
             android:parentActivityName=".MainMenu" />
+
         <activity
             android:name=".raspberrywifi"
             android:label="@string/raspberry_wifi"
             android:parentActivityName=".settings" />
-        <activity android:name=".PlantMenu"/>
-        <activity android:name=".help_menu"
-            android:parentActivityName=".MainMenu"
-            android:label="@string/help_menu"/>
-        <activity android:name=".about"
-            android:parentActivityName=".MainMenu"
-            android:label="@string/about"/>
+
+        <activity
+            android:name=".PlantMenu" />
+
+        <activity
+            android:name=".help_menu"
+            android:label="@string/help_menu"
+            android:parentActivityName=".MainMenu" />
+
+        <activity
+            android:name=".about"
+            android:label="@string/about"
+            android:parentActivityName=".MainMenu" />
+
+        <activity
+            android:name=".bluetooth"
+            android:label="@string/bluetooth"
+            android:parentActivityName=".settings"/>
     </application>
 
 </manifest>

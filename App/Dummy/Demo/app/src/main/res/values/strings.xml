@@ -10,4 +10,7 @@
     <string name="logo">Logo von WaterMe</string>
     <string name="sounds">Sounds</string>
     <string name="submit">Submit</string>
+    <string name="loewenzahn">Mein Löwenzahn</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="enable_bluetooth">Bluetooth</string>
 </resources>

@@ -1,7 +1,8 @@
 Feature: Change settings
   As a user
   I want to change the settings of the PI
-  So that I can decide whether I want to receive notifications, hear sounds, see LEDs and set the Wifi
+  So that I can decide whether I want to receive notifications,
+  hear sounds, see LEDs and set the Wifi
 
 
   Scenario: enter settings
