@@ -14,4 +14,5 @@
     <string name="bluetooth">Bluetooth</string>
     <string name="enable_bluetooth">Bluetooth</string>
     <string name="bluetooth_paired">Connect to paired device</string>
+    <string name="bluetooth_found">Find new bluetooth devices</string>
 </resources>
