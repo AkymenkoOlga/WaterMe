@@ -9,12 +9,13 @@ import android.app.Activity;
 
 public class PlantMenu extends Activity {
     ListView list;
-    String[] plants = {
+    String[] web = {
             "Plant1",
             "Plant2",
             "Plant3",
             "Plant4",
-            "Plant5"
+            "Plant5",
+            "Plant6",
 
     } ;
     Integer[] imageId = {
@@ -22,8 +23,9 @@ public class PlantMenu extends Activity {
             R.drawable.plant2,
             R.drawable.plant3,
             R.drawable.plant4,
-            R.drawable.plant5
-
+            R.drawable.plant4,
+            R.drawable.plant5,
+            R.drawable.plant6
 
     };
 
@@ -32,8 +34,8 @@ public class PlantMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_menu);
 
-        PlantList adapter = new
-                PlantList(PlantMenu.this, plants, imageId);
+        CustomList adapter = new
+                CustomList(PlantMenu.this, web, imageId);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -41,7 +43,7 @@ public class PlantMenu extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(PlantMenu.this, "You Clicked at " +plants[+ position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlantMenu.this, "You Clicked at " +web[+ position], Toast.LENGTH_SHORT).show();
 
             }
         });

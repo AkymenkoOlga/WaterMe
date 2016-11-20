@@ -5,4 +5,7 @@ package com.project.gta.demo;
  */
 
 public class PlantList {
+    public PlantList(PlantMenu plantMenu, String[] plants, Integer[] imageId) {
+
+    }
 }
