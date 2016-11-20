@@ -14,4 +14,27 @@
     <string name="bluetooth">Bluetooth</string>
     <string name="enable_bluetooth">Bluetooth</string>
     <string name="bluetooth_paired">Connect to paired device</string>
+
+    //Pflanzen-Namen
+
+    <string-array name="plants_name">
+        <item> Plant1</item>
+        <item> Plant2</item>
+        <item> Plant3</item>
+        <item> Plant4</item>
+        <item> Plant5</item>
+        <item> Plant6</item>
+    </string-array>
+
+    //Bilder
+
+    <string name="profil_pic">
+        <item>@drawable/Plant1</item>
+        <item>@drawable/Plant2</item>
+        <item>@drawable/Plant3</item>
+        <item>@drawable/Plant4</item>
+        <item>@drawable/Plant5</item>
+        <item>@drawable/Plant6</item>
+    </string>
+
 </resources>
