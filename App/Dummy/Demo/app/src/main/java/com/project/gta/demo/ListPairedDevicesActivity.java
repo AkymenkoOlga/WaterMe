@@ -19,6 +19,7 @@ public class ListPairedDevicesActivity extends ListActivity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
+        //Array for paired devices
         ArrayAdapter<String> btArrayAdapter
                 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1);
@@ -41,6 +42,7 @@ public class ListPairedDevicesActivity extends ListActivity {
             }
         }
         setListAdapter(btArrayAdapter);
+
 
     }
 
