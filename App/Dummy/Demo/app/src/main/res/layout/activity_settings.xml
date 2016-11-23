@@ -86,7 +86,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch5"
+                android:id="@+id/SWled"
                 android:layout_gravity="center_vertical|end"
                 android:checked="false" />
         </FrameLayout>
