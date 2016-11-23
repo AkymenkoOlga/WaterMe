@@ -10,22 +10,21 @@ import android.app.Activity;
 public class PlantMenu extends Activity {
     ListView list;
     String[] web = {
-            "Plant1",
-            "Plant2",
-            "Plant3",
-            "Plant4",
-            "Plant5",
-            "Plant6",
+            "Ficus",
+            "Areca Palm",
+            "Snake Plant",
+            "Peace Lily",
+            "Orchid",
+            "Anthurium",
 
     } ;
     Integer[] imageId = {
-            R.drawable.plant1,
-            R.drawable.plant2,
-            R.drawable.plant3,
-            R.drawable.plant4,
-            R.drawable.plant4,
-            R.drawable.plant5,
-            R.drawable.plant6
+            R.drawable.ficus,
+            R.drawable.arecapalm,
+            R.drawable.snakeplant,
+            R.drawable.peacelily,
+            R.drawable.orhid,
+            R.drawable.anthurium
 
     };
 
