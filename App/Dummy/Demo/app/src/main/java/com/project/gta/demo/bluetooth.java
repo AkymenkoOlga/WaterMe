@@ -6,8 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,11 +21,13 @@ import android.widget.Toast;
 
 public class bluetooth extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
-    private BluetoothAdapter BA;
+    private BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     private final int REQUEST_ENABLE_BT = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final boolean hasBluetooth = !(BA == null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
 
@@ -33,6 +38,10 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
 
         //Bluetooth switch
         Switch bluetoothSw = (Switch) findViewById(R.id.bluetoothsw);
+            if(hasBluetooth && !BA.isEnabled())
+                bluetoothSw.setChecked(false);
+            if(hasBluetooth && BA.isEnabled())
+                bluetoothSw.setChecked(true);
         bluetoothSw.setOnCheckedChangeListener(this);
 
         //Button for list_paired_devices activity
@@ -42,30 +51,30 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         //Button for new devices
         Button listfounddevicesB = (Button) findViewById(R.id.listfounddevices);
         listfounddevicesB.setOnClickListener(this);
-
-        //Bluetooth adapter
-        BA = BluetoothAdapter.getDefaultAdapter();
-
-
     }
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        boolean hasBluetooth = !(BA == null);
+        final boolean hasBluetooth = !(BA == null);
         if(isChecked) {
             if(hasBluetooth && !BA.isEnabled())
             {
                 Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(turnOn, REQUEST_ENABLE_BT);
             }
+            if(hasBluetooth && BA.isEnabled()){
+                Toast toast_bt_already_enabled = Toast.makeText
+                        (getApplicationContext(),"Bluetooth is already enabled",Toast.LENGTH_LONG);
+                toast_bt_already_enabled.show();
+            }
         }
         else{
             if(hasBluetooth && BA.isEnabled())
             {
                 BA.disable();
-                Toast myToast = Toast.makeText
+                Toast toast_bt_disabled = Toast.makeText
                         (getApplicationContext(),"Bluetooth disabled",Toast.LENGTH_LONG);
-                myToast.show();
+                toast_bt_disabled.show();
             }
         }
     }
@@ -82,12 +91,10 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
             case R.id.listfounddevices:
                 newdevices();
                 break;
-
         }
-
     }
 
-    //testfunction for discovering ne devices
+    //testfunction for discovering new devices
     public void newdevices() {
         BA.startDiscovery();
         // Create a BroadcastReceiver for ACTION_FOUND
