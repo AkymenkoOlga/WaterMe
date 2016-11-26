@@ -51,6 +51,9 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         //Button for new devices
         Button listfounddevicesB = (Button) findViewById(R.id.listfounddevices);
         listfounddevicesB.setOnClickListener(this);
+
+        Button connectB = (Button) findViewById(R.id.connectB);
+        connectB.setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +94,8 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
             case R.id.listfounddevices:
                 newdevices();
                 break;
+            case R.id.connectB:
+                startActivity(new Intent(this,blueooth_client.class));
         }
     }
 

@@ -49,6 +49,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/listfounddevices" />
+
+        <Button
+            android:text="@string/connect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/connectB" />
     </LinearLayout>
 
 </RelativeLayout>
