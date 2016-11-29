@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.app.Activity;
 
 public class PlantMenu extends AppCompatActivity {
     ListView list;
@@ -36,7 +35,7 @@ public class PlantMenu extends AppCompatActivity {
 
         CustomList adapter = new
                 CustomList(PlantMenu.this, web, imageId);
-        list=(ListView)findViewById(R.id.list);
+        list=(ListView)findViewById(R.id.LSTplants);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

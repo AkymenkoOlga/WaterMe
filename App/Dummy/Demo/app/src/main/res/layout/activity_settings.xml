@@ -26,7 +26,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch4"
+                android:id="@+id/SWnotifications"
                 android:layout_gravity="center_vertical|end" />
 
             <TextView
@@ -55,7 +55,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch6"
+                android:id="@+id/SWsounds"
                 android:layout_gravity="center_vertical|end"
                 android:gravity="end" />
 
@@ -95,7 +95,7 @@
             android:text="@string/raspberry_wifi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/raspberrywifi"
+            android:id="@+id/BTNraspberrywifi"
             android:background="@android:color/transparent"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             android:textAlignment="textStart"
@@ -105,7 +105,7 @@
             android:text="@string/bluetooth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bluetooth"
+            android:id="@+id/BTNbluetooth"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             android:gravity="center_vertical"
             android:background="@android:color/transparent" />

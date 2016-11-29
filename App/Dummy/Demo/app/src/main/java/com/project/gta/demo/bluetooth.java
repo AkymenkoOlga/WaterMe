@@ -7,9 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,7 +34,7 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
                 android.R.layout.simple_list_item_1);
 
         //Bluetooth switch
-        Switch bluetoothSw = (Switch) findViewById(R.id.bluetoothsw);
+        Switch bluetoothSw = (Switch) findViewById(R.id.SWbluetooth);
             if(hasBluetooth && !BA.isEnabled())
                 bluetoothSw.setChecked(false);
             if(hasBluetooth && BA.isEnabled())
@@ -45,14 +42,14 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         bluetoothSw.setOnCheckedChangeListener(this);
 
         //Button for list_paired_devices activity
-        Button listpaireddevicesB = (Button) findViewById(R.id.listpaireddevices);
+        Button listpaireddevicesB = (Button) findViewById(R.id.BTNlistpaireddevices);
         listpaireddevicesB.setOnClickListener(this);
 
         //Button for new devices
-        Button listfounddevicesB = (Button) findViewById(R.id.listfounddevices);
+        Button listfounddevicesB = (Button) findViewById(R.id.BTNlistfounddevices);
         listfounddevicesB.setOnClickListener(this);
 
-        Button connectB = (Button) findViewById(R.id.connectB);
+        Button connectB = (Button) findViewById(R.id.BTNconnect_bt);
         connectB.setOnClickListener(this);
     }
 
@@ -87,14 +84,14 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
     public void onClick(View v) {
         switch(v.getId()){
             //Button for listpaireddevices is clicked
-            case R.id.listpaireddevices:
+            case R.id.BTNlistpaireddevices:
                 startActivity(new Intent(this,ListPairedDevicesActivity.class));
                 break;
             //Button for listfounddevices is clicked
-            case R.id.listfounddevices:
+            case R.id.BTNlistfounddevices:
                 newdevices();
                 break;
-            case R.id.connectB:
+            case R.id.BTNconnect_bt:
                 startActivity(new Intent(this,blueooth_client.class));
         }
     }

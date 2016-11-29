@@ -39,8 +39,8 @@ public class Test_app {
     @Test
     public void testdatbitch() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.myplants), withText("My plants"),
-                        withParent(allOf(withId(R.id.hauptmenue),
+                allOf(withId(R.id.BTNmyplants), withText("My plants"),
+                        withParent(allOf(withId(R.id.mainmenu),
                                 withParent(withId(R.id.activity_main_menu)))),
                         isDisplayed()));
         appCompatButton.perform(click());
@@ -48,7 +48,7 @@ public class Test_app {
         ViewInteraction tableRow = onView(
                 allOf(childAtPosition(
                         childAtPosition(
-                                withId(R.id.list),
+                                withId(R.id.LSTplants),
                                 4),
                         0),
                         isDisplayed()));
@@ -56,7 +56,7 @@ public class Test_app {
 
         ViewInteraction tableLayout = onView(
                 allOf(childAtPosition(
-                        withId(R.id.list),
+                        withId(R.id.LSTplants),
                         1),
                         isDisplayed()));
         tableLayout.perform(click());
@@ -64,18 +64,18 @@ public class Test_app {
         pressBack();
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.settings), withText("Settings"),
-                        withParent(allOf(withId(R.id.hauptmenue),
+                allOf(withId(R.id.BTNsettings), withText("Settings"),
+                        withParent(allOf(withId(R.id.mainmenu),
                                 withParent(withId(R.id.activity_main_menu)))),
                         isDisplayed()));
         appCompatButton2.perform(click());
 
         ViewInteraction switch_ = onView(
-                allOf(withId(R.id.switch4), isDisplayed()));
+                allOf(withId(R.id.SWnotifications), isDisplayed()));
         switch_.perform(click());
 
         ViewInteraction switch_2 = onView(
-                allOf(withId(R.id.switch6), isDisplayed()));
+                allOf(withId(R.id.SWsounds), isDisplayed()));
         switch_2.perform(click());
 
         ViewInteraction switch_3 = onView(
@@ -83,11 +83,11 @@ public class Test_app {
         switch_3.perform(click());
 
         ViewInteraction switch_4 = onView(
-                allOf(withId(R.id.switch4), isDisplayed()));
+                allOf(withId(R.id.SWnotifications), isDisplayed()));
         switch_4.perform(click());
 
         ViewInteraction switch_5 = onView(
-                allOf(withId(R.id.switch6), isDisplayed()));
+                allOf(withId(R.id.SWsounds), isDisplayed()));
         switch_5.perform(click());
 
         ViewInteraction switch_6 = onView(
@@ -95,19 +95,19 @@ public class Test_app {
         switch_6.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.raspberrywifi), withText("Raspberry WiFi"), isDisplayed()));
+                allOf(withId(R.id.BTNraspberrywifi), withText("Raspberry WiFi"), isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.wifi_id), isDisplayed()));
+                allOf(withId(R.id.TXTwifi_id), isDisplayed()));
         appCompatEditText.perform(click());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.wifi_id), isDisplayed()));
+                allOf(withId(R.id.TXTwifi_id), isDisplayed()));
         appCompatEditText2.perform(replaceText("Simsalabim der geile Zauberer"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.password), withContentDescription("Password"), isDisplayed()));
+                allOf(withId(R.id.TXTwifi_password), withContentDescription("Password"), isDisplayed()));
         appCompatEditText3.perform(replaceText("pop dat pssy"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton4 = onView(
@@ -122,15 +122,15 @@ public class Test_app {
         appCompatImageButton.perform(click());
 
         ViewInteraction appCompatButton5 = onView(
-                allOf(withId(R.id.bluetooth), withText("Bluetooth"), isDisplayed()));
+                allOf(withId(R.id.BTNbluetooth), withText("Bluetooth"), isDisplayed()));
         appCompatButton5.perform(click());
 
         ViewInteraction switch_7 = onView(
-                allOf(withId(R.id.bluetoothsw), isDisplayed()));
+                allOf(withId(R.id.SWbluetooth), isDisplayed()));
         switch_7.perform(click());
 
         ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.listpaireddevices), withText("Connect to paired device"), isDisplayed()));
+                allOf(withId(R.id.BTNlistpaireddevices), withText("Connect to paired device"), isDisplayed()));
         appCompatButton6.perform(click());
 
         ViewInteraction textView = onView(
@@ -143,7 +143,7 @@ public class Test_app {
         textView.perform(click());
 
         ViewInteraction switch_8 = onView(
-                allOf(withId(R.id.bluetoothsw), isDisplayed()));
+                allOf(withId(R.id.SWbluetooth), isDisplayed()));
         switch_8.perform(click());
 
         ViewInteraction appCompatImageButton2 = onView(
@@ -161,8 +161,8 @@ public class Test_app {
         appCompatImageButton3.perform(click());
 
         ViewInteraction appCompatButton7 = onView(
-                allOf(withId(R.id.help), withText("Help"),
-                        withParent(allOf(withId(R.id.hauptmenue),
+                allOf(withId(R.id.BTNhelp), withText("Help"),
+                        withParent(allOf(withId(R.id.mainmenu),
                                 withParent(withId(R.id.activity_main_menu)))),
                         isDisplayed()));
         appCompatButton7.perform(click());
@@ -175,8 +175,8 @@ public class Test_app {
         appCompatImageButton4.perform(click());
 
         ViewInteraction appCompatButton8 = onView(
-                allOf(withId(R.id.about), withText("About"),
-                        withParent(allOf(withId(R.id.hauptmenue),
+                allOf(withId(R.id.BTNabout), withText("About"),
+                        withParent(allOf(withId(R.id.mainmenu),
                                 withParent(withId(R.id.activity_main_menu)))),
                         isDisplayed()));
         appCompatButton8.perform(click());
