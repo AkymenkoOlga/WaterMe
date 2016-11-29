@@ -25,7 +25,7 @@
             android:layout_height="60dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/wifi_id"
+            android:id="@+id/TXTwifi_id"
             android:textAlignment="textStart"
             android:hint="Enter SSID" />
 
@@ -34,7 +34,7 @@
             android:layout_height="60dp"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/password"
+            android:id="@+id/TXTwifi_password"
             android:contentDescription="Password"
             android:hint="Enter Password" />
 

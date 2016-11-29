@@ -25,7 +25,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/bluetoothsw"
+                android:id="@+id/SWbluetooth"
                 android:gravity="center_vertical|end"
                 android:layout_gravity="end" />
 
@@ -33,7 +33,7 @@
                 android:text="@string/enable_bluetooth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"
+                android:id="@+id/TXTbluetooth"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
         </FrameLayout>
@@ -42,24 +42,19 @@
             android:text="@string/bluetooth_paired"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listpaireddevices" />
+            android:id="@+id/BTNlistpaireddevices" />
 
         <Button
             android:text="@string/bluetooth_found"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listfounddevices" />
+            android:id="@+id/BTNlistfounddevices" />
 
         <Button
             android:text="@string/connect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/connectB" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/bt_received" />
+            android:id="@+id/BTNconnect_bt" />
     </LinearLayout>
 
 </RelativeLayout>

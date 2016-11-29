@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 
 import java.util.Set;
 
@@ -21,14 +20,13 @@ public class settings extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_settings);
         Button raspberrywifiB = (Button) findViewById(R.id.raspberrywifi);
         Button bluetoothB = (Button) findViewById(R.id.bluetooth);
-        Switch ledSW = (Switch) findViewById(R.id.SWled);
 
         /* dem Button muss gesagt werden, dass er die laufende Activity (MainMenu) als seinen
         OnClickListener verwendet */
 
         raspberrywifiB.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity
         bluetoothB.setOnClickListener(this);
-        ledSW.setOnCheckedChangeListener(BluetoothVerwaltung.get_instance());
+
     }
 
 

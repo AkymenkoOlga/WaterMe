@@ -38,14 +38,14 @@ try:
             GPIO.output(3,GPIO.HIGH)
             GPIO.output(4,GPIO.HIGH)
             print "turning LEDs on"
-            client.send('hurensohn')
+            client.send('LEDs on')
         if data == "off":
             GPIO.output(2,GPIO.LOW)
             GPIO.output(3,GPIO.LOW)
             GPIO.output(4,GPIO.LOW)
             print "turning LEDs off"
-            client.send('mendelsohn')
-        if data == "wet":
+            client.send('LEDs off')
+        if data == "get humidity":
                 if __name__ == "__main__":
                  try:
                         val = readChannel(0)

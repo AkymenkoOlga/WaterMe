@@ -2,45 +2,41 @@ package com.project.gta.demo;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Set;
 
 
 public class bluetooth extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
-    BluetoothAdapter BA = BluetoothVerwaltung.get_instance().BA;
+
+    private BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     private final int REQUEST_ENABLE_BT = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        final boolean hasBluetooth = !(BA == null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
-        final boolean hasBluetooth = !(BA == null);
 
         //Array für gefundene bluetooth devices
         ArrayAdapter<String> btArrayAdapter
                 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1);
 
+        //Bluetooth switch
         Switch bluetoothSw = (Switch) findViewById(R.id.bluetoothsw);
             if(hasBluetooth && !BA.isEnabled())
                 bluetoothSw.setChecked(false);
@@ -57,7 +53,7 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         listfounddevicesB.setOnClickListener(this);
 
         Button connectB = (Button) findViewById(R.id.connectB);
-        connectB.setOnClickListener(BluetoothVerwaltung.get_instance());
+        connectB.setOnClickListener(this);
     }
 
     @Override
@@ -86,6 +82,7 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         }
     }
 
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -97,6 +94,8 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
             case R.id.listfounddevices:
                 newdevices();
                 break;
+            case R.id.connectB:
+                startActivity(new Intent(this,blueooth_client.class));
         }
     }
 
@@ -112,7 +111,7 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
                     // Get the BluetoothDevice object from the Intent
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     // Add the name and address to an array adapter to show in a ListView
-                    // btArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                   // btArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 }
             }
         };
@@ -120,8 +119,9 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
         BA.cancelDiscovery();
+        }
+
     }
-}
 
 
 
