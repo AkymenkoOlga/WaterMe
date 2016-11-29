@@ -1,10 +1,13 @@
 package com.project.gta.demo;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     /* Erläuterung: Interface OnClickListener definiert Methode OnClick(),
@@ -18,6 +21,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         Button helpB = (Button) findViewById(R.id.help);
         Button aboutB = (Button) findViewById(R.id.about);
         Button myplantsB = (Button) findViewById(R.id.myplants);
+        ImageView logoIV = (ImageView) findViewById(R.id.logo_main_menu);
         /* dem Button muss gesagt werden, dass er die laufende Activity (MainMenu) als seinen
         OnClickListener verwendet */
 
@@ -25,6 +29,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         helpB.setOnClickListener(this);
         aboutB.setOnClickListener(this);
         myplantsB.setOnClickListener(this);
+        logoIV.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -43,6 +48,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             case R.id.myplants:
                 startActivity(new Intent(this,PlantMenu.class));
                 break;
+            case R.id.logo_main_menu:
+                Toast toast_waterme_logo= Toast.makeText
+                        (getApplicationContext(),"WaterMe is so awesome",Toast.LENGTH_LONG);
+                toast_waterme_logo.show();
+
         }
     }
 }

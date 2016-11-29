@@ -26,7 +26,7 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/logo_waterme_300x300"
-        android:id="@+id/icon"
+        android:id="@+id/logo_main_menu"
         android:cropToPadding="false"
         android:contentDescription="@string/logo" />
 
