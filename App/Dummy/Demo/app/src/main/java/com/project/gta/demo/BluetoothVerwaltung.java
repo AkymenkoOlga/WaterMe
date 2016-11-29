@@ -146,7 +146,7 @@ public class BluetoothVerwaltung implements View.OnClickListener, CompoundButton
     @Override
     public  void onClick(View v){
         switch(v.getId()) {
-            case R.id.connectB:
+            case R.id.BTNconnect_bt:
                 (new Thread(new workerThread())).start();
                 break;
         }
