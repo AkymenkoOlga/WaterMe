@@ -111,7 +111,7 @@ public class Test_app {
         appCompatEditText3.perform(replaceText("pop dat pssy"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.submit), withText("Submit"), isDisplayed()));
+                allOf(withId(R.id.BTNsubmit), withText("Submit"), isDisplayed()));
         appCompatButton4.perform(click());
 
         ViewInteraction appCompatImageButton = onView(

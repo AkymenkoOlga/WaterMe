@@ -45,15 +45,33 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         bluetoothSw.setOnCheckedChangeListener(this);
 
         //Button for list_paired_devices activity
-        Button listpaireddevicesB = (Button) findViewById(R.id.BTNlistpaireddevices);
-        listpaireddevicesB.setOnClickListener(this);
+        Button BTNlistpaireddevices = (Button) findViewById(R.id.BTNlistpaireddevices);
+        BTNlistpaireddevices.setOnClickListener(this);
 
         //Button for new devices
-        Button listfounddevicesB = (Button) findViewById(R.id.BTNlistfounddevices);
-        listfounddevicesB.setOnClickListener(this);
+        Button BTNlistfounddevices = (Button) findViewById(R.id.BTNlistfounddevices);
+        BTNlistfounddevices.setOnClickListener(this);
 
-        Button connectB = (Button) findViewById(R.id.BTNconnect_bt);
-        connectB.setOnClickListener(BluetoothVerwaltung.get_instance());
+        Button BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
+        BTNconnect_bt.setOnClickListener(BluetoothVerwaltung.get_instance());
+        //Management for onClick of Bluetooth-relied buttons in "BluetoothVerwaltung"
+
+
+
+        //Disable buttons if Bluetooth not enabled
+        if(hasBluetooth && !BA.isEnabled()) {
+            BTNconnect_bt.setEnabled(false);
+            BTNlistfounddevices.setEnabled(false);
+            BTNlistpaireddevices.setEnabled(false);
+
+        }
+        else {
+            BTNconnect_bt.setEnabled(true);
+            BTNlistfounddevices.setEnabled(true);
+            BTNlistpaireddevices.setEnabled(true);
+        }
+
+
     }
 
     @Override

@@ -31,6 +31,8 @@ public class BluetoothVerwaltung implements View.OnClickListener, CompoundButton
 
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     public final Handler handler = new Handler();
+    final boolean hasBluetooth = !(BA == null);
+
 
     BluetoothSocket mmSocket;
     BluetoothDevice mmDevice = null;
@@ -157,10 +159,18 @@ public class BluetoothVerwaltung implements View.OnClickListener, CompoundButton
         switch (buttonView.getId()){
             case R.id.SWled:
                 if(isChecked) {
-                    (new Thread(new workerThread("on"))).start();
+                    (new Thread(new workerThread("LED on"))).start();
                 }
                 else{
-                    (new Thread(new workerThread("off"))).start();
+                    (new Thread(new workerThread("LED off"))).start();
+                }
+                break;
+            case R.id.SWsounds:
+                if(isChecked) {
+                    (new Thread(new workerThread("Sounds on"))).start();
+                }
+                else{
+                    (new Thread(new workerThread("Sounds off"))).start();
                 }
                 break;
         }
