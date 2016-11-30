@@ -100,6 +100,9 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
                         (getApplicationContext(),"Bluetooth disabled",Toast.LENGTH_LONG);
                 toast_bt_disabled.show();
                 BTNreload.setVisibility(View.INVISIBLE);
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
             }
         }
     }
