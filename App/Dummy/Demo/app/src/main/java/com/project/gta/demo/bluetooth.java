@@ -12,9 +12,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AnalogClock;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -56,6 +58,10 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         BTNconnect_bt.setOnClickListener(BluetoothVerwaltung.get_instance());
         //Management for onClick of Bluetooth-relied buttons in "BluetoothVerwaltung"
 
+        //Button for reloading activity
+        Button BTNreload = (Button) findViewById(R.id.BTNreload);
+        BTNreload.setOnClickListener(this);
+        BTNreload.setVisibility(View.INVISIBLE);
 
 
         //Disable buttons if Bluetooth not enabled
@@ -77,11 +83,13 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         final boolean hasBluetooth = !(BA == null);
+        Button BTNreload = (Button) findViewById(R.id.BTNreload);
         if(isChecked) {
             if(hasBluetooth && !BA.isEnabled())
             {
                 Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(turnOn, REQUEST_ENABLE_BT);
+                BTNreload.setVisibility(View.VISIBLE);
             }
             if(hasBluetooth && BA.isEnabled()){
                 Toast toast_bt_already_enabled = Toast.makeText
@@ -96,6 +104,7 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
                 Toast toast_bt_disabled = Toast.makeText
                         (getApplicationContext(),"Bluetooth disabled",Toast.LENGTH_LONG);
                 toast_bt_disabled.show();
+                BTNreload.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -112,7 +121,14 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
             case R.id.BTNlistfounddevices:
                 newdevices();
                 break;
+            case R.id.BTNreload:
+                ReloadActivity();
         }
+    }
+    public void ReloadActivity(){
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
     //testfunction for discovering new devices

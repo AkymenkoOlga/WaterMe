@@ -16,6 +16,7 @@
     <string name="bluetooth_paired">Connect to paired device</string>
     <string name="bluetooth_found">Find new devices</string>
     <string name="plant">Plant</string>
+    <string name="reload">Reload</string>
     //Pflanzen-Namen
 
     <string-array name="plants_name">

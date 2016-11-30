@@ -1,14 +1,22 @@
 package com.project.gta.demo;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AnalogClock;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import static android.view.View.INVISIBLE;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     /* Erläuterung: Interface OnClickListener definiert Methode OnClick(),
     deshalb muss in dieser Klasse die Methode onClick() implementiert werden */
+
+    public int easteregg = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +28,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         Button myplantsB = (Button) findViewById(R.id.BTNmyplants);
         /* dem Button muss gesagt werden, dass er die laufende Activity (MainMenu) als seinen
         OnClickListener verwendet */
+
+       // AnalogClock  ac = (AnalogClock) findViewById(R.id.analogClock);
+       // ac.setVisibility(INVISIBLE);
+
+
+        //ac.setBackground( getResources().getDrawable(R.drawable.logo_waterme_300x300));
 
         settingsB.setOnClickListener(this); //this = Referenz aufs aktuelle ObjeKt -> die laufende Activity#
         helpB.setOnClickListener(this);
@@ -42,7 +56,25 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.BTNmyplants:
                 startActivity(new Intent(this,PlantMenu.class));
+                finish();
+                break;
+            case R.id.logo_main_menu:
+                easteregg--;
+                if(easteregg==0)
+                    Easteregg();
                 break;
         }
+    }
+    public void Easteregg(){
+        ImageView logo = (ImageView) findViewById(R.id.logo_main_menu);
+        logo.setVisibility(INVISIBLE);
+        logo.setImageDrawable(null);
+
+        LinearLayout ll = (LinearLayout) findViewById(R.id.layout);
+        AnalogClock ac = new AnalogClock(this);
+        ll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        ll.addView(ac);
+        ac.setBackgroundDrawable(getResources().getDrawable(R.drawable.logo_waterme_300x300));
+        ll.setOrientation(LinearLayout.VERTICAL);
     }
 }
