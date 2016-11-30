@@ -33,8 +33,8 @@ public class PlantMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_menu);
 
-        CustomList adapter = new
-                CustomList(PlantMenu.this, web, imageId);
+        PlantList adapter = new
+                PlantList(PlantMenu.this, web, imageId);
         list=(ListView)findViewById(R.id.LSTplants);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

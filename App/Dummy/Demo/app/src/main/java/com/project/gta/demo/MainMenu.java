@@ -1,7 +1,6 @@
 package com.project.gta.demo;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -44,15 +43,15 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.BTNsettings:
-                startActivity(new Intent(this,settings.class));
+                startActivity(new Intent(this,SettingsMenu.class));
         /* Intent-Object definiert, welche Klasse Android
         für die zu startende Activity verwenden soll*/
                 break;
             case R.id.BTNhelp:
-                startActivity(new Intent(this,help_menu.class));
+                startActivity(new Intent(this,HelpMenu.class));
                 break;
             case R.id.BTNabout:
-                startActivity(new Intent(this,about.class));
+                startActivity(new Intent(this,About.class));
                 break;
             case R.id.BTNmyplants:
                 startActivity(new Intent(this,PlantMenu.class));

@@ -3,7 +3,6 @@ package com.project.gta.demo;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -18,14 +17,14 @@ import java.util.Set;
  * Created by Paul on 29.11.2016.
  */
 
-public class BluetoothVerwaltung implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class BluetoothAdministration implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
-    private BluetoothVerwaltung() {}
-    private static BluetoothVerwaltung _instance = null;
-    public static BluetoothVerwaltung get_instance()
+    private BluetoothAdministration() {}
+    private static BluetoothAdministration _instance = null;
+    public static BluetoothAdministration get_instance()
     {
         if (_instance == null)
-            _instance = new BluetoothVerwaltung();
+            _instance = new BluetoothAdministration();
         return _instance;
     }
 

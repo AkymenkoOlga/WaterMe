@@ -10,13 +10,13 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class settings extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class SettingsMenu extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_settings_menu);
 
         //Button definition for this class
         Button raspberrywifiB = (Button) findViewById(R.id.BTNraspberrywifi);
@@ -33,15 +33,15 @@ public class settings extends AppCompatActivity implements View.OnClickListener,
         //SetOnListener
         raspberrywifiB.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity
         bluetoothB.setOnClickListener(this);
-        SWled.setOnCheckedChangeListener(BluetoothVerwaltung.get_instance());
+        SWled.setOnCheckedChangeListener(BluetoothAdministration.get_instance());
         SWnotification.setOnCheckedChangeListener(this);
-        SWsounds.setOnCheckedChangeListener(BluetoothVerwaltung.get_instance());
+        SWsounds.setOnCheckedChangeListener(BluetoothAdministration.get_instance());
         //===============================
 
 
         //Disable buttons if Bluetooth not enabled
-        BluetoothAdapter BA = BluetoothVerwaltung.get_instance().BA;
-        boolean hasBluetooth = BluetoothVerwaltung.get_instance().hasBluetooth;
+        BluetoothAdapter BA = BluetoothAdministration.get_instance().BA;
+        boolean hasBluetooth = BluetoothAdministration.get_instance().hasBluetooth;
         if (hasBluetooth && !BA.isEnabled()) {
             SWsounds.setEnabled(false);
             SWled.setEnabled(false);
@@ -59,10 +59,10 @@ public class settings extends AppCompatActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case (R.id.BTNraspberrywifi):
-                startActivity(new Intent(this, raspberrywifi.class));
+                startActivity(new Intent(this, WifiMenu.class));
                 break;
             case (R.id.BTNbluetooth):
-                startActivity(new Intent(this, bluetooth.class));
+                startActivity(new Intent(this, BluetoothMenu.class));
                 break;
         }
     }

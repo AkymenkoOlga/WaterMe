@@ -7,21 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AnalogClock;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
 
-public class bluetooth extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class BluetoothMenu extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     private BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     private final int REQUEST_ENABLE_BT = 1;
@@ -31,9 +26,9 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
     protected void onCreate(Bundle savedInstanceState) {
         final boolean hasBluetooth = !(BA == null);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth);
+        setContentView(R.layout.activity_bluetoot_menu);
 
-        //Array für gefundene bluetooth devices
+        //Array für gefundene BluetoothMenu devices
         ArrayAdapter<String> btArrayAdapter
                 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1);
@@ -55,8 +50,8 @@ public class bluetooth extends AppCompatActivity implements CompoundButton.OnChe
         BTNlistfounddevices.setOnClickListener(this);
 
         Button BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
-        BTNconnect_bt.setOnClickListener(BluetoothVerwaltung.get_instance());
-        //Management for onClick of Bluetooth-relied buttons in "BluetoothVerwaltung"
+        BTNconnect_bt.setOnClickListener(BluetoothAdministration.get_instance());
+        //Management for onClick of Bluetooth-relied buttons in "BluetoothAdministration"
 
         //Button for reloading activity
         Button BTNreload = (Button) findViewById(R.id.BTNreload);

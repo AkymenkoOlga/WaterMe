@@ -22,33 +22,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings"
+            android:name=".SettingsMenu"
             android:label="@string/settings"
             android:parentActivityName=".MainMenu" />
         <activity
-            android:name=".raspberrywifi"
+            android:name=".WifiMenu"
             android:label="@string/raspberry_wifi"
-            android:parentActivityName=".settings" />
+            android:parentActivityName=".SettingsMenu" />
         <activity
             android:name=".PlantMenu"
             android:label="@string/plant_menu"
             android:parentActivityName=".MainMenu" />
         <activity
-            android:name=".help_menu"
+            android:name=".HelpMenu"
             android:label="@string/help_menu"
             android:parentActivityName=".MainMenu" />
         <activity
-            android:name=".about"
+            android:name=".About"
             android:label="@string/about"
             android:parentActivityName=".MainMenu" />
         <activity
-            android:name=".bluetooth"
+            android:name=".BluetoothMenu"
             android:label="@string/bluetooth"
-            android:parentActivityName=".settings" />
+            android:parentActivityName=".SettingsMenu" />
         <activity
             android:name=".ListPairedDevicesActivity"
             android:label="@string/enable_bluetooth"
-            android:parentActivityName=".bluetooth" />
+            android:parentActivityName=".BluetoothMenu" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -57,9 +57,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".plant"
-            android:label="@string/plant"
-            android:parentActivityName=".bluetooth" />
     </application>
 
 </manifest>
