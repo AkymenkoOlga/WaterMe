@@ -53,6 +53,8 @@ try:
                          print(val)
                         client.send(str(val))
                         time.sleep(delay)
+        if data == "client connects":
+            client.send('accepted')
 
                  except KeyboardInterrupt:
                   print "Cancel."
