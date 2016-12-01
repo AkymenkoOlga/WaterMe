@@ -30,7 +30,8 @@ print "Waiting for connection on RFCOMM channel %d" % port
 try:
     client, address = s.accept()
     print "Accepted connection from", address
-
+    client.send('accepted')
+    
     while 1:
         data = client.recv(size)
         if data == "on":
@@ -53,8 +54,6 @@ try:
                          print(val)
                         client.send(str(val))
                         time.sleep(delay)
-        if data == "client connects":
-            client.send('accepted')
 
                  except KeyboardInterrupt:
                   print "Cancel."
