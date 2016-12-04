@@ -3,42 +3,62 @@ package com.project.gta.demo;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Paul on 29.11.2016.
  */
 
-public class BluetoothAdministration implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
-    private BluetoothAdministration() {}
     private static BluetoothAdministration _instance = null;
-    public static BluetoothAdministration get_instance()
-    {
+    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
+    final boolean hasBluetooth = !(BA == null);
+    Handler handler = new Handler();
+    Context context;
+
+    public static BluetoothAdministration get_instance(Context context) {
         if (_instance == null)
-            _instance = new BluetoothAdministration();
+            _instance = new BluetoothAdministration(context);
         return _instance;
     }
 
-    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    public final Handler handler = new Handler();
-    final boolean hasBluetooth = !(BA == null);
-
+    private BluetoothAdministration(Context activityContext) {
+        context = activityContext;
+    }
 
     BluetoothSocket mmSocket;
     BluetoothDevice mmDevice = null;
 
     final byte delimiter = 33;
     int readBufferPosition = 0;
+    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
 
+    private final int KEEP_ALIVE_TIME = 1;
+    // Sets the Time Unit to seconds
+    private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
+    // Creates a thread pool manager
+    private ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(
+            NUMBER_OF_CORES,       // Initial pool size
+            NUMBER_OF_CORES,       // Max pool size
+            KEEP_ALIVE_TIME,
+            KEEP_ALIVE_TIME_UNIT,
+            mDecodeWorkQueue);
 
     public void connect() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -67,27 +87,55 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
     }
     public void sendBtMsg(String msg2send) {
         try {
-            String msg = msg2send;
             //msg += "\n";
             OutputStream mmOutputStream = mmSocket.getOutputStream();
-            mmOutputStream.write(msg.getBytes());
+            mmOutputStream.write(msg2send.getBytes());
         } catch (IOException e3) {e3.printStackTrace();
             Log.e("", "failed to transmit data!");
         }
 
     }
-
+//  Methode, um alle laufenden Threads zu beenden
+//    public static void cancelAll() {
+//        /*
+//         * Creates an array of Runnables that's the same size as the
+//         * thread pool work queue
+//         */
+//        Runnable[] runnableArray = new Runnable[mDecodeWorkQueue.size()];
+//        // Populates the array with the Runnables in the queue
+//        mDecodeWorkQueue.toArray(runnableArray);
+//        // Stores the array length in order to iterate over the array
+//        int len = runnableArray.length;
+//        /*
+//         * Iterates over the array of Runnables and interrupts each one's Thread.
+//         */
+//        synchronized (get_instance(null)) {
+//            // Iterates over the array of tasks
+//            for (int runnableIndex = 0; runnableIndex < len; runnableIndex++) {
+//                // Gets the current thread
+//                Thread thread = (Thread) runnableArray[runnableIndex];
+//                // if the Thread exists, post an interrupt to it
+//                if (null != thread) {
+//                    thread.interrupt();
+//                }
+//            }
+//        }
+//    }
 
 
     final class workerThread implements Runnable {
 
         private String btMsg;
-        public workerThread(){btMsg = null;}
-        public workerThread(String msg) {
+
+        workerThread(){
+            btMsg = null;}
+
+        workerThread(String msg) {
             btMsg = msg;
         }
-
+        @Override
         public void run() {
+
             if (btMsg==null)
                 connect();
             else
@@ -116,11 +164,14 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                 System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
                                 final String data = new String(encodedBytes, "US-ASCII");
                                 readBufferPosition = 0;
-
-
                                 //The variable data now contains our full command
+
                                 handler.post(new Runnable() {
+                                    @Override
                                     public void run() {
+                                        Toast toast_bt_disabled = Toast.makeText
+                                                (context,data,Toast.LENGTH_LONG);
+                                        toast_bt_disabled.show();
                                     }
                                 });
 
@@ -130,25 +181,26 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                 readBuffer[readBufferPosition++] = b;
                             }
                         }
-//                            if (workDone == true) {
-//                                mmSocket.close();
-//                                break;
-//                            }
+                        if (workDone ) {
+                               Thread.currentThread().interrupt();
+                         }
                     }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
+
         }
 
-    };
+    }
+
 
     @Override
     public  void onClick(View v){
         switch(v.getId()) {
             case R.id.BTNconnect_bt:
-                (new Thread(new workerThread())).start();
+                mDecodeThreadPool.execute(new workerThread());
                 break;
         }
     }
@@ -158,20 +210,21 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         switch (buttonView.getId()){
             case R.id.SWled:
                 if(isChecked) {
-                    (new Thread(new workerThread("LED on"))).start();
+                    mDecodeThreadPool.execute(new workerThread("LED on"));
                 }
                 else{
-                    (new Thread(new workerThread("LED off"))).start();
+                    mDecodeThreadPool.execute(new workerThread("LED off"));
                 }
                 break;
             case R.id.SWsounds:
                 if(isChecked) {
-                    (new Thread(new workerThread("Sounds on"))).start();
+                    mDecodeThreadPool.execute(new workerThread("sound on"));
                 }
                 else{
-                    (new Thread(new workerThread("Sounds off"))).start();
+                    mDecodeThreadPool.execute(new workerThread("sound off"));
                 }
                 break;
         }
     }
 }
+

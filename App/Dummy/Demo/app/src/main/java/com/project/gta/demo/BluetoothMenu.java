@@ -20,14 +20,14 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
 
     private BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     private final int REQUEST_ENABLE_BT = 1;
-
+    public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final boolean hasBluetooth = !(BA == null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetoot_menu);
-
+        context=this;
         //Array für gefundene BluetoothMenu devices
         ArrayAdapter<String> btArrayAdapter
                 = new ArrayAdapter<String>(this,
@@ -50,7 +50,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         BTNlistfounddevices.setOnClickListener(this);
 
         Button BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
-        BTNconnect_bt.setOnClickListener(BluetoothAdministration.get_instance());
+        BTNconnect_bt.setOnClickListener(BluetoothAdministration.get_instance(this));
         //Management for onClick of Bluetooth-relied buttons in "BluetoothAdministration"
 
         //Button for reloading activity
