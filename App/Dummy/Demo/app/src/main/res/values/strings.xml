@@ -17,7 +17,29 @@
     <string name="bluetooth_found">Find new devices</string>
     <string name="plant">Plant</string>
     <string name="reload">Reload</string>
-    //Pflanzen-Namen
+
+    <!--help-->
+    <string name="AskUs">Ask Us</string>
+    <string name="helpEnableBtAndConnectPi">Enable Bluetooth and connect Pi</string>
+    <string name="helpInstallPi">Install Pi</string>
+
+    <string name="help_connect_bluetooth_and_pi">
+        First enable Bluetooth: \n
+        \n
+        From the main menu \n
+        1: Press "Settings" \n
+        2: Press "Bluetooth" \n
+        3: Press the switch "Bluetooth" \ßn \n
+        4: Agree to the notification \n
+        \n \n
+        Then you can connect to the Pi:\n
+        1: Press "Reload" \n
+        2: Press "Connect"
+    </string>
+
+    <string name="help_install_pi">To make the Pi work properly it has to be installed according to the image below.</string>
+
+    <!--//Pflanzen-Namen-->
 
     <string-array name="plants_name">
         <item> Plant1</item>
@@ -28,7 +50,7 @@
         <item> Plant6</item>
     </string-array>
 
-    //Bilder
+    <!--//Bilder-->
 
     <string name="profil_pic">
         <item>@drawable/Plant1</item>
