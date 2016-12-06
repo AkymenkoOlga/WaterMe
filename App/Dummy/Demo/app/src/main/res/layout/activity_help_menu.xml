@@ -42,6 +42,15 @@
             android:gravity="center_vertical"
             android:background="@android:color/transparent" />
 
+        <Button
+            android:text="@string/helpAddPlant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/BTNhelpAddPlant"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent" />
+
     </LinearLayout>
 
     <Button

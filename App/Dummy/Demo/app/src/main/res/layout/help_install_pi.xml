@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -10,5 +11,13 @@
         android:text="@string/help_install_pi"
         android:textSize="18sp"
         android:id="@+id/TXT_installPi" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        app:srcCompat="@drawable/set_up"
+        android:id="@+id/IMGset_up"
+        android:layout_weight="1"
+        android:rotation="90"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

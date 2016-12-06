@@ -22,6 +22,7 @@
     <string name="AskUs">Ask Us</string>
     <string name="helpEnableBtAndConnectPi">Enable Bluetooth and connect Pi</string>
     <string name="helpInstallPi">Install Pi</string>
+    <string name="helpAddPlant">Add plant</string>
 
     <string name="help_connect_bluetooth_and_pi">
         First enable Bluetooth: \n
@@ -38,6 +39,7 @@
     </string>
 
     <string name="help_install_pi">To make the Pi work properly it has to be installed according to the image below.</string>
+    <string name="help_add_plant">To be determined in 2nd semester</string>
 
     <!--//Pflanzen-Namen-->
 

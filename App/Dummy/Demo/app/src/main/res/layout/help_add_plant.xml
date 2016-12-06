@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/help_connect_bluetooth_and_pi"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:id="@+id/TXTaddPlant"
+        android:text="@string/help_add_plant" />
+
+
 </LinearLayout>
