@@ -116,10 +116,10 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
                 startActivity(new Intent(this,ListPairedDevicesActivity.class));
                 break;
             //Button for listfounddevices is clicked
-            case R.id.BTNlistfounddevices:
+/*            case R.id.BTNlistfounddevices:
                 newdevices();
                 break;
-            case R.id.BTNreload:
+*/            case R.id.BTNreload:
                 ReloadActivity();
         }
     }
@@ -128,7 +128,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         finish();
         startActivity(intent);
     }
-
+/*
     //testfunction for discovering new devices
     public void newdevices() {
         BA.startDiscovery();
@@ -150,7 +150,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
         BA.cancelDiscovery();
         }
-
+*/
     }
 
 

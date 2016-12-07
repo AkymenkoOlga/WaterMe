@@ -18,7 +18,7 @@ public class WVaskus extends AppCompatActivity {
         WEBask_us = (WebView) findViewById(R.id.WEBask_us);
         // Enable Javascript
         WebSettings webSettings = WEBask_us.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptEnabled(false);
         WEBask_us.loadUrl("http://gtaproject.wordpress.com/contact");
 
         // Force links and redirects to open in the WebView instead of in a browser

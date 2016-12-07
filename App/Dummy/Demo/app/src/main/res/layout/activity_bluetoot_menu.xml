@@ -45,12 +45,6 @@
             android:id="@+id/BTNlistpaireddevices" />
 
         <Button
-            android:text="@string/bluetooth_found"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/BTNlistfounddevices" />
-
-        <Button
             android:text="@string/connect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
