@@ -44,11 +44,11 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         //Button for list_paired_devices activity
         Button BTNlistpaireddevices = (Button) findViewById(R.id.BTNlistpaireddevices);
         BTNlistpaireddevices.setOnClickListener(this);
-
+/*
         //Button for new devices
         Button BTNlistfounddevices = (Button) findViewById(R.id.BTNlistfounddevices);
         BTNlistfounddevices.setOnClickListener(this);
-
+*/
         Button BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
         BTNconnect_bt.setOnClickListener(BluetoothAdministration.get_instance(this));
         //Management for onClick of Bluetooth-relied buttons in "BluetoothAdministration"
@@ -62,13 +62,13 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         //Disable buttons if Bluetooth not enabled
         if(hasBluetooth && !BA.isEnabled()) {
             BTNconnect_bt.setEnabled(false);
-            BTNlistfounddevices.setEnabled(false);
+//            BTNlistfounddevices.setEnabled(false);
             BTNlistpaireddevices.setEnabled(false);
 
         }
         else {
             BTNconnect_bt.setEnabled(true);
-            BTNlistfounddevices.setEnabled(true);
+//            BTNlistfounddevices.setEnabled(true);
             BTNlistpaireddevices.setEnabled(true);
         }
 

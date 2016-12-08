@@ -6,20 +6,20 @@
     <string name="about">About</string>
 
     <string name="TXTabout">
-        WaterMe ("the system") is the software engineering project of 3 students at the cooperative states university Karlsruhe, Germany.\n \n
-
-        Starting in october 2016 we planned to create a system which can measure the humidity of a plant and
-        notify the user about when to water the plant.
+        WaterMe is the software engineering project of three students at the cooperative states university Karlsruhe, Germany.\n
         \n
+        Starting in october 2016 we planned to create a system which can measure the humidity of a plant and
+        notify the user about when to water the plant.\n
         We were inspired by our own everyday life. \n
-        As we couldn't handle to water our plants and keep them alive, we knew we had to change something. \n \n
-
+        As we could not handle to water our plants and keep them alive, we knew we had to change something. \n
+        \n
         The system is based on a Raspberry Pi and sensors. In addition an application is provided to receive notifications from the Pi. \n
         The sensors measure the humidity of the soil. \n
         The Pi processes this data and sends it via Bluetooth to the application.\n
         \n
         Follow our progress on gtaproject.wordpress.com
     </string>
+    <string name="jodel">The jodel community approves:</string>
 
     <string name="notifications">Notifications</string>
     <string name="raspberry_leds">Raspberry LEDs</string>

@@ -18,7 +18,8 @@
         app:srcCompat="@drawable/logo_waterme_300x300"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:id="@+id/imageView" />
+        android:id="@+id/imageView"
+        android:layout_marginBottom="5dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,7 +34,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TXTabout"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/jodel"
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:id="@+id/TXTabout_jodel" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            app:srcCompat="@drawable/jodel_gruen"
+            android:layout_marginTop="5dp"
+            android:layout_height="140dp" />
     </LinearLayout>
     </ScrollView>
 
