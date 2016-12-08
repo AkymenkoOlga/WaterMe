@@ -1,6 +1,7 @@
 package com.project.gta.demo;
 
 
+import android.os.SystemClock;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -44,6 +45,7 @@ public class UCChangeSettings {
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.BTNconnect_bt), withText("connect"), isDisplayed()));
         appCompatButton3.perform(click());
+        SystemClock.sleep(9000);
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Nach oben"),
