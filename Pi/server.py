@@ -3,8 +3,11 @@ import RPi.GPIO as GPIO
 import spidev
 import os
 import time
+import subprocess
 
-delay = 0.2
+GPIO.setwarnings(False)
+
+delay = 4
 spi = spidev.SpiDev()
 spi.open(0,0)
 
@@ -14,52 +17,54 @@ def readChannel(channel):
   return data
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(2, GPIO.OUT)
-GPIO.setup(3, GPIO.OUT)
-GPIO.setup(4, GPIO.OUT)
-
+GPIO.setup(2, GPIO.OUT) #red LED
+GPIO.setup(3, GPIO.OUT) #yellow LED
+GPIO.setup(4, GPIO.OUT) #green LED
 hostMACAddress = '00:15:83:E7:B4:A5'
 port = 3
 backlog = 1
 size = 1024
-s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
-s.bind((hostMACAddress,port))
-s.listen(backlog)
-print "Waiting for connection on RFCOMM channel %d" % port
+def btlisten():
+  s=socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+  s.bind((hostMACAddress,port))
+  s.listen(backlog)
+  print "Waiting for connection on RFCOMM channel %d" % port
 
-try:
+
+  try:
     client, address = s.accept()
     print "Accepted connection from", address
-    client.send('accepted')
-    
+    client.send('Connection successfull!')
     while 1:
         data = client.recv(size)
-        if data == "on":
-            GPIO.output(2,GPIO.HIGH)
-            GPIO.output(3,GPIO.HIGH)
-            GPIO.output(4,GPIO.HIGH)
-            print "turning LEDs on"
-            client.send('LEDs on')
-        if data == "off":
+        if data == "LED on":
+            p=subprocess.Popen(['/usr/bin/python','/home/pi/WaterMe/ledcontrol.py'])
+            print "LEDs on"
+            client.send('LEDs on!')
+        if data == "LED off":
+            p.kill()
             GPIO.output(2,GPIO.LOW)
             GPIO.output(3,GPIO.LOW)
             GPIO.output(4,GPIO.LOW)
-            print "turning LEDs off"
-            client.send('LEDs off')
-        if data == "get humidity":
+            print "LEDs off"
+            client.send('LEDs off!')
+        if data == "wet":
                 if __name__ == "__main__":
                  try:
                         val = readChannel(0)
                         if (val != 0):
                          print(val)
-                        client.send(str(val))
-                        time.sleep(delay)
+                        client.send(str(val + '!'))
 
                  except KeyboardInterrupt:
                   print "Cancel."
 
-
-except:
+  except:
     print("Closing socket")
     client.close()
     s.close()
+    btlisten()
+  return
+
+btlisten()
+				  

@@ -1,10 +1,16 @@
 <resources>
+
+<!-- General -->
+    <string name="logo">Logo von WaterMe</string>
     <string name="app_name">WaterMe</string>
+
+<!-- Main Menu -->
     <string name="plant_menu">My plants</string>
     <string name="help_menu">Help</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
+<!-- About Menu -->
     <string name="TXTabout">
         WaterMe is the software engineering project of three students at the cooperative states university Karlsruhe, Germany.\n
         \n
@@ -21,45 +27,44 @@
     </string>
     <string name="jodel">The jodel community approves:</string>
 
+<!-- Settings -->
     <string name="notifications">Notifications</string>
     <string name="raspberry_leds">Raspberry LEDs</string>
     <string name="raspberry_wifi">Raspberry WiFi</string>
-    <string name="logo">Logo von WaterMe</string>
     <string name="sounds">Sounds</string>
     <string name="submit">Submit</string>
-    <string name="loewenzahn">Mein Löwenzahn</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="enable_bluetooth">Bluetooth</string>
     <string name="bluetooth_paired">Connect to paired device</string>
     <string name="bluetooth_found">Find new devices</string>
-    <string name="plant">Plant</string>
     <string name="reload">Reload</string>
+    <string name="connect">connect</string>
 
-    <!--help-->
+<!-- help -->
     <string name="AskUs">Ask Us</string>
     <string name="helpEnableBtAndConnectPi">Enable Bluetooth and connect Pi</string>
     <string name="helpInstallPi">Install Pi</string>
     <string name="helpAddPlant">Add plant</string>
-
     <string name="help_connect_bluetooth_and_pi">
         First enable Bluetooth: \n
         \n
         From the main menu \n
-        1: Press "Settings" \n
-        2: Press "Bluetooth" \n
-        3: Press the switch "Bluetooth" \ßn \n
+        1: Press Settings \n
+        2: Press Bluetooth \n
+        3: Press the switch "Bluetooth" \n
         4: Agree to the notification \n
         \n \n
         Then you can connect to the Pi:\n
-        1: Press "Reload" \n
-        2: Press "Connect"
+        1: Press Reload \n
+        2: Press Connect
     </string>
-
-
     <string name="help_install_pi">To make the Pi work properly it has to be installed according to the image below.</string>
     <string name="help_add_plant">To be determined in 2nd semester</string>
 
-    <!--//Pflanzen-Namen-->
+<!-- Plant Menu -->
+    <string name="loewenzahn">Mein Löwenzahn</string>
+    <string name="plant">Plant</string>
+    <!-- Pflanzen-Namen -->
 
     <string-array name="plants_name">
         <item> Plant1</item>
@@ -70,7 +75,7 @@
         <item> Plant6</item>
     </string-array>
 
-    <!--//Bilder-->
+    <!-- Bilder -->
 
     <string name="profil_pic">
         <item>@drawable/Plant1</item>
@@ -80,6 +85,6 @@
         <item>@drawable/Plant5</item>
         <item>@drawable/Plant6</item>
     </string>
-    <string name="connect">connect</string>
+
 
 </resources>
