@@ -50,6 +50,10 @@
             android:name=".ListPairedDevicesActivity"
             android:label="@string/enable_bluetooth"
             android:parentActivityName=".BluetoothMenu" />
+        <activity
+            android:name=".WVaskus"
+            android:parentActivityName=".HelpMenu"
+            android:label="@string/AskUs" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -58,11 +62,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".WVaskus"
-            android:parentActivityName=".HelpMenu"
-            android:label="@string/AskUs">
-        </activity>
+
+
     </application>
 
 </manifest>

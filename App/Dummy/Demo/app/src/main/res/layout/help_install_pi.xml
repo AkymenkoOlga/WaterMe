@@ -12,12 +12,19 @@
         android:textSize="18sp"
         android:id="@+id/TXT_installPi" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:text="@string/set_up_link"
+        android:ems="10"
+        android:id="@+id/set_up_link"
+        android:textSize="12sp" />
+
     <ImageView
         android:layout_width="match_parent"
         app:srcCompat="@drawable/set_up"
         android:id="@+id/IMGset_up"
-        android:layout_weight="1"
         android:rotation="90"
-        android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content" />
 </LinearLayout>
