@@ -60,7 +60,7 @@
     </string>
     <string name="help_install_pi">
         To make the Pi work properly it has to be installed according to the image below. \n
-        For a bigger picture, please visit:
+        For a larger picture, please visit:
     </string>
     <string name="set_up_link">https://github.com/AkymenkoOlga/WaterMe/blob/master/App/Dummy/Demo/app/src/main/res/drawable/set_up.png</string>
     <string name="help_add_plant">To be determined in 2nd semester</string>
