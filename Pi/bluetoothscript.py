@@ -56,7 +56,7 @@ def btlisten():
                         val = readChannel(0)
                         if (val != 0):
                          print(val)
-                        client.send(str(val + '!'))
+                        client.send(str(val) + '!')
 
                  except KeyboardInterrupt:
                   print "Cancel."

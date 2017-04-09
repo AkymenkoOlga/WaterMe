@@ -1,16 +1,16 @@
 <resources>
 
-<!-- General -->
+    <!-- General -->
     <string name="logo">Logo von WaterMe</string>
     <string name="app_name">WaterMe</string>
 
-<!-- Main Menu -->
+    <!-- Main Menu -->
     <string name="plant_menu">My plants</string>
     <string name="help_menu">Help</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
-<!-- About Menu -->
+    <!-- About Menu -->
     <string name="TXTabout">
         WaterMe is the software engineering project of three students at the cooperative states university Karlsruhe, Germany.\n
         \n
@@ -27,7 +27,7 @@
     </string>
     <string name="jodel">The jodel community approves:</string>
 
-<!-- Settings -->
+    <!-- Settings -->
     <string name="notifications">Notifications</string>
     <string name="raspberry_leds">Raspberry LEDs</string>
     <string name="raspberry_wifi">Raspberry WiFi</string>
@@ -40,7 +40,7 @@
     <string name="reload">Reload</string>
     <string name="connect">connect</string>
 
-<!-- help -->
+    <!-- help -->
     <string name="AskUs">Ask Us</string>
     <string name="helpEnableBtAndConnectPi">Enable Bluetooth and connect Pi</string>
     <string name="helpInstallPi">Install Pi</string>
@@ -65,9 +65,12 @@
     <string name="set_up_link">https://github.com/AkymenkoOlga/WaterMe/blob/master/App/Dummy/Demo/app/src/main/res/drawable/set_up.png</string>
     <string name="help_add_plant">To be determined in 2nd semester</string>
 
-<!-- Plant Menu -->
+    <!-- Plant Menu -->
     <string name="loewenzahn">Mein Löwenzahn</string>
     <string name="plant">Plant</string>
+    <string name="getHumidity">get Humidity</string>
+    <string name="Humidity">Humidity</string>
+    <string name="percent">%</string>
     <!-- Pflanzen-Namen -->
 
     <string-array name="plants_name">

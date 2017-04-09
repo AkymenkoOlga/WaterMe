@@ -1,13 +1,16 @@
 package com.project.gta.demo;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,6 +21,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import static com.project.gta.demo.R.id.textView;
 
 /**
  * Created by Paul on 29.11.2016.
@@ -32,9 +37,11 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     Handler handler = new Handler();
     Context context;
 
-    public static BluetoothAdministration get_instance(Context context) {
+
+    public static BluetoothAdministration get_instance(Context context_) {
         if (_instance == null)
-            _instance = new BluetoothAdministration(context);
+            _instance = new BluetoothAdministration(context_);
+        else _instance.context = context_;
         return _instance;
     }
 
@@ -169,11 +176,23 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        if (context instanceof SinglePlantMenu)
+                                        {
+                                            int int_data = Integer.parseInt(data);
+                                            ((SinglePlantMenu) context).getButton().setText(data + "%");
+                                            if (int_data<200){
+                                                ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFF0000);
+                                            }
+                                        }
+                                        else
+                                        {
                                         Toast toast_bt_disabled = Toast.makeText
                                                 (context,data,Toast.LENGTH_LONG);
                                         toast_bt_disabled.show();
+                                        }
                                     }
                                 });
+
 
                                 workDone = true;
                                 break;
@@ -201,6 +220,9 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         switch(v.getId()) {
             case R.id.BTNconnect_bt:
                 mDecodeThreadPool.execute(new workerThread());
+                break;
+            case R.id.BTNgetHumidity:
+                mDecodeThreadPool.execute(new workerThread("request"));
                 break;
         }
     }
