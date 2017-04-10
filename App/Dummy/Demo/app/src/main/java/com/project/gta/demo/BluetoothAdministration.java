@@ -179,11 +179,20 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                         if (context instanceof SinglePlantMenu)
                                         {
                                             int int_data = Integer.parseInt(data);
-                                            ((SinglePlantMenu) context).getButton().setText(data + "%");
-                                            if (int_data<200){
-                                                ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFF0000);
+                                            ((SinglePlantMenu) context).getButton().setText(data + '%');
+
+                                            if (int_data <= 200){
+                                                ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFF00FF00); //grün
                                             }
+                                            else
+                                                if (int_data > 200 && int_data < 450 ){
+                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFFFF00); //gelb
+                                                }
+                                                else{
+                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFF0000); //rot
+                                                }
                                         }
+
                                         else
                                         {
                                         Toast toast_bt_disabled = Toast.makeText
