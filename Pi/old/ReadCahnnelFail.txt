@@ -1,0 +1,32 @@
+def readChannel():
+    address = 0x48 
+    try:
+     #dev = linuxi2c.IIC(address,1)
+     #dev.write("0x40")
+     #value= dev.read(1)
+     bus.write_byte(address, 0x40)	  #A0 = 0x40 A1 = 0x41 A2 = 0xA2 A3 = 0xA3
+     value = bus.read_byte(address)
+    #print("AOUT:%1.3f  " %(value*3.3/255))
+     print("AOUT:%1.3f  " %value)
+
+    except IOError:
+       time.sleep(1)
+       subprocess.call(['i2cdetect', '-y', '1'])
+       call(["sudo","./WaterMe/WaterMePy/summer","args","to", "summer"])
+       readChannel()
+    return 1
+
+def beep():
+    address = 0x20
+    def beep_on():
+    	bus.write_byte(address,0x7F&bus.read_byte(address))
+    def beep_off():
+    	bus.write_byte(address,0x80|bus.read_byte(address))
+    try:
+     beep_on()
+     time.sleep(0.15)
+     beep_off()
+    except:
+        print("calling C program")
+        call(["sudo","./WaterMe/WaterMePy/summer","args","to", "summer"])
+    return

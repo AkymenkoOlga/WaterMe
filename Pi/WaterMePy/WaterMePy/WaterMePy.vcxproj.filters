@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{b65a0b83-8df2-450a-967d-e5147e376d62}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{4383b247-0bec-4e43-9c89-4cfeeca87693}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{37bd8c29-69de-4075-bb31-222b183f8522}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="VisualGDB settings">
+      <UniqueIdentifier>{0c6eae9b-b7e5-4126-a320-a708a88b0af5}</UniqueIdentifier>
+      <Extensions>*.vgdbsettings</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WaterMePy.py">
+      <Filter>Source files</Filter>
+    </None>
+    <None Include="WaterMePy-Debug.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="WaterMePy-Release.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="SSD1306.py">
+      <Filter>Source files</Filter>
+    </None>
+    <None Include="SSD1306.pyc">
+      <Filter>Source files</Filter>
+    </None>
+    <None Include="get-pip.py">
+      <Filter>Source files</Filter>
+    </None>
+    <None Include="summer">
+      <Filter>Source files</Filter>
+    </None>
+    <None Include="Controller.py">
+      <Filter>Source files</Filter>
+    </None>
+    <None Include="oled.py">
+      <Filter>Source files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
