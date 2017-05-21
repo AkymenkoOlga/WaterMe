@@ -23,7 +23,7 @@ class Controller:
         GPIO.setup(22, GPIO.OUT) #green LED
 
     def startLedControl(self):
-        start_new_thread(self.LedControl,())
+        start_new_thread(self.ledControl,())
         print("LEDs on and LED Thread started")
         return
 
@@ -113,6 +113,16 @@ class Controller:
         fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt","a")
         fobj.write(myString)
         fobj.close()
-        self.lock.release() 
+        self.lock.release()
+
+    def readFromFile(self):
+        dataString = ""
+        self.lock.acquire()
+        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
+        for line in fobj:
+            dataString = dataString + line
+        fobj.close()
+        self.lock.release()
+        return dataString
     
 

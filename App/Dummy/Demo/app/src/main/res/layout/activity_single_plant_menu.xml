@@ -11,48 +11,30 @@
     tools:context="com.project.gta.demo.SinglePlantMenu">
 
 
-    <LinearLayout
-        android:orientation="vertical"
+    <Button
+        android:text="@string/ViewGraph"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
+        android:layout_height="60dp"
+        android:id="@+id/BTNgraph"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:backgroundTint="@color/water"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1">
+    <Button
+        android:id="@+id/BTNgetHumidity"
 
-            <Button
-                android:id="@+id/BTNgetHumidity"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
 
-                android:textColor="#FFFFFF"
-                android:textSize="30sp"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/buttonshape"
-                android:layout_below="@+id/textView7"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="43dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_horizontal"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
-        <Button
-            android:text="@string/ViewGraph"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:id="@+id/BTNgraph"
-            android:layout_below="@+id/BTNgetHumidity"
-            android:layout_alignStart="@+id/BTNgetHumidity"
-            android:layout_marginTop="89dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:backgroundTint="@color/water" />
-
-    </LinearLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:layout_marginTop="52dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

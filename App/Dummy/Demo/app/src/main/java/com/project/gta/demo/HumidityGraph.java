@@ -1,7 +1,11 @@
 package com.project.gta.demo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -13,7 +17,8 @@ public class HumidityGraph extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_humidity_diagram);
 
-
+        Button refreshB = (Button) findViewById(R.id.BTNrefresh);
+        refreshB.setOnClickListener(BluetoothAdministration.get_instance(this));
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         // first series is a line
@@ -40,4 +45,5 @@ public class HumidityGraph extends AppCompatActivity{
         graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
         graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
     }
+
 }
