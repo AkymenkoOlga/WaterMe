@@ -46,15 +46,24 @@ class BluetoothManager:
                 if data == "LED off":
                     self.controller.stopLedControl()                                                     
                     client.send('LEDs off!')
+                if data == "graph":
+                    btmsg = self.controller.readFromFile()
+                    client.send(btmsg + '!')
+                    print('data send')
                 if data == "request":
                     try:
                         val = self.controller.readChannel(0)
-                        client.send(str(val) + '!')                     
+                        if (val != 0):
+                            final = int(round(100 - val/1020.0*100))
+                        if (val == 0):
+                            final = 100 
+                        client.send(str(final) + '!')                     
                     except KeyboardInterrupt:
-                        print ("Cancel.")
+                        print ('Cancel')
         
         except:
-            print("Closing socket")
+            print('Unexpected error:' + str(sys.exc_info()[0]))
+            print('Closing socket')
             self.oled.showtext('socket closed')
             client.close()
             s.close()
@@ -64,6 +73,7 @@ class BluetoothManager:
 if __name__ == "__main__":
     btmgr = BluetoothManager()
     btmgr.btlisten()
+
 
 
 

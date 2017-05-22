@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -159,7 +160,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                     if (bytesAvailable > 0) {
                         byte[] packetBytes = new byte[bytesAvailable];
                         Log.e("BT recv bt", "bytes available");
-                        byte[] readBuffer = new byte[1024];
+                        byte[] readBuffer = new byte[1024*1024];
                         mmInputStream.read(packetBytes);
 
 
@@ -181,16 +182,28 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             int int_data = Integer.parseInt(data);
                                             ((SinglePlantMenu) context).getButton().setText(data + '%');
 
-                                            if (int_data <= 200){
+                                            if (int_data >= 60){
                                                 ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFF00FF00); //grün
                                             }
                                             else
-                                                if (int_data > 200 && int_data < 450 ){
+                                                if (int_data < 60 && int_data > 20 ){
                                                     ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFFFF00); //gelb
                                                 }
                                                 else{
                                                     ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFF0000); //rot
                                                 }
+                                        }
+                                        if(context instanceof HumidityGraph)
+                                        {
+                                            String FILENAME = "HumidityValues";
+                                            try {
+                                                FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                                                fos.write(data.getBytes());
+                                                fos.close();
+                                            }
+                                            catch(Exception ex){
+                                                Log.e("","Error creating or writing file");
+                                            }
                                         }
 
                                         else
@@ -233,6 +246,8 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             case R.id.BTNgetHumidity:
                 mDecodeThreadPool.execute(new workerThread("request"));
                 break;
+            case R.id.BTNrefresh:
+                mDecodeThreadPool.execute((new workerThread("graph")));
         }
     }
 
