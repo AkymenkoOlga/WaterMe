@@ -183,14 +183,14 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             ((SinglePlantMenu) context).getButton().setText(data + '%');
 
                                             if (int_data >= 60){
-                                                ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFF00FF00); //grün
+                                                ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFF02a721); //grün
                                             }
                                             else
                                                 if (int_data < 60 && int_data > 20 ){
-                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFFFF00); //gelb
+                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFFD700); //gelb
                                                 }
                                                 else{
-                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFF0000); //rot
+                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFCD2626); //rot
                                                 }
                                         }
                                         if(context instanceof HumidityGraph)
