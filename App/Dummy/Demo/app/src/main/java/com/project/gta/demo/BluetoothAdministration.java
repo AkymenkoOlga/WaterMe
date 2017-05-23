@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Paul on 29.11.2016.
  */
-
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     BluetoothSocket mmSocket;
