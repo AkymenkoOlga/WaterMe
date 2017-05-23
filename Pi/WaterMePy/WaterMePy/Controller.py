@@ -9,7 +9,7 @@ class Controller:
 
     bus = smbus.SMBus(1)
     lock = allocate_lock()
-    
+
     rate = 0
     beepInhibit = 0
     ThreadLed = True
@@ -93,7 +93,7 @@ class Controller:
     def readChannelFrequent(self):
      while 1:
          self.readChannel(0)
-         sleep(self.rate)        
+         sleep(self.rate)
      return
     
     def readChannel(self,channel):
