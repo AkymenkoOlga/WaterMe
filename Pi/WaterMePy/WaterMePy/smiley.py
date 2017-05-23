@@ -1,7 +1,5 @@
 import spidev as SPI
 import SSD1306
-import time
-
 import Image
 import ImageDraw
 import ImageFont

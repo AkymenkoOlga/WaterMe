@@ -11,7 +11,7 @@ class Oled:
     device = 0
 
     # 128x64 display with hardware SPI:
-    disp = SSD1306.SSD1306(RST, DC, SPI.SpiDev(0,device))             
+    disp = SSD1306.SSD1306(RST, DC, SPI.SpiDev(0,device))
             
     # Initialize library.
     disp.begin()

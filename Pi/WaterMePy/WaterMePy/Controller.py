@@ -6,14 +6,14 @@ from time import*
 GPIO.setmode(GPIO.BCM)
 
 class Controller:
-    
+
     bus = smbus.SMBus(1)
     lock = allocate_lock()
     
     rate = 0
     beepInhibit = 0
     ThreadLed = True
-    currentHumidity = 0    
+    currentHumidity = 0
 
     def __init__(self, refreshrate):
         self.rate = refreshrate
@@ -38,9 +38,8 @@ class Controller:
       
         red = 800
         yellow = 400
-        green = 200
 
-        self.ThreadLed = True  
+        self.ThreadLed = True
         self.beepInhibit = 0
 
         while self.ThreadLed:
@@ -85,7 +84,7 @@ class Controller:
          self.bus.write_byte(0x20,0x7F & self.bus.read_byte(0x20))
          sleep(0.15)
          self.bus.write_byte(0x20,0x80 | self.bus.read_byte(0x20))
-         return    
+         return
          
     def startReading(self):
         start_new_thread(self.readChannelFrequent, ())
@@ -95,7 +94,7 @@ class Controller:
      while 1:
          self.readChannel(0)
          sleep(self.rate)        
-     return    
+     return
     
     def readChannel(self,channel):
         self.bus.write_byte(0x48 , 0x40)	  #A0 = 0x40 A1 = 0x41 A2 = 0xA2 A3 = 0xA3
@@ -106,7 +105,7 @@ class Controller:
         self.lock.release()
         return data
     
-    def writeToFile(self,val):  
+    def writeToFile(self,val):
         myString = strftime("%Y-%m-%d %H:%M:%S", localtime()) + "\t" + str(val) + "\n"
         print(myString)
         self.lock.acquire()
