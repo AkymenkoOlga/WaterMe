@@ -20,10 +20,7 @@ public class WVaskus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(connection()){
-
-        }else
-        {
+        if(!connection()) {
             Toast toast_notifications_enabled = Toast.makeText
                     (getApplicationContext(), "Internet disconnected", Toast.LENGTH_LONG);
             toast_notifications_enabled.show();

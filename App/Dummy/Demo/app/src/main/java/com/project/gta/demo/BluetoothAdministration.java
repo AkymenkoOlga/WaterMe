@@ -1,16 +1,13 @@
 package com.project.gta.demo;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
@@ -22,37 +19,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import static com.project.gta.demo.R.id.textView;
-
 /**
  * Created by Paul on 29.11.2016.
  */
-
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
-
-    private static BluetoothAdministration _instance = null;
-    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    final boolean hasBluetooth = !(BA == null);
-    Handler handler = new Handler();
-    Context context;
-
-
-    public static BluetoothAdministration get_instance(Context context_) {
-        if (_instance == null)
-            _instance = new BluetoothAdministration(context_);
-        else _instance.context = context_;
-        return _instance;
-    }
-
-    private BluetoothAdministration(Context activityContext) {
-        context = activityContext;
-    }
 
     BluetoothSocket mmSocket;
     BluetoothDevice mmDevice = null;
-
     final byte delimiter = 33;
     int readBufferPosition = 0;
     private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
@@ -67,6 +40,26 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             KEEP_ALIVE_TIME,
             KEEP_ALIVE_TIME_UNIT,
             mDecodeWorkQueue);
+
+    private static BluetoothAdministration _instance = null;
+    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
+    final boolean hasBluetooth = !(BA == null);
+    private Handler handler = new Handler();
+    private Context context;
+
+
+    public static BluetoothAdministration getInstance(Context context_) {
+        if (_instance == null)
+            _instance = new BluetoothAdministration(context_);
+        else _instance.context = context_;
+        return _instance;
+    }
+
+    private BluetoothAdministration(Context activityContext) {
+        context = activityContext;
+    }
+
 
     public void connect() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

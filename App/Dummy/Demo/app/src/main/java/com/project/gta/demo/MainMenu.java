@@ -61,6 +61,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 if(easteregg==0)
                     Easteregg();
                 break;
+            default: //nothing
         }
     }
     public void Easteregg(){
