@@ -20,12 +20,12 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
 
         Button graphB = (Button) findViewById(R.id.BTNgraph);
         getHumidityB = (Button) findViewById(BTNgetHumidity);
-        getHumidityB.setOnClickListener(BluetoothAdministration.get_instance(this));
+        getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
         getHumidityB.setText("N/V");
         graphB.setOnClickListener(this);
     }
 
-    Button getButton() {
+    public Button getButton() {
         return getHumidityB;
     }
 

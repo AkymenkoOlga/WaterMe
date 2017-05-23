@@ -1,11 +1,8 @@
 package com.project.gta.demo;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,7 +47,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         BTNlistfounddevices.setOnClickListener(this);
 */
         Button BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
-        BTNconnect_bt.setOnClickListener(BluetoothAdministration.get_instance(this));
+        BTNconnect_bt.setOnClickListener(BluetoothAdministration.getInstance(this));
         //Management for onClick of Bluetooth-relied buttons in "BluetoothAdministration"
 
         //Button for reloading activity
@@ -120,10 +117,11 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
                 newdevices();
                 break;
 */            case R.id.BTNreload:
-                ReloadActivity();
+                reloadActivity();
+                break;
         }
     }
-    public void ReloadActivity(){
+    public void reloadActivity(){
         Intent intent = getIntent();
         finish();
         startActivity(intent);
