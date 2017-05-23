@@ -1,5 +1,4 @@
 import socket
-import os
 import sys
 import oled
 import Controller
@@ -9,7 +8,7 @@ class BluetoothManager:
     hostMACAddress = '00:15:83:E7:B4:A5'
     port = 3
     backlog = 1
-    size = 1024 
+    size = 1024
     controller = Controller.Controller(3600)
     oled = oled.Oled()  
 
@@ -22,17 +21,17 @@ class BluetoothManager:
             refreshRate = int(sys.argv[1])
             self.controller.rate = refreshRate
         else:
-            print("WaterMePy.py takes only one parameter")        
+            print("WaterMePy.py takes only one parameter")
         self.controller.startReading()
         return
 
     def btlisten(self):
-        s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)   
+        s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
         s.bind((self.hostMACAddress, self.port))
         s.listen(self.backlog)
         self.oled.showtext('wait for clients')
         print ('Waiting for connection on RFCOMM channel %d' % self.port)
-    
+
         try:
             client, address = s.accept()
             print "Accepted connection from", address
@@ -44,7 +43,7 @@ class BluetoothManager:
                     self.controller.startLedControl()
                     client.send('LEDs on!')
                 if data == "LED off":
-                    self.controller.stopLedControl()                                                     
+                    self.controller.stopLedControl()
                     client.send('LEDs off!')
                 if data == "graph":
                     btmsg = self.controller.readFromFile()
@@ -56,8 +55,8 @@ class BluetoothManager:
                         if (val != 0):
                             final = int(round(100 - val/1020.0*100))
                         if (val == 0):
-                            final = 100 
-                        client.send(str(final) + '!')                     
+                            final = 100
+                        client.send(str(final) + '!')
                     except KeyboardInterrupt:
                         print ('Cancel')
         
