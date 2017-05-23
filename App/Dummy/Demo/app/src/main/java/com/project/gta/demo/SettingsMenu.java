@@ -80,6 +80,7 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
                             (getApplicationContext(), "Notifications disabled", Toast.LENGTH_LONG);
                     toast_notifications_disabled.show();
                 }
+                break;
         }
     }
 }
