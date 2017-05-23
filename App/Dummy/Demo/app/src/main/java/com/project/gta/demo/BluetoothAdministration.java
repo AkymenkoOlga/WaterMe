@@ -24,10 +24,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
-    BluetoothSocket mmSocket;
-    BluetoothDevice mmDevice = null;
-    final byte delimiter = 33;
-    int readBufferPosition = 0;
+    private BluetoothSocket mmSocket;
+    private BluetoothDevice mmDevice = null;
+    final private byte delimiter = 33;
+    private int readBufferPosition = 0;
     private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
 
     private final int KEEP_ALIVE_TIME = 1;
@@ -44,7 +44,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static BluetoothAdministration _instance = null;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    final boolean hasBluetooth = !(BA == null);
+    final private boolean hasBluetooth = !(BA == null);
     private Handler handler = new Handler();
     private Context context;
 
