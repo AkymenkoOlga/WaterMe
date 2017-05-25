@@ -18,7 +18,7 @@ public class HumidityGraph extends AppCompatActivity{
         setContentView(R.layout.activity_humidity_diagram);
 
         Button refreshB = (Button) findViewById(R.id.BTNrefresh);
-        refreshB.setOnClickListener(BluetoothAdministration.get_instance(this));
+        refreshB.setOnClickListener(BluetoothAdministration.getInstance(this));
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         // first series is a line
