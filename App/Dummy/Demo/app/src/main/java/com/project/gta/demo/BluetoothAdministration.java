@@ -4,13 +4,17 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,31 +28,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
-    private BluetoothSocket mmSocket;
-    private BluetoothDevice mmDevice = null;
-    final private byte delimiter = 33;
-    private int readBufferPosition = 0;
-    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
-
-    private final int KEEP_ALIVE_TIME = 1;
-    // Sets the Time Unit to seconds
-    private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
-    // Creates a thread pool manager
-    private ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(
-            NUMBER_OF_CORES,       // Initial pool size
-            NUMBER_OF_CORES,       // Max pool size
-            KEEP_ALIVE_TIME,
-            KEEP_ALIVE_TIME_UNIT,
-            mDecodeWorkQueue);
-
+    //region Singleton
     private static BluetoothAdministration _instance = null;
-    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    final public boolean hasBluetooth = !(BA == null);
-    private Handler handler = new Handler();
-    private Context context;
-
-
     public static BluetoothAdministration getInstance(Context context_) {
         if (_instance == null)
             _instance = new BluetoothAdministration(context_);
@@ -59,7 +40,25 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private BluetoothAdministration(Context activityContext) {
         context = activityContext;
     }
+    //endregion
 
+    //region Variables
+    private Context context;
+    private Handler handler = new Handler();
+    private BluetoothSocket mmSocket;
+    private BluetoothDevice mmDevice = null;
+    final private byte delimiter = 33;
+    private int readBufferPosition = 0;
+    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
+    private final int KEEP_ALIVE_TIME = 1;
+    private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
+    private ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES, KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, mDecodeWorkQueue);
+    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
+    final public boolean hasBluetooth = !(BA == null);
+
+
+    //endregion
 
     public void connect() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -188,17 +187,15 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                         }
                                         if(context instanceof HumidityGraph)
                                         {
-                                            String FILENAME = "HumidityValues";
-                                            try {
-                                                FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-                                                fos.write(data.getBytes());
-                                                fos.close();
-                                            }
-                                            catch(Exception ex){
-                                                Log.e("","Error creating or writing file");
-                                            }
-                                        }
+                                            FileManager fileManager = FileManager.getInstance();
 
+                                            //write values to file
+                                            fileManager.writeToFile(data,context.getFilesDir());
+                                            //read values from file
+                                            String text = fileManager.readFromFile(context.getFilesDir());
+                                            //display text in TextView
+                                            ((HumidityGraph) context).getTxtView().setText(text);
+                                        }
                                         else
                                         {
                                         Toast toast_bt_disabled = Toast.makeText
