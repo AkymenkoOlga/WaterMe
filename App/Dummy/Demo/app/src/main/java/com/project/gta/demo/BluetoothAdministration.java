@@ -28,36 +28,42 @@ import java.util.concurrent.TimeUnit;
  */
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
-    //region Singleton
+    //region Variables
+    private BluetoothSocket mmSocket;
+    private BluetoothDevice mmDevice = null;
+    final private byte delimiter = 33;
+    private int readBufferPosition = 0;
+    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
+
+    private final int KEEP_ALIVE_TIME = 1;
+    // Sets the Time Unit to seconds
+    private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
+    // Creates a thread pool manager
+    private ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(
+            NUMBER_OF_CORES,       // Initial pool size
+            NUMBER_OF_CORES,       // Max pool size
+            KEEP_ALIVE_TIME,
+            KEEP_ALIVE_TIME_UNIT,
+            mDecodeWorkQueue);
+
     private static BluetoothAdministration _instance = null;
+    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
+    final public boolean hasBluetooth = !(BA == null);
+    private Handler handler = new Handler();
+    private Context context;
+    //endregion
+
+    //region Singleton
     public static BluetoothAdministration getInstance(Context context_) {
         if (_instance == null)
             _instance = new BluetoothAdministration(context_);
         else _instance.context = context_;
         return _instance;
     }
-
     private BluetoothAdministration(Context activityContext) {
         context = activityContext;
     }
-    //endregion
-
-    //region Variables
-    private Context context;
-    private Handler handler = new Handler();
-    private BluetoothSocket mmSocket;
-    private BluetoothDevice mmDevice = null;
-    final private byte delimiter = 33;
-    private int readBufferPosition = 0;
-    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
-    private final int KEEP_ALIVE_TIME = 1;
-    private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
-    private ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(NUMBER_OF_CORES, NUMBER_OF_CORES, KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, mDecodeWorkQueue);
-    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-    public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    final public boolean hasBluetooth = !(BA == null);
-
-
     //endregion
 
     public void connect() {
@@ -185,16 +191,21 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                                     ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFCD2626); //rot
                                                 }
                                         }
-                                        if(context instanceof HumidityGraph)
-                                        {
+                                        if(context instanceof HumidityGraph) {
                                             FileManager fileManager = FileManager.getInstance();
 
                                             //write values to file
-                                            fileManager.writeToFile(data,context.getFilesDir());
+                                            fileManager.writeToFile(data, context.getFilesDir());
                                             //read values from file
-                                            String text = fileManager.readFromFile(context.getFilesDir());
+                                            String text = fileManager.readData(context.getFilesDir());
                                             //display text in TextView
                                             ((HumidityGraph) context).getTxtView().setText(text);
+                                            ((HumidityGraph) context).createDataPointArray(fileManager.lines);
+
+                                            for (int i = 0; i < fileManager.lines; i++){
+                                                ((HumidityGraph) context).setDataPoints(fileManager.fulldate.remove(), fileManager.val.remove(), i);
+                                            }
+                                            ((HumidityGraph) context).refreshGraph();
                                         }
                                         else
                                         {

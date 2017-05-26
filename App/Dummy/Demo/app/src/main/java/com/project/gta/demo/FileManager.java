@@ -1,5 +1,6 @@
 package com.project.gta.demo;
 
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -8,11 +9,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+
 /**
  * Created by Paul on 25.05.2017.
  */
 
-class FileManager {
+class FileManager extends AppCompatActivity {
 
     //region Singleton
     public static FileManager getInstance() {
@@ -27,6 +29,7 @@ class FileManager {
     //endregion
 
     private String FILENAME = "Values.txt";
+    private GraphViewManager graphViewManager = GraphViewManager.getInstance();
 
     void writeToFile(String text, File path){
         File file = new File(path,FILENAME);
@@ -40,15 +43,17 @@ class FileManager {
         }
     }
 
-    String readFromFile(File path){
+    String readData(File path){
         File file = new File(path,FILENAME);
         StringBuilder text = new StringBuilder();
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
 
             while ((line = br.readLine()) != null) {
                 text.append(line);
+                graphViewManager.extractData(line);
                 text.append('\n');
             }
             br.close();
