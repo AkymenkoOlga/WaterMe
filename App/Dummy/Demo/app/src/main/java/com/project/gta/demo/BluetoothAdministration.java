@@ -4,16 +4,21 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -24,6 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
+    //region Variables
     private BluetoothSocket mmSocket;
     private BluetoothDevice mmDevice = null;
     final private byte delimiter = 33;
@@ -47,19 +53,19 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     final public boolean hasBluetooth = !(BA == null);
     private Handler handler = new Handler();
     private Context context;
+    //endregion
 
-
+    //region Singleton
     public static BluetoothAdministration getInstance(Context context_) {
         if (_instance == null)
             _instance = new BluetoothAdministration(context_);
         else _instance.context = context_;
         return _instance;
     }
-
     private BluetoothAdministration(Context activityContext) {
         context = activityContext;
     }
-
+    //endregion
 
     public void connect() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -186,25 +192,25 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                                     ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFCD2626); //rot
                                                 }
                                         }
-                                        if(context instanceof HumidityGraph)
-                                        {
-                                            String FILENAME = "HumidityValues";
-                                            try {
-                                                FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-                                                fos.write(data.getBytes());
-                                                fos.close();
-                                            }
-                                            catch(Exception ex){
-                                                Log.e("","Error creating or writing file");
-                                            }
+                                        if(context instanceof HumidityGraph) {
+                                            FileManager fileManager = FileManager.getInstance();
+
+                                            //write values to file
+                                            fileManager.writeToFile(data, context.getFilesDir());
+                                            //read values from file
+                                            String text = fileManager.readData(context.getFilesDir());
+                                            //display text in TextView
+                                            ((HumidityGraph) context).getTxtView().setText(text);
+                                            ((HumidityGraph) context).refreshGraph();
                                         }
 
-                                        else
+                                        if (!(context instanceof HumidityGraph))
                                         {
-                                        Toast toast_bt_disabled = Toast.makeText
-                                                (context,data,Toast.LENGTH_LONG);
-                                        toast_bt_disabled.show();
+                                                Toast toast_bt_disabled = Toast.makeText
+                                                        (context,data,Toast.LENGTH_LONG);
+                                                toast_bt_disabled.show();
                                         }
+
                                     }
                                 });
 
