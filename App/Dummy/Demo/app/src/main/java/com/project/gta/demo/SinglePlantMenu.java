@@ -37,4 +37,11 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Context has to be set again.
+        getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
+    }
 }

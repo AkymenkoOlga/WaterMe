@@ -46,7 +46,7 @@ class FileManager extends AppCompatActivity {
     String readData(File path){
         File file = new File(path,FILENAME);
         StringBuilder text = new StringBuilder();
-
+        graphViewManager.NumerOfValues = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;

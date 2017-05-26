@@ -1,5 +1,7 @@
 package com.project.gta.demo;
 
+import android.accessibilityservice.AccessibilityService;
+import android.content.Context;
 import android.content.Intent;
 
 import java.text.DateFormat;
@@ -36,26 +38,14 @@ public class HumidityGraph extends AppCompatActivity{
         return graph;
     }
 
-    private DataPoint[] points;
-    private LineGraphSeries<DataPoint> series;
-    private Date maxDate;
+    private GraphViewManager graphViewManager = GraphViewManager.getInstance();
+    private FileManager fileManager = FileManager.getInstance();
 
-    public void createDataPointArray(int ArrSize){
-       points = new DataPoint[ArrSize];
-    }
-    public void setDataPoints(String date,int val, int index){
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        try {
-            Date date_ = format.parse(date);
-            points[index] = new DataPoint(date_,val);
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
     public void refreshGraph(){
-        series = new LineGraphSeries<>(points);
+
+        SimpleDateFormat formathours = new SimpleDateFormat("HH:mm");
+        DataPoint[] points = graphViewManager.setDataPointsHours();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
         graph.addSeries(series);
 
         graph.getViewport().setXAxisBoundsManual(true);
@@ -64,10 +54,12 @@ public class HumidityGraph extends AppCompatActivity{
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(series.getHighestValueY());
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext(),formathours));
         graph.getGridLabelRenderer().setNumHorizontalLabels(3);
         graph.getGridLabelRenderer().setNumVerticalLabels(5);
         //graph.getGridLabelRenderer().setHumanRounding(false);
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +72,11 @@ public class HumidityGraph extends AppCompatActivity{
         txtView = (TextView)findViewById(R.id.txtfile);
         txtView.setMovementMethod(new ScrollingMovementMethod());
 
-        //graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
-        //graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+        graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+        graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
 
-
+        fileManager.readData(getFilesDir());
+        refreshGraph();
     }
 
 }

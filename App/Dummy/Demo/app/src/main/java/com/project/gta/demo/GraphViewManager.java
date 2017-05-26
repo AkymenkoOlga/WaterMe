@@ -27,18 +27,15 @@ public class GraphViewManager {
     private static GraphViewManager _instance = null;
     //endregion
 
-    public Queue<String> fulldate = new LinkedList<String>();
-    public Queue<String> hours = new LinkedList<String>();
+    public Queue<String> date = new LinkedList<String>();
     public Queue<Integer> val = new LinkedList<Integer>();
 
-    SimpleDateFormat formatfull = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    SimpleDateFormat formathours = new SimpleDateFormat("HH:mm:ss'Z'");
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-    private int NumerOfValues = 0;
+    public int NumerOfValues = 0;
 
     void extractData(String line) {
-        fulldate.add(line.substring(0, 20));
-        hours.add(line.substring(11, 16));
+        date.add(line.substring(0, 20));
         val.add(Integer.parseInt(line.substring(21, 25)));
         NumerOfValues++;
     }
@@ -48,16 +45,13 @@ public class GraphViewManager {
         try {
             for(int index = 0; index < NumerOfValues; index++) {
 
-                Date date = formathours.parse(hours.remove());
-                points[index] = new DataPoint(date, val.remove());
+                Date date_ = format.parse(date.remove());
+                points[index] = new DataPoint(date_, val.remove());
             }
         }
         catch (ParseException e) {
             e.printStackTrace();
         }
         return points;
-    }
-
-    public void refreshGraph() {
     }
 }

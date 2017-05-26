@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -200,19 +201,16 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             String text = fileManager.readData(context.getFilesDir());
                                             //display text in TextView
                                             ((HumidityGraph) context).getTxtView().setText(text);
-                                            ((HumidityGraph) context).createDataPointArray(fileManager.lines);
-
-                                            for (int i = 0; i < fileManager.lines; i++){
-                                                ((HumidityGraph) context).setDataPoints(fileManager.fulldate.remove(), fileManager.val.remove(), i);
-                                            }
                                             ((HumidityGraph) context).refreshGraph();
                                         }
-                                        else
+
+                                        if (!(context instanceof HumidityGraph))
                                         {
-                                        Toast toast_bt_disabled = Toast.makeText
-                                                (context,data,Toast.LENGTH_LONG);
-                                        toast_bt_disabled.show();
+                                                Toast toast_bt_disabled = Toast.makeText
+                                                        (context,data,Toast.LENGTH_LONG);
+                                                toast_bt_disabled.show();
                                         }
+
                                     }
                                 });
 
