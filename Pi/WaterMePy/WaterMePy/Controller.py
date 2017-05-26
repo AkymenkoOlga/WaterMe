@@ -35,7 +35,6 @@ class Controller:
         return
 
     def ledControl(self):
-      
         red = 800
         yellow = 400
 
@@ -106,7 +105,14 @@ class Controller:
         return data
     
     def writeToFile(self,val):
-        myString = strftime("%Y-%m-%d %H:%M:%S", localtime()) + "\t" + str(val) + "\n"
+        if val >= 1000:
+            myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t" + str(val) + "\n"
+        elif val >=100:
+            myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t0" + str(val) + "\n"
+        elif val >= 10:
+            myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t00" + str(val) + "\n"
+        else:
+            myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t000" + str(val) + "\n"
         print(myString)
         self.lock.acquire()
         fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt","a")
