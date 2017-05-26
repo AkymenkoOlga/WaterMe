@@ -16,22 +16,20 @@ import java.io.IOException;
 
 class FileManager extends AppCompatActivity {
 
+    private GraphViewManager graphViewManager = GraphViewManager.getInstance();
+    private String FILENAME = "Values.txt";
+
     //region Singleton
+    private static FileManager _instance = null;
     public static FileManager getInstance() {
         if (_instance == null)
             _instance = new FileManager();
         return _instance;
     }
-
     private FileManager() {}
-
-    private static FileManager _instance = null;
     //endregion
 
-    private String FILENAME = "Values.txt";
-    private GraphViewManager graphViewManager = GraphViewManager.getInstance();
-
-    void writeToFile(String text, File path){
+    public void writeToFile(String text, File path){
         File file = new File(path,FILENAME);
         try {
             FileOutputStream stream = new FileOutputStream(file);
@@ -43,7 +41,7 @@ class FileManager extends AppCompatActivity {
         }
     }
 
-    String readData(File path){
+    public String readData(File path){
         File file = new File(path,FILENAME);
         StringBuilder text = new StringBuilder();
         graphViewManager.NumerOfValues = 0;

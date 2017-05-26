@@ -14,7 +14,13 @@ import java.util.Queue;
 
 public class GraphViewManager {
 
+    public int NumerOfValues = 0;
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    public Queue<String> date = new LinkedList<String>();
+    public Queue<Integer> val = new LinkedList<Integer>();
+
     //region Singleton
+    private static GraphViewManager _instance = null;
     public static GraphViewManager getInstance() {
         if (_instance == null)
             _instance = new GraphViewManager();
@@ -23,24 +29,15 @@ public class GraphViewManager {
 
     private GraphViewManager() {
     }
-
-    private static GraphViewManager _instance = null;
     //endregion
 
-    public Queue<String> date = new LinkedList<String>();
-    public Queue<Integer> val = new LinkedList<Integer>();
-
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-    public int NumerOfValues = 0;
-
-    void extractData(String line) {
+    public void extractData(String line) {
         date.add(line.substring(0, 20));
         val.add(Integer.parseInt(line.substring(21, 25)));
         NumerOfValues++;
     }
 
-    public DataPoint[] setDataPointsHours() {
+    public DataPoint[] setDataPoints() {
         DataPoint[] points = new DataPoint[NumerOfValues];
         try {
             for(int index = 0; index < NumerOfValues; index++) {

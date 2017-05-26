@@ -15,7 +15,7 @@ class Oled:
 
     # Initialize library.
     disp.begin()
-   
+
     # Clear display.
     disp.clear()
     disp.display()

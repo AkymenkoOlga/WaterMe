@@ -10,7 +10,7 @@ class BluetoothManager:
     backlog = 1
     size = 1024
     controller = Controller.Controller(3600)
-    oled = oled.Oled()  
+    oled = oled.Oled()
 
     def __init__(self):
         refreshRate = 0
@@ -59,7 +59,6 @@ class BluetoothManager:
                         client.send(str(final) + '!')
                     except KeyboardInterrupt:
                         print ('Cancel')
-        
         except:
             print('Unexpected error:' + str(sys.exc_info()[0]))
             print('Closing socket')

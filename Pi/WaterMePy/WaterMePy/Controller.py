@@ -35,7 +35,6 @@ class Controller:
         return
 
     def ledControl(self):
-      
         red = 800
         yellow = 400
 
