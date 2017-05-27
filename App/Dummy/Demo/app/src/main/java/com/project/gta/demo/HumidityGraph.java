@@ -56,7 +56,7 @@ public class HumidityGraph extends AppCompatActivity{
         graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
         graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
 
-        fileManager.readData(getFilesDir());
+        txtView.setText(fileManager.readData(getFilesDir()));
         refreshGraph();
     }
 

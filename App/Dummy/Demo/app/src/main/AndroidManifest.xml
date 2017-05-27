@@ -40,7 +40,7 @@
             android:label="@string/help_menu"
             android:parentActivityName=".MainMenu" />
         <activity
-            android:name=".About"
+            android:name=".about"
             android:label="@string/about"
             android:parentActivityName=".MainMenu" />
         <activity

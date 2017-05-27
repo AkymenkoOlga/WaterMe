@@ -5,7 +5,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 
+import android.content.DialogInterface;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -46,6 +48,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static BluetoothAdministration _instance = null;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
+    public boolean isconnected;
     final public boolean hasBluetooth = !(BA == null);
     private Handler handler = new Handler();
     private Context context;
@@ -83,8 +86,10 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             Log.e("", "connecting...");
             mmSocket.connect();
             Log.e("", "Connected");
-        } catch (Exception e2) {
-            Log.e("", "Couldn't establish Bluetooth connection!");
+            isconnected = true;
+        } catch (Exception e) {
+            Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
+            isconnected = false;
         }
 
     }
@@ -239,10 +244,24 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 mDecodeThreadPool.execute(new workerThread());
                 break;
             case R.id.BTNgetHumidity:
-                mDecodeThreadPool.execute(new workerThread("request"));
+                if (isconnected) {
+                    mDecodeThreadPool.execute(new workerThread("request"));
+                }
+                else
+                {
+                    showAlertBox();
+                }
+
                 break;
             case R.id.BTNrefresh:
-                mDecodeThreadPool.execute((new workerThread("graph")));
+                if (isconnected) {
+                    mDecodeThreadPool.execute((new workerThread("graph")));
+                }
+                else
+                {
+                    showAlertBox();
+                }
+                break;
         }
     }
 
@@ -251,21 +270,55 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         switch (buttonView.getId()){
             case R.id.SWled:
                 if(isChecked) {
-                    mDecodeThreadPool.execute(new workerThread("LED on"));
-                }
+                    if(isconnected) {
+                        mDecodeThreadPool.execute(new workerThread("LED on"));
+                    }
+                    else
+                    {
+                        showAlertBox();
+                        ((SettingsMenu) context).SWled.setChecked(false);
+                    }
+                    }
                 else{
-                    mDecodeThreadPool.execute(new workerThread("LED off"));
+                    if(isconnected) {
+                        mDecodeThreadPool.execute(new workerThread("LED off"));
+                    }
+                    else{
+                        showAlertBox();
+                    }
                 }
                 break;
             case R.id.SWsounds:
                 if(isChecked) {
-                    mDecodeThreadPool.execute(new workerThread("sound on"));
+                    if(isconnected) {
+                        mDecodeThreadPool.execute(new workerThread("sound on"));
+                    }
+                    else
+                    {
+                        showAlertBox();
+                        ((SettingsMenu) context).SWsounds.setChecked(false);
+                    }
                 }
-                else{
-                    mDecodeThreadPool.execute(new workerThread("sound off"));
+                else {
+                    if (isconnected) {
+                        mDecodeThreadPool.execute(new workerThread("sound off"));
+                    } else {
+                        showAlertBox();
+                    }
                 }
                 break;
         }
+    }
+    private void showAlertBox(){
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
+        dlgAlert.setMessage("Please establish a Bluetooth connection to the Pi in the settings.");
+        dlgAlert.setTitle("No Connection to Pi");
+        dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
     }
 }
 
