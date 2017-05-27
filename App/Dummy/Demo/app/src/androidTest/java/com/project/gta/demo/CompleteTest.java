@@ -46,11 +46,6 @@ public class CompleteTest {
                 allOf(withId(R.id.SWbluetooth), isDisplayed()));
         switch_.perform(click());
 
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.BTNreload), withText("Reload"),
-                        withParent(withId(R.id.LLbluetooth)),
-                        isDisplayed()));
-        appCompatButton3.perform(click());
 
 
         ViewInteraction appCompatButton5 = onView(

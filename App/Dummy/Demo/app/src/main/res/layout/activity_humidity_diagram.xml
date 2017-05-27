@@ -13,28 +13,32 @@
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:id="@+id/graph" />
+        android:id="@+id/graph" /><![CDATA[
 
-    <Button
-        android:text="Refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/BTNrefresh"
-        android:layout_below="@+id/graph"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp"
-        android:layout_alignParentEnd="true" />
+    />
+    ]]>
+
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtfile"
-        android:layout_below="@+id/BTNrefresh"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:maxLines = "8192"
-        android:scrollbars = "vertical"/>
+        android:scrollbars = "vertical"
+        android:layout_below="@+id/BTNrefresh" />
+
+    <Button
+        android:text="Refresh"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/BTNrefresh"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:backgroundTint="@color/water"
+        android:layout_below="@+id/graph"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
 
 
