@@ -18,6 +18,15 @@ android {
         }
     }
 }
+sonarqube {
+    properties {
+        property "sonar.projectName", "WaterMe"
+        property "sonar.projectVersion", "1.0.0"
+        property "sonar.version", "2.2"
+        property "sonar.verbose", "false"
+        property "sonar.sources", "./src/main/java/com/project/gta/demo"
+    }
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
