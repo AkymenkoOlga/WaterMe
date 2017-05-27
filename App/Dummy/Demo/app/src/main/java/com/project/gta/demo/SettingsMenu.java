@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 public class SettingsMenu extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
+    Switch SWsounds;
+    Switch SWled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +23,9 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
         //Button definition for this class
         Button raspberrywifiB = (Button) findViewById(R.id.BTNraspberrywifi);
         Button bluetoothB = (Button) findViewById(R.id.BTNbluetooth);
-        Switch SWled = (Switch) findViewById(R.id.SWled);
+        SWled = (Switch) findViewById(R.id.SWled);
         Switch SWnotification = (Switch) findViewById(R.id.SWnotifications);
-        Switch SWsounds = (Switch) findViewById(R.id.SWsounds);
+        SWsounds = (Switch) findViewById(R.id.SWsounds);
         //=====================================
 
 

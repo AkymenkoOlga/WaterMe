@@ -48,8 +48,15 @@ class FileManager extends AppCompatActivity {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
-
             while ((line = br.readLine()) != null) {
+                //check file corruption
+                if(!line.substring(0,4).equals("2017"))
+                {
+                    file.delete();
+                    Log.e("","File corrupted: " + line);
+                    break;
+                }
+                Log.d("", "File looks good");
                 text.append(line);
                 graphViewManager.extractData(line);
                 text.append('\n');
