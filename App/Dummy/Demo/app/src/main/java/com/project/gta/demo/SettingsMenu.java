@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 public class SettingsMenu extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    Switch SWsounds;
-    Switch SWled;
+    public Switch SWsounds;
+    public Switch SWled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +41,17 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
         //===============================
 
 
-        //Disable buttons if Bluetooth not enabled
-        BluetoothAdapter BA = BluetoothAdministration.getInstance(this).BA;
-        boolean hasBluetooth = BluetoothAdministration.getInstance(this).hasBluetooth;
-        if (hasBluetooth && !BA.isEnabled()) {
-            SWsounds.setEnabled(false);
-            SWled.setEnabled(false);
-
-        } else {
-            SWsounds.setEnabled(true);
-            SWled.setEnabled(true);
-        }
+//        //Disable buttons if Bluetooth not enabled
+//        BluetoothAdapter BA = BluetoothAdministration.getInstance(this).BA;
+//        boolean hasBluetooth = BluetoothAdministration.getInstance(this).hasBluetooth;
+//        if (hasBluetooth && !BA.isEnabled()) {
+//            SWsounds.setEnabled(false);
+//            SWled.setEnabled(false);
+//
+//        } else {
+//            SWsounds.setEnabled(true);
+//            SWled.setEnabled(true);
+//        }
 //        //============================================
 
     }

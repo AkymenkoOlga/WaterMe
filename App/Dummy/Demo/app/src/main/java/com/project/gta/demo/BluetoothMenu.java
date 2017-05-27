@@ -18,6 +18,8 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
     private BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     private final int REQUEST_ENABLE_BT = 1;
     public Context context;
+    public Switch bluetoothSw;
+    public Button BTNconnect_bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +33,13 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
                 android.R.layout.simple_list_item_1);
 
         //Bluetooth switch
-        Switch bluetoothSw = (Switch) findViewById(R.id.SWbluetooth);
+        bluetoothSw = (Switch) findViewById(R.id.SWbluetooth);
             if(hasBluetooth && !BA.isEnabled())
                 bluetoothSw.setChecked(false);
             if(hasBluetooth && BA.isEnabled())
                 bluetoothSw.setChecked(true);
         bluetoothSw.setOnCheckedChangeListener(this);
 
-        //Button for list_paired_devices activity
         Button BTNlistpaireddevices = (Button) findViewById(R.id.BTNlistpaireddevices);
         BTNlistpaireddevices.setOnClickListener(this);
 /*
@@ -46,42 +47,19 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         Button BTNlistfounddevices = (Button) findViewById(R.id.BTNlistfounddevices);
         BTNlistfounddevices.setOnClickListener(this);
 */
-        Button BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
+        BTNconnect_bt = (Button) findViewById(R.id.BTNconnect_bt);
         BTNconnect_bt.setOnClickListener(BluetoothAdministration.getInstance(this));
-        //Management for onClick of Bluetooth-relied buttons in "BluetoothAdministration"
-
-        //Button for reloading activity
-        Button BTNreload = (Button) findViewById(R.id.BTNreload);
-        BTNreload.setOnClickListener(this);
-        BTNreload.setVisibility(View.INVISIBLE);
-
-
-        //Disable buttons if Bluetooth not enabled
-        if(hasBluetooth && !BA.isEnabled()) {
-            BTNconnect_bt.setEnabled(false);
-//            BTNlistfounddevices.setEnabled(false);
-            BTNlistpaireddevices.setEnabled(false);
-
-        }
-        else {
-            BTNconnect_bt.setEnabled(true);
-//            BTNlistfounddevices.setEnabled(true);
-            BTNlistpaireddevices.setEnabled(true);
-        }
-
 
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         final boolean hasBluetooth = !(BA == null);
-        Button BTNreload = (Button) findViewById(R.id.BTNreload);
         if(isChecked) {
             if(hasBluetooth && !BA.isEnabled())
             {
                 Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(turnOn, REQUEST_ENABLE_BT);
-                BTNreload.setVisibility(View.VISIBLE);
             }
             if(hasBluetooth && BA.isEnabled()){
                 Toast toast_bt_already_enabled = Toast.makeText
@@ -96,10 +74,6 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
                 Toast toast_bt_disabled = Toast.makeText
                         (getApplicationContext(),"Bluetooth disabled",Toast.LENGTH_LONG);
                 toast_bt_disabled.show();
-                BTNreload.setVisibility(View.INVISIBLE);
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
             }
         }
     }
@@ -116,15 +90,8 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
 /*            case R.id.BTNlistfounddevices:
                 newdevices();
                 break;
-*/            case R.id.BTNreload:
-                reloadActivity();
-                break;
+*/
         }
-    }
-    public void reloadActivity(){
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
     }
 /*
     //testfunction for discovering new devices

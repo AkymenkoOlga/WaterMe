@@ -38,7 +38,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     // Sets the Time Unit to seconds
     private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
     // Creates a thread pool manager
-    private ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(
+    public ThreadPoolExecutor mDecodeThreadPool = new ThreadPoolExecutor(
             NUMBER_OF_CORES,       // Initial pool size
             NUMBER_OF_CORES,       // Max pool size
             KEEP_ALIVE_TIME,
@@ -67,6 +67,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     //endregion
 
     public void connect() {
+
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
@@ -129,7 +130,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
 //            }
 //        }
 //    }
-
 
     final class workerThread implements Runnable {
 
@@ -241,25 +241,46 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     public  void onClick(View v){
         switch(v.getId()) {
             case R.id.BTNconnect_bt:
-                mDecodeThreadPool.execute(new workerThread());
+                if (!BA.isEnabled())
+                {
+                    isconnected = false;
+                    showAlertBox(1);
+                }
+                else {
+                    if (isconnected) {
+                        showAlertBox(3);
+                    }
+                    else {
+                        mDecodeThreadPool.execute(new workerThread());
+                    }
+                }
                 break;
             case R.id.BTNgetHumidity:
-                if (isconnected) {
-                    mDecodeThreadPool.execute(new workerThread("request"));
-                }
-                else
+                if (!BA.isEnabled())
                 {
-                    showAlertBox();
+                    showAlertBox(2);
                 }
-
+                else {
+                    if (isconnected) {
+                        mDecodeThreadPool.execute(new workerThread("request"));
+                    }
+                    else {
+                        showAlertBox(0);
+                    }
+                }
                 break;
             case R.id.BTNrefresh:
-                if (isconnected) {
-                    mDecodeThreadPool.execute((new workerThread("graph")));
-                }
-                else
+                if (!BA.isEnabled())
                 {
-                    showAlertBox();
+                    showAlertBox(2);
+                }
+                else {
+                    if (isconnected) {
+                        mDecodeThreadPool.execute((new workerThread("graph")));
+                    }
+                    else {
+                        showAlertBox(0);
+                    }
                 }
                 break;
         }
@@ -269,13 +290,14 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
             case R.id.SWled:
+
                 if(isChecked) {
                     if(isconnected) {
                         mDecodeThreadPool.execute(new workerThread("LED on"));
                     }
                     else
                     {
-                        showAlertBox();
+                        showAlertBox(0);
                         ((SettingsMenu) context).SWled.setChecked(false);
                     }
                     }
@@ -284,7 +306,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                         mDecodeThreadPool.execute(new workerThread("LED off"));
                     }
                     else{
-                        showAlertBox();
+                        showAlertBox(0);
                     }
                 }
                 break;
@@ -295,7 +317,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                     }
                     else
                     {
-                        showAlertBox();
+                        showAlertBox(0);
                         ((SettingsMenu) context).SWsounds.setChecked(false);
                     }
                 }
@@ -303,19 +325,36 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                     if (isconnected) {
                         mDecodeThreadPool.execute(new workerThread("sound off"));
                     } else {
-                        showAlertBox();
+                        showAlertBox(0);
                     }
                 }
                 break;
         }
     }
-    private void showAlertBox(){
+    private void showAlertBox(int i){
         AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
-        dlgAlert.setMessage("Please establish a Bluetooth connection to the Pi in the settings.");
-        dlgAlert.setTitle("No Connection to Pi");
+        switch(i) {
+            case 0:
+                dlgAlert.setMessage("Please establish a Bluetooth connection to the Pi in the settings.");
+                dlgAlert.setTitle("No Connection to Pi");
+                break;
+
+            case 1:
+                dlgAlert.setMessage("Please enable Bluetooth in order to connect to the Pi");
+                dlgAlert.setTitle("Bluetooth is disabled");
+                break;
+            case 2:
+                dlgAlert.setMessage("Please enable Bluetooth and connect to the Pi");
+                dlgAlert.setTitle("Bluetooth is disabled");
+                break;
+            case 3:
+                dlgAlert.setMessage("You are already connected to th Pi");
+                dlgAlert.setTitle("Error");
+                break;
+        }
+
         dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
+            public void onClick(DialogInterface dialog, int which) {return;}
         });
         dlgAlert.setCancelable(true);
         dlgAlert.create().show();
