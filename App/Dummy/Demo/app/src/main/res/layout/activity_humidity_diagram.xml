@@ -24,6 +24,17 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="27dp"
         android:layout_alignParentEnd="true" />
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtfile"
+        android:layout_below="@+id/BTNrefresh"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:maxLines = "8192"
+        android:scrollbars = "vertical"/>
 </RelativeLayout>
 
 

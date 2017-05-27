@@ -33,15 +33,15 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
         //SetOnListener
         raspberrywifiB.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity
         bluetoothB.setOnClickListener(this);
-        SWled.setOnCheckedChangeListener(BluetoothAdministration.get_instance(this));
+        SWled.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
         SWnotification.setOnCheckedChangeListener(this);
-        SWsounds.setOnCheckedChangeListener(BluetoothAdministration.get_instance(this));
+        SWsounds.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
         //===============================
 
 
         //Disable buttons if Bluetooth not enabled
-        BluetoothAdapter BA = BluetoothAdministration.get_instance(this).BA;
-        boolean hasBluetooth = BluetoothAdministration.get_instance(this).hasBluetooth;
+        BluetoothAdapter BA = BluetoothAdministration.getInstance(this).BA;
+        boolean hasBluetooth = BluetoothAdministration.getInstance(this).hasBluetooth;
         if (hasBluetooth && !BA.isEnabled()) {
             SWsounds.setEnabled(false);
             SWled.setEnabled(false);

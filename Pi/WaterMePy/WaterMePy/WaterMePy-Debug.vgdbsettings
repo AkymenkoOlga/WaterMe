@@ -163,7 +163,7 @@
     <LaunchGDBSettings xsi:type="GDBLaunchParametersPython">
       <DebuggedProgram>$(SourceDir)/WaterMePy.py</DebuggedProgram>
       <GDBServerPort>2000</GDBServerPort>
-      <ProgramArguments>3</ProgramArguments>
+      <ProgramArguments />
       <ProgramEnvironment>PYTHONPATH=%PYTHONPATH%:$(SourceDir)/$(ConfigurationName)</ProgramEnvironment>
       <PythonExecutable>python</PythonExecutable>
       <StepAndBreakpointSupport>true</StepAndBreakpointSupport>
