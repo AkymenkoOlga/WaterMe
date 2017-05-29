@@ -48,7 +48,7 @@ class BluetoothManager:
                 if data == "graph":
                     btmsg = self.controller.readFromFile()
                     client.send(btmsg + '!')
-                    print('data send')
+                    print('send:\n' + btmsg)
                 if data == "request":
                     try:
                         val = self.controller.readChannel(0)
