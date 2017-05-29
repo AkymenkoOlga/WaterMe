@@ -69,7 +69,7 @@ public class ListPairedDevicesActivity extends ListActivity {
             case BluetoothClass.Device.Major.UNCATEGORIZED:
                 return "UNCATEGORIZED";
             case BluetoothClass.Device.Major.WEARABLE:
-                return "AUDIO_VIDEO";
+                return "WEARABLE";
             default: return "unknown!";
         }
     }

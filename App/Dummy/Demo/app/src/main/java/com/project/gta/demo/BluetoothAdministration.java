@@ -255,33 +255,25 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 }
                 break;
             case R.id.BTNgetHumidity:
-                if (!BA.isEnabled())
-                {
-                    showAlertBox(2);
-                }
-                else {
-                    if (isconnected) {
-                        mDecodeThreadPool.execute(new workerThread("request"));
-                    }
-                    else {
-                        showAlertBox(0);
-                    }
-                }
+                execute("refresh");
                 break;
             case R.id.BTNrefresh:
-                if (!BA.isEnabled())
-                {
-                    showAlertBox(2);
-                }
-                else {
-                    if (isconnected) {
-                        mDecodeThreadPool.execute((new workerThread("graph")));
-                    }
-                    else {
-                        showAlertBox(0);
-                    }
-                }
+                execute("graph");
                 break;
+        }
+    }
+    public void execute(String command){
+        if (!BA.isEnabled())
+        {
+            showAlertBox(2);
+        }
+        else {
+            if (isconnected) {
+                mDecodeThreadPool.execute(new workerThread(command));
+            }
+            else {
+                showAlertBox(0);
+            }
         }
     }
 
