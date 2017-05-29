@@ -98,7 +98,7 @@ class Controller:
     def readChannel(self,channel):
         self.bus.write_byte(0x48 , 0x40)	  #A0 = 0x40 A1 = 0x41 A2 = 0xA2 A3 = 0xA3
         data = self.bus.read_byte(0x48) *4
-        self.writeToFile(data)
+        self.writeToFile(int(round(100 - data/1020.0*100))
         self.lock.acquire()
         self.currentHumidity = data
         self.lock.release()

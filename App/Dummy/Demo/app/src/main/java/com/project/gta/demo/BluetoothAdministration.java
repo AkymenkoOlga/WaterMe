@@ -199,9 +199,8 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             //write values to file
                                             fileManager.writeToFile(data, context.getFilesDir());
                                             //read values from file
-                                            String text = fileManager.readData(context.getFilesDir());
+                                            fileManager.readData(context.getFilesDir());
                                             //display text in TextView
-                                            ((HumidityGraph) context).getTxtView().setText(text);
                                             ((HumidityGraph) context).refreshGraph();
                                         }
 

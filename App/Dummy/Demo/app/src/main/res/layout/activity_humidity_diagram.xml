@@ -13,32 +13,77 @@
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:id="@+id/graph" /><![CDATA[
-
-    />
-    ]]>
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtfile"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:maxLines = "8192"
-        android:scrollbars = "vertical"
-        android:layout_below="@+id/BTNrefresh" />
+        android:id="@+id/graph" />
 
     <Button
         android:text="Refresh"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/BTNrefresh"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:backgroundTint="@color/water"
-        android:layout_below="@+id/graph"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RadioGroup"
+        android:layout_below="@+id/graph"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="@string/showCourse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_below="@+id/BTNrefresh"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_marginTop="4dp" />
+
+        <RadioButton
+            android:text="@string/hours24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Radio24h"
+            android:layout_below="@+id/BTNrefresh"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp" />
+
+        <RadioButton
+            android:text="@string/days3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Radio3days"
+            android:layout_below="@+id/Radio24h"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"/>
+
+        <RadioButton
+            android:text="@string/week1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Radio1week"
+            android:layout_below="@+id/Radio3days"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"/>
+
+        <RadioButton
+            android:text="@string/optimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/RadioGroup"
+            android:layout_toEndOf="@+id/RadioGroup"
+            android:id="@+id/RadioOptimal"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"/>
+
+    </RadioGroup>
+
 </RelativeLayout>
 
 
