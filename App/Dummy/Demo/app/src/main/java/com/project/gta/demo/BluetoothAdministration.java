@@ -71,7 +71,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
-        if (pairedDevices.size() > 0) {
+        if (!pairedDevices.isEmpty()) {
             for (BluetoothDevice device : pairedDevices) {
                 if (device.getName().equals("raspberrypi")) //Note, you will need to change this to match the name of your device
                 {

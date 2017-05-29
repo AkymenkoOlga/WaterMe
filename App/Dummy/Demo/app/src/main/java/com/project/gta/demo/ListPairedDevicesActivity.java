@@ -30,7 +30,7 @@ public class ListPairedDevicesActivity extends ListActivity {
                 = bluetoothAdapter.getBondedDevices();
 
         //Check for paired devices, put them into a String
-        if (pairedDevices.size() > 0) {
+        if (!pairedDevices.isEmpty()) {
             for (BluetoothDevice device : pairedDevices) {
                 String deviceBTName = device.getName();
                 String deviceBTMajorClass
