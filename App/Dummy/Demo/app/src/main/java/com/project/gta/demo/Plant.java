@@ -3,8 +3,8 @@ package com.project.gta.demo;
 
 
 public class Plant {
-    double humidity;
-    String name;
+    private double humidity;
+    private String name;
 
     public void plant(String Name, double Humidity){
         name = Name;

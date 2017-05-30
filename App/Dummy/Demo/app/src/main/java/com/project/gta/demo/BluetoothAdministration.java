@@ -49,7 +49,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     public boolean isconnected;
-    final public boolean hasBluetooth = !(BA == null);
+    final public boolean hasBluetooth = (BA != null);
     private Handler handler = new Handler();
     private Context context;
     //endregion
