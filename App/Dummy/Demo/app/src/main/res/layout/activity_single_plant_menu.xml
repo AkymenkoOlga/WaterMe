@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_single_plant_menu"
+
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.project.gta.demo.SinglePlantMenu">
+
+    tools:context="com.project.gta.demo.SinglePlantMenu"
+    android:orientation="vertical">
 
 
-    <Button
-        android:text="@string/ViewGraph"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/BTNgraph"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:backgroundTint="@color/water"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="209dp"
+        app:srcCompat="@drawable/leaves_grass_dew_84019_3840x2400"
+        android:id="@+id/imageView2"
+        android:scaleType="centerCrop" />
 
-    <Button
-        android:id="@+id/BTNgetHumidity"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+>
 
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        <Button
+            android:text="@string/ViewGraph"
+            android:id="@+id/BTNgraph"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/buttonshape"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_horizontal"
-        android:textAlignment="center"
-        android:layout_marginTop="52dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:backgroundTint="@color/water"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/BTNgetHumidity"
+
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -17,9 +17,11 @@
 
     <Button
         android:text="Refresh"
+        android:id="@+id/BTNrefresh"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/BTNrefresh"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:backgroundTint="@color/water"
         android:layout_weight="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
