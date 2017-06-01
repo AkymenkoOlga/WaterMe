@@ -49,7 +49,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     public boolean isconnected;
-    final public boolean hasBluetooth = !(BA == null);
+    final public boolean hasBluetooth = (BA != null);
     private Handler handler = new Handler();
     private Context context;
     //endregion
@@ -71,7 +71,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
-        if (pairedDevices.size() > 0) {
+        if (!pairedDevices.isEmpty()) {
             for (BluetoothDevice device : pairedDevices) {
                 if (device.getName().equals("raspberrypi")) //Note, you will need to change this to match the name of your device
                 {
@@ -255,33 +255,25 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 }
                 break;
             case R.id.BTNgetHumidity:
-                if (!BA.isEnabled())
-                {
-                    showAlertBox(2);
-                }
-                else {
-                    if (isconnected) {
-                        mDecodeThreadPool.execute(new workerThread("request"));
-                    }
-                    else {
-                        showAlertBox(0);
-                    }
-                }
+                execute("refresh");
                 break;
             case R.id.BTNrefresh:
-                if (!BA.isEnabled())
-                {
-                    showAlertBox(2);
-                }
-                else {
-                    if (isconnected) {
-                        mDecodeThreadPool.execute((new workerThread("graph")));
-                    }
-                    else {
-                        showAlertBox(0);
-                    }
-                }
+                execute("graph");
                 break;
+        }
+    }
+    public void execute(String command){
+        if (!BA.isEnabled())
+        {
+            showAlertBox(2);
+        }
+        else {
+            if (isconnected) {
+                mDecodeThreadPool.execute(new workerThread(command));
+            }
+            else {
+                showAlertBox(0);
+            }
         }
     }
 

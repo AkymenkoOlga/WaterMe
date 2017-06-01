@@ -27,10 +27,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetoot_menu);
         context=this;
-        //Array für gefundene BluetoothMenu devices
-        ArrayAdapter<String> btArrayAdapter
-                = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1);
+        //Array für gefundene BluetoothMenu device
 
         //Bluetooth switch
         bluetoothSw = (Switch) findViewById(R.id.SWbluetooth);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -87,11 +88,11 @@ public class PlantMenu extends AppCompatActivity {
             sss.setString(ListOfPlants.get(position));
             TextView tvPlant = (TextView) convertView.findViewById(R.id.tvPlantName);
             tvPlant.setText(sss.next());
-            ImageView imgPlant = (ImageView) convertView.findViewById(R.id.imgPlant);
             try{
              //   imgPlant.setImageDrawable();
             }catch (Exception e)
             {
+                Log.e("",e.toString());
                 Toast toast_notifications_enabled = Toast.makeText
                         (getApplicationContext(), "No file found", Toast.LENGTH_LONG);
                 toast_notifications_enabled.show();
