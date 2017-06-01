@@ -85,4 +85,12 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Context has to be set again.
+        SWled.setOnClickListener(BluetoothAdministration.getInstance(this));
+        SWsounds.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
+    }
 }

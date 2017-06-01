@@ -35,7 +35,6 @@ class BluetoothManager:
         try:
             client, address = s.accept()
             print "Accepted connection from", address
-            client.send('Connection successfull!')
             self.oled.showtext('connected')
             while 1:
                 data = client.recv(self.size)

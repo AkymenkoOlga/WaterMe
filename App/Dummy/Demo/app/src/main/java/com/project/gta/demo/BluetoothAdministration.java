@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     //region Variables
-    private BluetoothSocket mmSocket =  null;
+    private BluetoothSocket mmSocket ;
     private BluetoothDevice mmDevice = null;
     final private byte delimiter = 33;
     private int readBufferPosition = 0;
@@ -52,10 +52,13 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static BluetoothAdministration _instance = null;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    public boolean isconnected;
+    public boolean isconnected= false;
     private Handler handler = new Handler();
     private Context context;
+    private ProgressDialog connectDialog;
+    private Toast toast;
     //endregion
+
 
     //region Singleton
     public static BluetoothAdministration getInstance(Context context_) {
@@ -66,10 +69,11 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     }
     private BluetoothAdministration(Context activityContext) {
         context = activityContext;
+        initializeSocket();
     }
     //endregion
 
-    public void connect() {
+    private void initializeSocket(){
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -86,12 +90,25 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         }
         try {
             mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(mmDevice, 3);
+        }
+        catch(Exception e){
+            Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
+        }
+    }
 
+    public void connect() {
+
+        try {
+            if (!isconnected){
                 showProgressBar(true);
                 Log.e("", "connecting...");
                 mmSocket.connect();
                 Log.e("", "Connected");
+                isconnected = true;
                 showProgressBar(false);
+                mDecodeThreadPool.execute(new checkConnectionState());
+                showToast("Connected");
+            }
         }
         catch(Exception e){
                 Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
@@ -116,21 +133,27 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
            @Override
             public void run() {
 
-               if(((BluetoothMenu) context).connectDialog.isShowing()){
-                   ((BluetoothMenu) context).connectDialog.dismiss();
+               if(connectDialog.isShowing()){
+                   connectDialog.dismiss();
                    showAlertBox(4);
                }
            }
         }, time);
+
     }
 
     private void showProgressBar(boolean b){
+
         if(b){
             dialogTimeOut(10000);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    ((BluetoothMenu) context).connectDialog.show();
+                    connectDialog = new ProgressDialog(context);
+                    connectDialog.setMessage("Connecting...");
+                    connectDialog.setCancelable(false);
+                    connectDialog.setButton("Cancel", (DialogInterface.OnClickListener) null);
+                    connectDialog.show();
                 }
             });
         }
@@ -139,38 +162,38 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             handler.post(new Runnable() {
                 @Override
                     public void run() {
-                    ((BluetoothMenu) context).connectDialog.dismiss();
+                    connectDialog.dismiss();
                 }
             });
         }
     }
 
 //  Methode, um alle laufenden Threads zu beenden
-//    public static void cancelAll() {
-//        /*
-//         * Creates an array of Runnables that's the same size as the
-//         * thread pool work queue
-//         */
-//        Runnable[] runnableArray = new Runnable[mDecodeWorkQueue.size()];
-//        // Populates the array with the Runnables in the queue
-//        mDecodeWorkQueue.toArray(runnableArray);
-//        // Stores the array length in order to iterate over the array
-//        int len = runnableArray.length;
-//        /*
-//         * Iterates over the array of Runnables and interrupts each one's Thread.
-//         */
-//        synchronized (get_instance(null)) {
-//            // Iterates over the array of tasks
-//            for (int runnableIndex = 0; runnableIndex < len; runnableIndex++) {
-//                // Gets the current thread
-//                Thread thread = (Thread) runnableArray[runnableIndex];
-//                // if the Thread exists, post an interrupt to it
-//                if (null != thread) {
-//                    thread.interrupt();
-//                }
-//            }
-//        }
-//    }
+    public static void cancelAll() {
+        /*
+         * Creates an array of Runnables that's the same size as the
+         * thread pool work queue
+         */
+        Runnable[] runnableArray = new Runnable[mDecodeWorkQueue.size()];
+        // Populates the array with the Runnables in the queue
+        mDecodeWorkQueue.toArray(runnableArray);
+        // Stores the array length in order to iterate over the array
+        int len = runnableArray.length;
+        /*
+         * Iterates over the array of Runnables and interrupts each one's Thread.
+         */
+        synchronized (getInstance(null)) {
+            // Iterates over the array of tasks
+            for (int runnableIndex = 0; runnableIndex < len; runnableIndex++) {
+                // Gets the current thread
+                Thread thread = (Thread) runnableArray[runnableIndex];
+                // if the Thread exists, post an interrupt to it
+                if (null != thread) {
+                    thread.interrupt();
+                }
+            }
+        }
+    }
 
     final class workerThread implements Runnable {
 
@@ -184,14 +207,12 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         }
         @Override
         public void run() {
-
-            if (btMsg==null){
-                connect();
-                Thread.currentThread().interrupt();}
-            else
+            connect();
+            if (!(btMsg == null)){
                 sendBtMsg(btMsg);
+                }
 
-            while (!Thread.currentThread().isInterrupted()) {
+            while (!Thread.currentThread().isInterrupted() || (!isconnected)) {
                 int bytesAvailable;
                 boolean workDone = false;
 
@@ -242,18 +263,11 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             //display text in TextView
                                             ((HumidityGraph) context).refreshGraph();
                                         }
-
-                                        if (!(context instanceof HumidityGraph))
-                                        {
-                                                Toast toast_bt_disabled = Toast.makeText
-                                                        (context,data,Toast.LENGTH_LONG);
-                                                toast_bt_disabled.show();
-                                        }
                                     }
                                 });
 
                                 workDone = true;
-                                mmInputStream.close();
+
                                 break;
                             } else {
                                 readBuffer[readBufferPosition++] = b;
@@ -266,6 +280,8 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    try{
+                    mmSocket.close();} catch(Exception ex){Log.e("", ex.toString());}
                 }
             }
 
@@ -273,18 +289,21 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
 
     }
 
+    public void showToast(final String text){
 
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+    }
     @Override
     public  void onClick(View v){
         switch(v.getId()) {
             case R.id.BTNconnect_bt:
-                if (!BA.isEnabled())
-                {
-                    showAlertBox(1);
-                }
-                else {
-                     mDecodeThreadPool.execute(new workerThread());
-                    }
+                execute(null);
                 break;
             case R.id.BTNgetHumidity:
                 execute("request");
@@ -294,20 +313,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 break;
         }
     }
-    public void execute(String command){
-        if (!BA.isEnabled())
-        {
-            showAlertBox(2);
-        }
-        else {
-            if (mmSocket.isConnected()) {
-                mDecodeThreadPool.execute(new workerThread(command));
-            }
-            else {
-                showAlertBox(0);
-            }
-        }
-    }
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -315,43 +321,31 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             case R.id.SWled:
 
                 if(isChecked) {
-                    if(mmSocket.isConnected()) {
-                        mDecodeThreadPool.execute(new workerThread("LED on"));
-                    }
-                    else
-                    {
-                        showAlertBox(0);
-                        ((SettingsMenu) context).SWled.setChecked(false);
-                    }
-                    }
+                    execute("LED on");
+                }
                 else{
-                    if(mmSocket.isConnected()) {
-                        mDecodeThreadPool.execute(new workerThread("LED off"));
-                    }
-                    else{
-                        showAlertBox(0);
-                    }
+                    execute("LED off");
                 }
                 break;
             case R.id.SWsounds:
                 if(isChecked) {
-                    if(mmSocket.isConnected()) {
-                        mDecodeThreadPool.execute(new workerThread("sound on"));
-                    }
-                    else
-                    {
-                        showAlertBox(0);
-                        ((SettingsMenu) context).SWsounds.setChecked(false);
-                    }
+                    execute("alarm on");
                 }
                 else {
-                    if (mmSocket.isConnected()) {
-                        mDecodeThreadPool.execute(new workerThread("sound off"));
-                    } else {
-                        showAlertBox(0);
-                    }
+                    execute("alarm off");
                 }
                 break;
+        }
+    }
+
+    public void execute(String command){
+        if (!BA.isEnabled())
+        {
+            showAlertBox(1);
+            return;
+        }
+        else {
+            mDecodeThreadPool.execute(new workerThread(command));
         }
     }
     private void showAlertBox(int i){
@@ -363,7 +357,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 break;
 
             case 1:
-                dlgAlert.setMessage("Please enable Bluetooth in order to connect to the Pi.");
+                dlgAlert.setMessage("Please enable Bluetooth");
                 dlgAlert.setTitle("Bluetooth is disabled");
                 break;
             case 2:
@@ -390,6 +384,34 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         });
         dlgAlert.setCancelable(true);
         dlgAlert.create().show();
+    }
+
+    final class checkConnectionState implements Runnable {
+        @Override
+        public void run(){
+            while(!Thread.currentThread().isInterrupted())
+            {
+                try {
+                    mmSocket.getInputStream().read();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                catch (IOException ex){
+                    Log.e("IOException",ex.toString());
+                    isconnected = false;
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                           showToast("Connection lost");
+                        }
+                    });
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 }
 

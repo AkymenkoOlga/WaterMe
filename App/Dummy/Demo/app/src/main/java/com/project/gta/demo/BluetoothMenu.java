@@ -23,7 +23,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
     public Context context;
     public Switch bluetoothSw;
     public Button BTNconnect_bt;
-    public ProgressDialog connectDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,7 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
                 bluetoothSw.setChecked(true);
         bluetoothSw.setOnCheckedChangeListener(this);
 
-        connectDialog = new ProgressDialog(this);
-        connectDialog.setMessage("Connecting...");
-        connectDialog.setCancelable(false);
-        connectDialog.setButton("Cancel", (DialogInterface.OnClickListener) null);
+
 
         Button BTNlistpaireddevices = (Button) findViewById(R.id.BTNlistpaireddevices);
         BTNlistpaireddevices.setOnClickListener(this);
