@@ -1,7 +1,9 @@
 package com.project.gta.demo;
 
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -20,14 +23,15 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
     public Context context;
     public Switch bluetoothSw;
     public Button BTNconnect_bt;
+    public ProgressDialog connectDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final boolean hasBluetooth = !(BA == null);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_bluetoot_menu);
         context=this;
-        //Array für gefundene BluetoothMenu device
 
         //Bluetooth switch
         bluetoothSw = (Switch) findViewById(R.id.SWbluetooth);
@@ -36,6 +40,11 @@ public class BluetoothMenu extends AppCompatActivity implements CompoundButton.O
             if(hasBluetooth && BA.isEnabled())
                 bluetoothSw.setChecked(true);
         bluetoothSw.setOnCheckedChangeListener(this);
+
+        connectDialog = new ProgressDialog(this);
+        connectDialog.setMessage("Connecting...");
+        connectDialog.setCancelable(false);
+        connectDialog.setButton("Cancel", (DialogInterface.OnClickListener) null);
 
         Button BTNlistpaireddevices = (Button) findViewById(R.id.BTNlistpaireddevices);
         BTNlistpaireddevices.setOnClickListener(this);

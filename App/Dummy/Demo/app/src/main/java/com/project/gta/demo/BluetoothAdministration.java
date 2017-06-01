@@ -1,12 +1,16 @@
 package com.project.gta.demo;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -28,12 +32,12 @@ import java.util.concurrent.TimeUnit;
 public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     //region Variables
-    private BluetoothSocket mmSocket;
+    private BluetoothSocket mmSocket =  null;
     private BluetoothDevice mmDevice = null;
     final private byte delimiter = 33;
     private int readBufferPosition = 0;
-    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
-
+        private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
+    private boolean firstConnection =true;
     private final int KEEP_ALIVE_TIME = 1;
     // Sets the Time Unit to seconds
     private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
@@ -49,7 +53,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
     public boolean isconnected;
-    final public boolean hasBluetooth = (BA != null);
     private Handler handler = new Handler();
     private Context context;
     //endregion
@@ -81,19 +84,21 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 }
             }
         }
-
         try {
             mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(mmDevice, 3);
-            Log.e("", "connecting...");
-            mmSocket.connect();
-            Log.e("", "Connected");
-            isconnected = true;
-        } catch (Exception e) {
-            Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
-            isconnected = false;
-        }
 
+                showProgressBar(true);
+                Log.e("", "connecting...");
+                mmSocket.connect();
+                Log.e("", "Connected");
+                showProgressBar(false);
+        }
+        catch(Exception e){
+                Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
+                Thread.currentThread().interrupt();
+        }
     }
+
     public void sendBtMsg(String msg2send) {
         try {
             //msg += "\n";
@@ -104,6 +109,42 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         }
 
     }
+
+    public void dialogTimeOut(long time){
+
+       handler.postDelayed(new Runnable() {
+           @Override
+            public void run() {
+
+               if(((BluetoothMenu) context).connectDialog.isShowing()){
+                   ((BluetoothMenu) context).connectDialog.dismiss();
+                   showAlertBox(4);
+               }
+           }
+        }, time);
+    }
+
+    private void showProgressBar(boolean b){
+        if(b){
+            dialogTimeOut(10000);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ((BluetoothMenu) context).connectDialog.show();
+                }
+            });
+        }
+        else
+        {
+            handler.post(new Runnable() {
+                @Override
+                    public void run() {
+                    ((BluetoothMenu) context).connectDialog.dismiss();
+                }
+            });
+        }
+    }
+
 //  Methode, um alle laufenden Threads zu beenden
 //    public static void cancelAll() {
 //        /*
@@ -144,8 +185,9 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         @Override
         public void run() {
 
-            if (btMsg==null)
+            if (btMsg==null){
                 connect();
+                Thread.currentThread().interrupt();}
             else
                 sendBtMsg(btMsg);
 
@@ -162,8 +204,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                         Log.e("BT recv bt", "bytes available");
                         byte[] readBuffer = new byte[1024*1024];
                         mmInputStream.read(packetBytes);
-
-
                         for (int i = 0; i < bytesAvailable; i++) {
 
                             byte b = packetBytes[i];
@@ -172,7 +212,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                 System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
                                 final String data = new String(encodedBytes, "US-ASCII");
                                 readBufferPosition = 0;
-                                //The variable data now contains our full command
 
                                 handler.post(new Runnable() {
                                     @Override
@@ -183,7 +222,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             ((SinglePlantMenu) context).getButton().setText(data + '%');
 
                                             if (int_data >= 60){
-                                                ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFF02a721); //grün
+                                                ((SinglePlantMenu) context).getButton().getBackground().setColorFilter(0x02a721, PorterDuff.Mode.MULTIPLY);;//0xFF02a721); //grün
                                             }
                                             else
                                                 if (int_data < 60 && int_data > 20 ){
@@ -210,12 +249,11 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                                         (context,data,Toast.LENGTH_LONG);
                                                 toast_bt_disabled.show();
                                         }
-
                                     }
                                 });
 
-
                                 workDone = true;
+                                mmInputStream.close();
                                 break;
                             } else {
                                 readBuffer[readBufferPosition++] = b;
@@ -242,20 +280,14 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             case R.id.BTNconnect_bt:
                 if (!BA.isEnabled())
                 {
-                    isconnected = false;
                     showAlertBox(1);
                 }
                 else {
-                    if (isconnected) {
-                        showAlertBox(3);
+                     mDecodeThreadPool.execute(new workerThread());
                     }
-                    else {
-                        mDecodeThreadPool.execute(new workerThread());
-                    }
-                }
                 break;
             case R.id.BTNgetHumidity:
-                execute("refresh");
+                execute("request");
                 break;
             case R.id.BTNrefresh:
                 execute("graph");
@@ -268,7 +300,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             showAlertBox(2);
         }
         else {
-            if (isconnected) {
+            if (mmSocket.isConnected()) {
                 mDecodeThreadPool.execute(new workerThread(command));
             }
             else {
@@ -283,7 +315,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             case R.id.SWled:
 
                 if(isChecked) {
-                    if(isconnected) {
+                    if(mmSocket.isConnected()) {
                         mDecodeThreadPool.execute(new workerThread("LED on"));
                     }
                     else
@@ -293,7 +325,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                     }
                     }
                 else{
-                    if(isconnected) {
+                    if(mmSocket.isConnected()) {
                         mDecodeThreadPool.execute(new workerThread("LED off"));
                     }
                     else{
@@ -303,7 +335,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 break;
             case R.id.SWsounds:
                 if(isChecked) {
-                    if(isconnected) {
+                    if(mmSocket.isConnected()) {
                         mDecodeThreadPool.execute(new workerThread("sound on"));
                     }
                     else
@@ -313,7 +345,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                     }
                 }
                 else {
-                    if (isconnected) {
+                    if (mmSocket.isConnected()) {
                         mDecodeThreadPool.execute(new workerThread("sound off"));
                     } else {
                         showAlertBox(0);
@@ -331,17 +363,26 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 break;
 
             case 1:
-                dlgAlert.setMessage("Please enable Bluetooth in order to connect to the Pi");
+                dlgAlert.setMessage("Please enable Bluetooth in order to connect to the Pi.");
                 dlgAlert.setTitle("Bluetooth is disabled");
                 break;
             case 2:
-                dlgAlert.setMessage("Please enable Bluetooth and connect to the Pi");
+                dlgAlert.setMessage("Please enable Bluetooth and connect to the Pi.");
                 dlgAlert.setTitle("Bluetooth is disabled");
                 break;
             case 3:
-                dlgAlert.setMessage("You are already connected to th Pi");
+                dlgAlert.setMessage("You are already connected to th Pi.");
                 dlgAlert.setTitle("Error");
                 break;
+            case 4:
+                dlgAlert.setMessage("Possible reasons:\n" +
+                        "- there is already a connection\n" +
+                        "- the devices are not paired with each other\n" +
+                        "- the script on the pi is not running\n" +
+                        "If you checked all points above try restarting the app");
+                dlgAlert.setTitle("Connection Timeout");
+            break;
+
         }
 
         dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
