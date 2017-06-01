@@ -95,7 +95,7 @@
         <item>@drawable/Plant6</item>
     </string>
 
-<!-- Graph -->
+    <!-- Graph -->
     <string name="ViewGraph">View Graph</string>
     <string name="hours24">24 h</string>
     <string name="days3">3 days</string>
@@ -103,5 +103,7 @@
     <string name="showCourse">show course of</string>
     <string name="optimal">optimal</string>
 
+    <!--PlantSelect/MyPlants-->
+    <string name="MyPlants">MyPlants</string>
 
 </resources>
