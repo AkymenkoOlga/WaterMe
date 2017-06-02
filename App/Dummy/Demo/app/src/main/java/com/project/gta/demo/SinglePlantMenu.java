@@ -12,7 +12,7 @@ import static com.project.gta.demo.R.id.BTNgetHumidity;
 public class SinglePlantMenu extends AppCompatActivity implements View.OnClickListener {
 
     private Button getHumidityB;
-
+    private String val;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +21,7 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         Button graphB = (Button) findViewById(R.id.BTNgraph);
         getHumidityB = (Button) findViewById(BTNgetHumidity);
         getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
-        getHumidityB.setText("N/V");
+        getHumidityB.setText(val);
         graphB.setOnClickListener(this);
     }
 
@@ -29,6 +29,10 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         return getHumidityB;
     }
 
+    public void setText(String text){
+        val = text;
+        getHumidityB.setText(text);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -43,5 +47,7 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         //Context has to be set again.
         getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
+        getHumidityB.setText(val);
+
     }
 }

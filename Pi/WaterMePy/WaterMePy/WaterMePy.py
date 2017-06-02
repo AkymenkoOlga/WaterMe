@@ -38,6 +38,12 @@ class BluetoothManager:
             self.oled.showtext('connected')
             while 1:
                 data = client.recv(self.size)
+                if data == 'alarm on':
+                    self.controller.setBeepEnable(True) 
+                    print('alarm on')                   
+                if data == 'alarm off':
+                    self.controller.setBeepEnable(False) 
+                    print('alarm off')
                 if data == "LED on":
                     self.controller.startLedControl()
                     client.send('LEDs on!')
@@ -46,16 +52,12 @@ class BluetoothManager:
                     client.send('LEDs off!')
                 if data == "graph":
                     btmsg = self.controller.readFromFile()
-                    client.send(btmsg + '!')
+                    client.send('begin\n' + btmsg + '!')
                     print('sent:\n' + btmsg)
                 if data == "request":
                     try:
                         val = self.controller.readChannel(0)
-                        if (val != 0):
-                            final = int(round(100 - val/1020.0*100))
-                        if (val == 0):
-                            final = 100
-                        client.send(str(final) + '!')
+                        client.send('begin' + str(val) + '!')
                     except KeyboardInterrupt:
                         print ('Cancel')
         except:
