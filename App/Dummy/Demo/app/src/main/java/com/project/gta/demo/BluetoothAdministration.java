@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -60,7 +62,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private Context context;
     private ProgressDialog connectDialog;
     private Toast toast;
-    private static final String FILENAME = "Values.txt";
+
     private volatile boolean keeprunning;
     //endregion
 
@@ -246,30 +248,17 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                             for(int i = 0; i < data.length(); i++) {
                                                 if (Character.isDigit(data.charAt(i))) {
                                                     newString = data.substring(i);
-
-                                                    ((SinglePlantMenu) context).setText(newString + '%');
                                                     break;
                                                 }
                                             }
-                                            int int_data = Integer.parseInt(newString);
-                                            Drawable green = context.getResources().getDrawable(R.drawable.buttonshape_green);
-                                            Drawable yellow = context.getResources().getDrawable(R.drawable.buttonshape_yellow);
-                                            Drawable red = context.getResources().getDrawable(R.drawable.buttonshape_red);
-
-                                            if (int_data >= 60){
-                                                ((SinglePlantMenu) context).getButton().setBackgroundDrawable(green); //grün
-                                            }
-                                            else
-                                                if (int_data < 60 && int_data > 20 ){
-                                                    ((SinglePlantMenu) context).getButton().setBackgroundDrawable(yellow);; //gelb
-                                                }
-                                                else{
-                                                    ((SinglePlantMenu) context).getButton().setBackgroundDrawable(red); //rot
-                                                }
+                                            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                                            writeToFile(currentDateTimeString + "\n" + newString,"CurrentValue.txt", context);
+                                            ((SinglePlantMenu) context).readData();
                                         }
                                         if(context instanceof HumidityGraph) {
-                                            writeToFile(data, context);
+                                            writeToFile(data,"Values.txt", context);
                                             ((HumidityGraph) context).refreshGraph();
+                                            showToast("graph refreshed");
                                         }
                                     }
                                 });
@@ -301,11 +290,13 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
 
     }
 
-    private void writeToFile(String text, Context c) {
+    private void writeToFile(String text, String FILENAME, Context c) {
         try (
                 FileOutputStream stream = c.openFileOutput(FILENAME, MODE_PRIVATE);
                 OutputStreamWriter osw = new OutputStreamWriter(stream)) {
                 osw.write(text);
+                osw.close();
+                stream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }

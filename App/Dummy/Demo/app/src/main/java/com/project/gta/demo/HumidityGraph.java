@@ -125,9 +125,13 @@ public class HumidityGraph extends AppCompatActivity{
                     extractData(s);
                 }
             }
+            fis.close();
+            isr.close();
+            br.close();
         } catch (IOException t) {
             Log.e("", "load()", t);
         }
+
     }
 
     public void extractData(String line) {
