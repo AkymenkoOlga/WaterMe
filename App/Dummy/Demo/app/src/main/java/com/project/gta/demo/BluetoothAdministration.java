@@ -9,6 +9,7 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
@@ -17,10 +18,12 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import java.io.OutputStreamWriter;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -36,7 +39,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private BluetoothDevice mmDevice = null;
     final private byte delimiter = 33;
     private int readBufferPosition = 0;
-        private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
+    private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
     private boolean firstConnection =true;
     private final int KEEP_ALIVE_TIME = 1;
     // Sets the Time Unit to seconds
@@ -52,11 +55,13 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     private static BluetoothAdministration _instance = null;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     public BluetoothAdapter BA = BluetoothAdapter.getDefaultAdapter();
-    public boolean isconnected= false;
+    public volatile boolean isconnected = false;
     private Handler handler = new Handler();
     private Context context;
     private ProgressDialog connectDialog;
     private Toast toast;
+    private static final String FILENAME = "Values.txt";
+    private volatile boolean keeprunning;
     //endregion
 
 
@@ -69,11 +74,10 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
     }
     private BluetoothAdministration(Context activityContext) {
         context = activityContext;
-        initializeSocket();
     }
     //endregion
 
-    private void initializeSocket(){
+    public void connect() {
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -88,31 +92,22 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 }
             }
         }
-        try {
-            mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(mmDevice, 3);
-        }
-        catch(Exception e){
-            Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
-        }
-    }
-
-    public void connect() {
 
         try {
-            if (!isconnected){
-                showProgressBar(true);
-                Log.e("", "connecting...");
-                mmSocket.connect();
-                Log.e("", "Connected");
-                isconnected = true;
-                showProgressBar(false);
-                mDecodeThreadPool.execute(new checkConnectionState());
-                showToast("Connected");
-            }
+             mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(mmDevice, 3);
+             showProgressBar(true);
+             Log.e("", "connecting...");
+             mmSocket.connect();
+             Log.e("", "Connected");
+             isconnected = true;
+             showProgressBar(false);
+             mDecodeThreadPool.execute(new checkConnectionState());
+             showToast("Connected");
+
         }
         catch(Exception e){
                 Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
-                Thread.currentThread().interrupt();
+                keeprunning = false;
         }
     }
 
@@ -140,11 +135,13 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
            }
         }, time);
 
+
     }
 
     private void showProgressBar(boolean b){
 
         if(b){
+            keeprunning = true;
             dialogTimeOut(10000);
             handler.post(new Runnable() {
                 @Override
@@ -152,7 +149,13 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                     connectDialog = new ProgressDialog(context);
                     connectDialog.setMessage("Connecting...");
                     connectDialog.setCancelable(false);
-                    connectDialog.setButton("Cancel", (DialogInterface.OnClickListener) null);
+                    connectDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            keeprunning = false;
+                        }
+                    });
                     connectDialog.show();
                 }
             });
@@ -168,7 +171,7 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         }
     }
 
-//  Methode, um alle laufenden Threads zu beenden
+ //Methode, um alle laufenden Threads zu beenden
     public static void cancelAll() {
         /*
          * Creates an array of Runnables that's the same size as the
@@ -199,20 +202,20 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
 
         private String btMsg;
 
-        workerThread(){
-            btMsg = null;}
-
         workerThread(String msg) {
             btMsg = msg;
         }
         @Override
         public void run() {
-            connect();
-            if (!(btMsg == null)){
+            if (!isconnected) {
+                connect();
+            }
+
+            if (!(btMsg == null) && keeprunning){
                 sendBtMsg(btMsg);
                 }
 
-            while (!Thread.currentThread().isInterrupted() || (!isconnected)) {
+            while (keeprunning) {
                 int bytesAvailable;
                 boolean workDone = false;
 
@@ -239,54 +242,73 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                                     public void run() {
                                         if (context instanceof SinglePlantMenu)
                                         {
-                                            int int_data = Integer.parseInt(data);
-                                            ((SinglePlantMenu) context).getButton().setText(data + '%');
+                                            String newString = "";
+                                            for(int i = 0; i < data.length(); i++) {
+                                                if (Character.isDigit(data.charAt(i))) {
+                                                    newString = data.substring(i);
+
+                                                    ((SinglePlantMenu) context).setText(newString + '%');
+                                                    break;
+                                                }
+                                            }
+                                            int int_data = Integer.parseInt(newString);
+                                            Drawable green = context.getResources().getDrawable(R.drawable.buttonshape_green);
+                                            Drawable yellow = context.getResources().getDrawable(R.drawable.buttonshape_yellow);
+                                            Drawable red = context.getResources().getDrawable(R.drawable.buttonshape_red);
 
                                             if (int_data >= 60){
-                                                ((SinglePlantMenu) context).getButton().getBackground().setColorFilter(0x02a721, PorterDuff.Mode.MULTIPLY);;//0xFF02a721); //grün
+                                                ((SinglePlantMenu) context).getButton().setBackgroundDrawable(green); //grün
                                             }
                                             else
                                                 if (int_data < 60 && int_data > 20 ){
-                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFFFD700); //gelb
+                                                    ((SinglePlantMenu) context).getButton().setBackgroundDrawable(yellow);; //gelb
                                                 }
                                                 else{
-                                                    ((SinglePlantMenu) context).getButton().setBackgroundColor(0xFFCD2626); //rot
+                                                    ((SinglePlantMenu) context).getButton().setBackgroundDrawable(red); //rot
                                                 }
                                         }
                                         if(context instanceof HumidityGraph) {
-                                            FileManager fileManager = FileManager.getInstance();
-
-                                            //write values to file
-                                            fileManager.writeToFile(data, context.getFilesDir());
-                                            //read values from file
-                                            fileManager.readData(context.getFilesDir());
-                                            //display text in TextView
+                                            writeToFile(data, context);
                                             ((HumidityGraph) context).refreshGraph();
                                         }
                                     }
                                 });
 
                                 workDone = true;
-
                                 break;
                             } else {
                                 readBuffer[readBufferPosition++] = b;
                             }
                         }
                         if (workDone ) {
-                               Thread.currentThread().interrupt();
+                               keeprunning = false;
                          }
                     }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     try{
-                    mmSocket.close();} catch(Exception ex){Log.e("", ex.toString());}
+                        mmSocket.close();
+                    }
+                    catch(Exception ex)
+                    {
+                        Log.e("", ex.toString());
+                    }
                 }
             }
 
         }
 
+    }
+
+    private void writeToFile(String text, Context c) {
+        try (
+                FileOutputStream stream = c.openFileOutput(FILENAME, MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(stream)) {
+                osw.write(text);
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 
     public void showToast(final String text){
@@ -313,8 +335,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 break;
         }
     }
-
-
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
@@ -345,9 +365,11 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             return;
         }
         else {
+            keeprunning = true;
             mDecodeThreadPool.execute(new workerThread(command));
         }
     }
+
     private void showAlertBox(int i){
         AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
         switch(i) {
@@ -355,7 +377,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
                 dlgAlert.setMessage("Please establish a Bluetooth connection to the Pi in the settings.");
                 dlgAlert.setTitle("No Connection to Pi");
                 break;
-
             case 1:
                 dlgAlert.setMessage("Please enable Bluetooth");
                 dlgAlert.setTitle("Bluetooth is disabled");
