@@ -2,6 +2,7 @@ import socket
 import sys
 import oled
 import Controller
+from thread import allocate_lock
 
 class BluetoothManager:
 
@@ -11,6 +12,7 @@ class BluetoothManager:
     size = 1024
     controller = Controller.Controller(3600)
     oled = oled.Oled()
+    lock = allocate_lock()
 
     def __init__(self):
         refreshRate = 0
@@ -31,7 +33,7 @@ class BluetoothManager:
         s.listen(self.backlog)
         self.oled.showtext('wait for clients')
         print ('Waiting for connection on RFCOMM channel %d' % self.port)
-
+      
         try:
             client, address = s.accept()
             print "Accepted connection from", address
@@ -51,9 +53,7 @@ class BluetoothManager:
                     self.controller.stopLedControl()
                     client.send('LEDs off!')
                 if data == "graph":
-                    btmsg = self.controller.readFromFile()
-                    client.send('begin\n' + btmsg + '!')
-                    print('sent:\n' + btmsg)
+                    self.sendValues(client)
                 if data == "request":
                     try:
                         val = self.controller.readChannel(0)
@@ -68,7 +68,25 @@ class BluetoothManager:
             s.close()
             self.btlisten()
             return
-     
+
+
+    def sendValues(self, client):
+        self.lock.acquire()
+        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")        
+        for line in fobj:
+            client.send('begin'+ line + '!')
+            print('send: '+ line)
+            data = client.recv(1024)
+            if (not (data == "next")):
+                print('Error in transmission')
+                return
+        client.send('YYY!') #EOT       
+        fobj.close()
+        self.lock.release()
+       
+        print('End of Transmission')
+        return     
+
 if __name__ == "__main__":
     btmgr = BluetoothManager()
     btmgr.btlisten()

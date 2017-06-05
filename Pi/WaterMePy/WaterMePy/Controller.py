@@ -27,7 +27,7 @@ class Controller:
 
     def startLedControl(self):
         start_new_thread(self.ledControl,())
-        print("LEDs on and LED Thread started")
+        print("LEDs on and LED Thread started\n")
         return
 
     def stopLedControl(self):
@@ -41,7 +41,7 @@ class Controller:
 
         self.ThreadLed = True
         self.beepInhibit = 0
-
+        self.readChannel(0)
         while self.ThreadLed:
             #green
             if (self.currentHumidity >= 60):
@@ -132,16 +132,6 @@ class Controller:
         fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt","a")
         fobj.write(myString)
         fobj.close()
-        self.lock.release()
-
-    def readFromFile(self):
-        dataString = ""
-        self.lock.acquire()
-        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
-        for line in fobj:
-            dataString = dataString + line
-        fobj.close()
-        self.lock.release()
-        return dataString
+        self.lock.release() 
     
 

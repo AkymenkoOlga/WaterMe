@@ -138,12 +138,14 @@ public class HumidityGraph extends AppCompatActivity{
                 // ggf. Zeilenumbruch hinzufügen
                 if (!Character.isDigit(s.charAt(0))) {
 
-                } else {
+                }
+                else {
                     if (sb.length() > 0) {
                         sb.append('\n');
                     }
                     sb.append(s);
                     extractData(s);
+
                 }
             }
             fis.close();

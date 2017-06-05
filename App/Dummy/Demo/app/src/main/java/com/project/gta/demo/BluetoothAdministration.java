@@ -166,7 +166,11 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
             handler.post(new Runnable() {
                 @Override
                     public void run() {
-                    connectDialog.dismiss();
+                    try{
+                    connectDialog.dismiss();}
+                    catch(Exception exe){
+                        Log.e("", exe.toString());
+                    }
                 }
             });
         }
@@ -215,7 +219,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
             if (!(btMsg == null) && keeprunning){
                 sendBtMsg(btMsg);
                 }
-
+            StringBuilder sb = new StringBuilder();
             while (keeprunning) {
                 int bytesAvailable;
                 boolean workDone = false;
@@ -227,8 +231,10 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                     if (bytesAvailable > 0) {
                         byte[] packetBytes = new byte[bytesAvailable];
                         Log.e("BT recv bt", "bytes available");
-                        byte[] readBuffer = new byte[1024*1024];
+                        byte[] readBuffer = new byte[1024];
                         mmInputStream.read(packetBytes);
+
+
                         for (int i = 0; i < bytesAvailable; i++) {
 
                             byte b = packetBytes[i];
@@ -254,23 +260,47 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                             writeToFile(currentDateTimeString + "\n" + newString,"CurrentValue.txt", context);
                                             ((SinglePlantMenu) context).readData();
                                         }
-                                        if(context instanceof HumidityGraph) {
-                                            writeToFile(data,"Values.txt", context);
-                                            ((HumidityGraph) context).refreshGraph();
-                                            showToast("graph refreshed");
-                                        }
                                     }
                                 });
 
-                                workDone = true;
+                                if (context instanceof HumidityGraph){
+
+                                    if(data.substring(0,1).equals("Y")) {
+                                        workDone = true;
+                                        writeToFile(sb.toString(), "Values.txt", context);
+
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                               ((HumidityGraph) context).refreshGraph();
+                                                showToast("graph refreshed");
+                                            }
+                                        });
+                                        break;
+                                    }
+
+                                    for(int k = 0; k < data.length(); k++) {
+                                        if(Character.isDigit(data.charAt(k))){
+                                            sb.append(data.substring(k));
+                                            break;
+                                        }
+                                    }
+                                    sendBtMsg("next");
+                                }
+                                else
+                                {
+                                    workDone = true;
+                                }
                                 break;
-                            } else {
+                            }
+                            else {
                                 readBuffer[readBufferPosition++] = b;
                             }
                         }
+
                         if (workDone ) {
                                keeprunning = false;
-                         }
+                        }
                     }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
