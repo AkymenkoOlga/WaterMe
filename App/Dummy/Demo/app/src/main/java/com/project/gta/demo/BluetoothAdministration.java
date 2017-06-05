@@ -31,10 +31,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Paul on 29.11.2016.
  */
-public class BluetoothAdministration extends BluetoothMenu implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class BluetoothAdministration implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     //region Variables
     private BluetoothSocket mmSocket ;
@@ -287,7 +290,6 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             }
 
         }
-
     }
 
     private void writeToFile(String text, String FILENAME, Context c) {
@@ -312,12 +314,10 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
             }
         });
     }
+
     @Override
     public  void onClick(View v){
         switch(v.getId()) {
-            case R.id.BTNconnect_bt:
-                execute(null);
-                break;
             case R.id.BTNgetHumidity:
                 execute("request");
                 break;
@@ -353,6 +353,11 @@ public class BluetoothAdministration extends BluetoothMenu implements View.OnCli
         if (!BA.isEnabled())
         {
             showAlertBox(1);
+            if (context instanceof SettingsMenu)
+            {
+                ((SettingsMenu) context).SWled.setChecked(false);
+                ((SettingsMenu) context).SWsounds.setChecked(false);
+            }
             return;
         }
         else {

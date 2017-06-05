@@ -16,6 +16,7 @@
         <activity
             android:name=".MainMenu"
             android:icon="@drawable/logo_waterme_300x300"
+            android:screenOrientation="portrait"
             android:label="WaterMe">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,42 +27,37 @@
         <activity
             android:name=".SettingsMenu"
             android:label="@string/settings"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
-        <activity
-            android:name=".WifiMenu"
-            android:label="@string/raspberry_wifi"
-            android:parentActivityName=".SettingsMenu" />
         <activity
             android:name=".PlantMenu"
             android:label="@string/plant_menu"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
         <activity
             android:name=".HelpMenu"
             android:label="@string/help_menu"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
         <activity
             android:name=".about"
             android:label="@string/about"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
-        <activity
-            android:name=".BluetoothMenu"
-            android:label="@string/bluetooth"
-            android:parentActivityName=".SettingsMenu" />
-        <activity
-            android:name=".ListPairedDevicesActivity"
-            android:label="@string/enable_bluetooth"
-            android:parentActivityName=".BluetoothMenu" />
         <activity
             android:name=".WVaskus"
             android:label="@string/AskUs"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HelpMenu" />
         <activity
             android:name=".SinglePlantMenu"
             android:label="@string/MyPlant"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
         <activity
             android:name=".HumidityGraph"
             android:label="@string/graph"
+            android:screenOrientation="portrait"
             android:parentActivityName=".SinglePlantMenu" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
