@@ -14,9 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name=".MainMenu"
             android:icon="@drawable/logo_waterme_300x300"
-            android:screenOrientation="portrait"
             android:label="WaterMe">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

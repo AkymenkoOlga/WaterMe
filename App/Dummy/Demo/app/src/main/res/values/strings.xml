@@ -103,6 +103,7 @@
     <string name="showCourse">show course of</string>
     <string name="optimal">optimal</string>
     <string name="alarm">Alarm</string>
+    <string name="changescale">Change scale</string>
 
 
 </resources>

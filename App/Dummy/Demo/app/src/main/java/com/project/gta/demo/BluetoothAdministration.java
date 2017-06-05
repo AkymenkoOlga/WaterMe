@@ -1,6 +1,5 @@
 package com.project.gta.demo;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -8,10 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
