@@ -40,6 +40,15 @@ dependencies {
     compile 'me.alb-i986.cucumber:cucumber-java-junit-archetype:1.2.4'
 }
 
-dependencies{
+dependencies {
+    compile 'com.android.support:design:24.+'
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.6.3'
 }
