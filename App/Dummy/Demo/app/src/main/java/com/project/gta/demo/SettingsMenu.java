@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class SettingsMenu extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class SettingsMenu extends AppCompatActivity implements View.OnClickListener/*, CompoundButton.OnCheckedChangeListener*/ {
 
     public Switch SWsounds;
     public Switch SWled;
@@ -21,10 +21,10 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_settings_menu);
 
         //Button definition for this class
-        Button raspberrywifiB = (Button) findViewById(R.id.BTNraspberrywifi);
+        //Button raspberrywifiB = (Button) findViewById(R.id.BTNraspberrywifi);
         Button bluetoothB = (Button) findViewById(R.id.BTNbluetooth);
         SWled = (Switch) findViewById(R.id.SWled);
-        Switch SWnotification = (Switch) findViewById(R.id.SWnotifications);
+        //Switch SWnotification = (Switch) findViewById(R.id.SWnotifications);
         SWsounds = (Switch) findViewById(R.id.SWsounds);
         //=====================================
 
@@ -33,10 +33,10 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
         OnClickListener verwendet */
 
         //SetOnListener
-        raspberrywifiB.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity
+        //raspberrywifiB.setOnClickListener(this); //this = Refernez aufs aktuelle Object -> die laufende Activity
         bluetoothB.setOnClickListener(this);
         SWled.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
-        SWnotification.setOnCheckedChangeListener(this);
+        //SWnotification.setOnCheckedChangeListener(this);
         SWsounds.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
         //===============================
 
@@ -60,15 +60,12 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case (R.id.BTNraspberrywifi):
-                startActivity(new Intent(this, WifiMenu.class));
-                break;
             case (R.id.BTNbluetooth):
                 startActivity(new Intent(this, BluetoothMenu.class));
                 break;
         }
     }
-
+/*
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -84,5 +81,5 @@ public class SettingsMenu extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
-    }
+    }*/
 }
