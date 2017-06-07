@@ -3,12 +3,12 @@ package com.project.gta.demo;
 
 
 public class Plant {
-    public double humidity;
     public String name;
+    public String plantImagePath;
 
-    public void plant(String Name, double Humidity){
+    public Plant(String Name, String PlantImagePath){
         name = Name;
-        humidity = Humidity;
+        plantImagePath = PlantImagePath;
     }
 
 
