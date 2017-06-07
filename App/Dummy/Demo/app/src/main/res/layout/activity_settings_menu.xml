@@ -60,10 +60,10 @@
                 android:gravity="end" />
 
             <TextView
-                android:text="@string/sounds"
+                android:text="@string/alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView3"
+                android:id="@+id/TXTalarm"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" />
@@ -89,26 +89,29 @@
                 android:id="@+id/SWled"
                 android:layout_gravity="center_vertical|end"
                 android:checked="false" />
+
         </FrameLayout>
 
-        <Button
-            android:text="@string/raspberry_wifi"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/BTNraspberrywifi"
-            android:background="@android:color/transparent"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:textAlignment="textStart"
-            android:textSize="22sp" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:text="@string/bluetooth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/BTNbluetooth"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:gravity="center_vertical"
-            android:background="@android:color/transparent" />
+            <TextView
+                android:text="@string/bluetooth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TXTbluetooth"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:id="@+id/SWbluetooth" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
