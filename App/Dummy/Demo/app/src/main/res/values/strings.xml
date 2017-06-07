@@ -102,6 +102,9 @@
     <string name="week1">1 week</string>
     <string name="showCourse">show course of</string>
     <string name="optimal">optimal</string>
+    <string name="alarm">Alarm</string>
+    <string name="changescale">Change scale</string>
+    <string name="clickme">Click me</string>
 
     <!--PlantSelect/MyPlants-->
     <string name="MyPlants">MyPlants</string>

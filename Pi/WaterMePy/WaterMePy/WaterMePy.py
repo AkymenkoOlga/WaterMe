@@ -2,6 +2,8 @@ import socket
 import sys
 import oled
 import Controller
+from thread import allocate_lock
+import time
 
 class BluetoothManager:
 
@@ -11,6 +13,7 @@ class BluetoothManager:
     size = 1024
     controller = Controller.Controller(3600)
     oled = oled.Oled()
+    lock = allocate_lock()
 
     def __init__(self):
         refreshRate = 0
@@ -35,10 +38,15 @@ class BluetoothManager:
         try:
             client, address = s.accept()
             print "Accepted connection from", address
-            client.send('Connection successfull!')
             self.oled.showtext('connected')
             while 1:
                 data = client.recv(self.size)
+                if data == 'alarm on':
+                    self.controller.setBeepEnable(True)
+                    print('alarm on')
+                if data == 'alarm off':
+                    self.controller.setBeepEnable(False)
+                    print('alarm off')
                 if data == "LED on":
                     self.controller.startLedControl()
                     client.send('LEDs on!')
@@ -46,17 +54,12 @@ class BluetoothManager:
                     self.controller.stopLedControl()
                     client.send('LEDs off!')
                 if data == "graph":
-                    btmsg = self.controller.readFromFile()
-                    client.send(btmsg + '!')
-                    print('send:\n' + btmsg)
+                    client.send('#total' + str(getNumberOfLines()) + '!')
+                    self.sendValues(client)
                 if data == "request":
                     try:
                         val = self.controller.readChannel(0)
-                        if (val != 0):
-                            final = int(round(100 - val/1020.0*100))
-                        if (val == 0):
-                            final = 100
-                        client.send(str(final) + '!')
+                        client.send('begin' + str(val) + '!')
                     except KeyboardInterrupt:
                         print ('Cancel')
         except:
@@ -67,20 +70,45 @@ class BluetoothManager:
             s.close()
             self.btlisten()
             return
-     
+
+    def sendValues(self, client):
+        data = client.recv(1024)
+
+        if (not (data == "next")):
+            print('Error in transmission')
+            return
+        print('next received\n')
+
+        self.lock.acquire()
+        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
+        for line in fobj:
+            client.send('#'+ line + '!')
+            print('send: '+ line)
+            data = client.recv(1024)
+            if (not (data == "next")):
+                print('Error in transmission')
+                return
+        client.send('#EOT!')
+        fobj.close()
+        self.lock.release()
+
+        print('End of Transmission')
+        return
+		
+def getNumberOfLines():
+    lock = allocate_lock()
+    lineCounter = 0
+    lock.acquire()
+    fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
+    for line in fobj:
+        lineCounter = lineCounter + 1
+    fobj.close()
+    lock.release()
+    print('Total Lines: ' + str(lineCounter))
+    return lineCounter
+
+
 if __name__ == "__main__":
     btmgr = BluetoothManager()
     btmgr.btlisten()
-
-
-
-
-
-
-
-
-
-
-
-
 
