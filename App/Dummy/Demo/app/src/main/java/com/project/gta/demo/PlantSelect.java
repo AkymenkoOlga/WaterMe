@@ -18,37 +18,35 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PlantSelect extends AppCompatActivity implements View.OnClickListener{
+import com.google.gson.Gson;
 
+public class PlantSelect extends AppCompatActivity implements View.OnClickListener{
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    private String PlantName;
     private static int LOAD_IMAGE_RESULTS = 1;
     private String imgpath;
 
-    private String alertText = "";
-    private String alertImage = "";
-    public int PlantID;
+    private String plantName = "";
+    private String plantImage = "";
 
-    private ImageView image;
-    private FloatingActionButton fabEdit;
-    private FloatingActionButton fabCheck;
-    private TextView tvplant1;
-
+    public static int id;
     //plants
     public Plant plant1;
     public Plant plant2;
@@ -59,6 +57,17 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
     private LinearLayout layout2;
     private LinearLayout layout3;
     private LinearLayout layout4;
+
+    private ImageView image1;
+    private ImageView image2;
+    private ImageView image3;
+    private ImageView image4;
+
+    private TextView tvplant1;
+    private TextView tvplant2;
+    private TextView tvplant3;
+    private TextView tvplant4;
+    public static SharedPreferences  mPrefs;
 
     //Actionbar
     @Override
@@ -74,36 +83,80 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_select);
+        mPrefs = getPreferences(MODE_PRIVATE);
 
-        tvplant1 = (TextView) findViewById(R.id.tvPlant1);
-        tvplant1.setText(readDataPlant1("text"));
+        ImageButton del1 = (ImageButton) findViewById(R.id.btnDel1);
+        del1.setOnClickListener(this);
+        ImageButton del2 = (ImageButton) findViewById(R.id.btnDel2);
+        del2.setOnClickListener(this);
+        ImageButton del3 = (ImageButton) findViewById(R.id.btnDel3);
+        del3.setOnClickListener(this);
+        ImageButton del4 = (ImageButton) findViewById(R.id.btnDel4);
+        del4.setOnClickListener(this);
 
-        fabEdit = (FloatingActionButton) findViewById(R.id.FABplantEdit);
-        fabEdit.setOnClickListener(this);
-        fabCheck = (FloatingActionButton) findViewById(R.id.FABedit_plant_check);
-        fabCheck.setOnClickListener(this);
 
-
-        //Init Layouts
-        LinearLayout editName = (LinearLayout) findViewById(R.id.EditName);
-        editName.setVisibility(View.GONE);
-        layout1 = (LinearLayout) findViewById(R.id.LayoutPlants);
+        //Init Layout
+        layout1 = (LinearLayout) findViewById(R.id.LayoutPlants1);
         layout2 = (LinearLayout) findViewById(R.id.LayoutPlants2);
         layout3 = (LinearLayout) findViewById(R.id.LayoutPlants3);
         layout4 = (LinearLayout) findViewById(R.id.LayoutPlants4);
 
+        tvplant1 = (TextView) findViewById(R.id.tvPlant1);
+        tvplant2 = (TextView) findViewById(R.id.tvPlant2);
+        tvplant3 = (TextView) findViewById(R.id.tvPlant3);
+        tvplant4 = (TextView) findViewById(R.id.tvPlant4);
 
-        image = (ImageView) findViewById(R.id.image);
-        image.setOnClickListener(this);
+        image1 = (ImageView) findViewById(R.id.image1);
+        image2 = (ImageView) findViewById(R.id.image2);
+        image3 = (ImageView) findViewById(R.id.image3);
+        image4 = (ImageView) findViewById(R.id.image4);
 
+        tvplant1.setOnClickListener(this);
+        tvplant2.setOnClickListener(this);
+        tvplant3.setOnClickListener(this);
+        tvplant4.setOnClickListener(this);
+
+        image1.setOnClickListener(this);
+        image2.setOnClickListener(this);
+        image3.setOnClickListener(this);
+        image4.setOnClickListener(this);
+
+        retrieve();
         verifyStoragePermissions(this);
 
-        if(readDataPlant1("image") != ""){
-            image.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(readDataPlant1("image")),350,350,false));
-        }
     }
 
-
+    private void retrieve(){
+        Gson gson = new Gson();
+        String json = mPrefs.getString("plant1", "");
+        plant1 = gson.fromJson(json, Plant.class);
+        if (plant1 != null) {
+            layout1.setVisibility(View.VISIBLE);
+            tvplant1.setText(plant1.name);
+            setImage(plant1.plantImagePath, image1);
+        }
+        json = mPrefs.getString("plant2", "");
+        plant2 = gson.fromJson(json, Plant.class);
+        if (plant2 != null) {
+            layout2.setVisibility(View.VISIBLE);
+            tvplant2.setText(plant2.name);
+            setImage(plant2.plantImagePath, image2);
+        }
+        json = mPrefs.getString("plant3", "");
+        plant3 = gson.fromJson(json, Plant.class);
+        if (plant3 != null) {
+            layout3.setVisibility(View.VISIBLE);
+            tvplant3.setText(plant3.name);
+            setImage(plant3.plantImagePath, image3);
+        }
+        json = mPrefs.getString("plant4", "");
+        plant4 = gson.fromJson(json, Plant.class);
+        if (plant4 != null) {
+            layout4.setVisibility(View.VISIBLE);
+            tvplant4.setText(plant4.name);
+            setImage(plant4.plantImagePath, image4);
+        }
+    }
     //Storage Permission for Android API23+
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
@@ -131,7 +184,7 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
             cursor.moveToFirst();
             String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
             //writeImagePlant1(imagePath);
-            alertImage = imagePath;
+            plantImage = imagePath;
 
             cursor.close();
 
@@ -144,83 +197,62 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvPlant1:
+                id = 1;
                 startActivity(new Intent(this,SinglePlantMenu.class));
                 break;
-            /*case R.id.FABplantEdit:
-                LinearLayout editName = (LinearLayout) findViewById(R.id.EditName);
-                editName.setVisibility(View.VISIBLE);
-
-                FloatingActionButton fabEditHide = (FloatingActionButton) findViewById(R.id.FABplantEdit);
-                fabEditHide.setVisibility(View.INVISIBLE);
+            case R.id.tvPlant2:
+                id = 2;
+                startActivity(new Intent(this,SinglePlantMenu.class));
                 break;
-            case R.id.FABedit_plant_check:
-                writeDataPlant1();
-                readDataPlant1("text");
-                LinearLayout checkName = (LinearLayout) findViewById(R.id.EditName);
-                checkName.setVisibility(View.GONE);
-
-                tvplant1.setText(readDataPlant1("text"));
-
-                fabEdit.setVisibility(View.VISIBLE);*/
-            case R.id. image:
-                callGallery();
+            case R.id.tvPlant3:
+                id = 3;
+                startActivity(new Intent(this,SinglePlantMenu.class));
+                break;
+            case R.id.tvPlant4:
+                id = 4;
+                startActivity(new Intent(this,SinglePlantMenu.class));
+                break;
+            case R.id.image1:
+                id = 1;
+                startActivity(new Intent(this, SinglePlantMenu.class));
+                break;
+            case R.id.image2:
+                id = 2;
+                startActivity(new Intent(this, SinglePlantMenu.class));
+                break;
+            case R.id.image3:
+                id = 3;
+                startActivity(new Intent(this, SinglePlantMenu.class));
+                break;
+            case R.id.image4:
+                id = 4;
+                startActivity(new Intent(this, SinglePlantMenu.class));
+                break;
+            case R.id.btnDel1:
+                delete(plant1,"plant1");
+                layout1.setVisibility(View.GONE);
+                break;
+            case R.id.btnDel2:
+                delete(plant2,"plant2");
+                layout2.setVisibility(View.GONE);
+                break;
+            case R.id.btnDel3:
+                delete(plant3,"plant3");
+                layout3.setVisibility(View.GONE);
+                break;
+            case R.id.btnDel4:
+                delete(plant4,"plant4");
+                layout4.setVisibility(View.GONE);
+                break;
             default:
                 //Nothing
         }
-
     }
 
     public void callGallery(){
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, LOAD_IMAGE_RESULTS);
     }
-
-    public void writeDataPlant1() {
-        SharedPreferences pref = getSharedPreferences("Plant1", 0);
-        SharedPreferences.Editor editor = pref.edit();
-        EditText textPlant1 = (EditText) findViewById(R.id.editText);
-        PlantName = textPlant1.getText().toString().trim();
-        if (!PlantName.equals("")) {
-            editor.putString("Plant1Name", PlantName);
-            editor.apply();
-        }
-    }
-
-    //Plant1
-    public void writeImagePlant1(String img){
-        SharedPreferences pref = getSharedPreferences("Plant1", 0);
-        SharedPreferences.Editor editor = pref.edit();
-        imgpath = img;
-        if (!imgpath.equals("")) {
-            editor.putString("Plant1Image", imgpath);
-            editor.apply();
-        }
-    }
-
-    public void writeImagePlant(Plant plant){
-        SharedPreferences pref = getSharedPreferences("Plant", 0);
-        SharedPreferences.Editor editor = pref.edit();
-
-        if (plant != null) {
-            editor.putString("Plant1Image", imgpath);
-            editor.apply();
-        }
-    }
-
-    private String readDataPlant1(String string) {
-        if(string.equals("text")) {
-            SharedPreferences pref = getSharedPreferences("Plant1", 0);
-            return pref.getString("Plant1Name", "MyPlant"); //2.Param = Default, falls k
-        }
-        if (string.equals("image"))
-        {
-            SharedPreferences pref = getSharedPreferences("Plant1",0);
-            return pref.getString("Plant1Image", "");
-        }
-        return "";
-    }
-
-
 
     //Actionbar
     @Override
@@ -245,39 +277,72 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
         return true;
     }
 
+    private void save(Plant plant, String name){
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(plant);
+        prefsEditor.putString(name, json);
+        prefsEditor.commit();
+    }
+
+    private void delete(Plant plant ,String name){
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString(name, null);
+        prefsEditor.apply();
+        plant = null;
+    }
     public void dialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle("Create your fucking plant (.Y.)");
 
         // Set up the input
         final EditText input = new EditText(this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
-
+        callGallery();
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                alertText = input.getText().toString();
-                callGallery();
+                plantName = input.getText().toString();
+
+
                 if (plant1 == null){
-                    plant1 = new Plant(alertText, alertImage);
+                    plant1 = new Plant(plantName, plantImage);
+                    setImage(plant1.plantImagePath, image1);
+                    tvplant1.setText(plant1.name);
+                    layout1.setVisibility(View.VISIBLE);
+                    save(plant1, "plant1");
+
                 }
                 else if (plant2==null){
-                    plant2 = new Plant(alertText, alertImage);
+                    plant2 = new Plant(plantName, plantImage);
+                    setImage(plant2.plantImagePath, image2);
+                    tvplant2.setText(plant2.name);
+                    layout2.setVisibility(View.VISIBLE);
+                    save(plant2,"plant2");
                 }
                 else if (plant3==null){
-                    plant3 = new Plant(alertText, alertImage);
+                    plant3 = new Plant(plantName, plantImage);
+                    setImage(plant3.plantImagePath, image3);
+                    tvplant3.setText(plant3.name);
+                    layout3.setVisibility(View.VISIBLE);
+                    save(plant3,"plant3");
                 }
                 else if (plant4==null){
-                    plant4 = new Plant(alertText, alertImage);
+                    plant4 = new Plant(plantName, plantImage);
+                    setImage(plant4.plantImagePath, image4);
+                    tvplant4.setText(plant4.name);
+                    layout4.setVisibility(View.VISIBLE);
+                    save(plant4, "plant4");
                 }
                 else{
                     Toast toast;
                     toast = Toast.makeText(getApplicationContext(), "No more plants possible", Toast.LENGTH_LONG);
                     toast.show();
                 }
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -288,6 +353,10 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
         });
 
         builder.show();
+    }
+
+    private void setImage(String path, ImageView image){
+        image.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path),350,350,false));
     }
 
 }

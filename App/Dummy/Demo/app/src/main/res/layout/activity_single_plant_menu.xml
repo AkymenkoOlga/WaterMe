@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="209dp"
         app:srcCompat="@drawable/leaves_grass_dew_84019_3840x2400"
-        android:id="@+id/imageView2"
+        android:id="@+id/imgPlantBig"
         android:scaleType="centerCrop" />
 
     <RelativeLayout
