@@ -2,14 +2,19 @@ package com.project.gta.demo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,14 +27,41 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
 
     private Button getHumidityB;
     public TextView lastUpdatedTxt;
+    private Plant plant;
+    private SharedPreferences  mPrefs;
+    private ImageView image;
+    public int pubID;
+    //PlantSelect ps = new PlantSelect();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_plant_menu);
+        //mPrefs = getPreferences(MODE_PRIVATE);
+        image = (ImageView) findViewById(R.id.imgPlantBig);
+        Gson gson = new Gson();
+        String json;
 
-        SharedPreferences pref = getSharedPreferences("Plant1",0);
-        setTitle(pref.getString("Plant1Name", "MyPlant"));
+        switch(PlantSelect.id){
+            case 1:
+                json = PlantSelect.mPrefs.getString("plant1", "");
+                plant = gson.fromJson(json, Plant.class);
+                break;
+            case 2:
+                json = PlantSelect.mPrefs.getString("plant2", "");
+                plant = gson.fromJson(json, Plant.class);
+                break;
+            case 3:
+                json = PlantSelect.mPrefs.getString("plant3", "");
+                plant = gson.fromJson(json, Plant.class);
+                break;
+            case 4:
+                json = PlantSelect.mPrefs.getString("plant4", "");
+                plant = gson.fromJson(json, Plant.class);
+                break;
+        }
+        setTitle(plant.name);
+        image.setImageBitmap(BitmapFactory.decodeFile(plant.plantImagePath));
 
         lastUpdatedTxt = (TextView) findViewById(R.id.TXTlastUpdate);
         Button graphB = (Button) findViewById(R.id.BTNgraph);
