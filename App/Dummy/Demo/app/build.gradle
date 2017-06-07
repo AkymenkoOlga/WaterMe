@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.project.gta.demo"
         minSdkVersion 19
@@ -38,8 +38,18 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'me.alb-i986.cucumber:cucumber-java-junit-archetype:1.2.4'
+    compole 'com.google.code.gson:gson:2.7'
 }
 
-dependencies{
+dependencies {
+    compile 'com.android.support:design:24.+'
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.6.3'
 }

@@ -54,17 +54,17 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 startActivity(new Intent(this,about.class));
                 break;
             case R.id.BTNmyplants:
-                startActivity(new Intent(this,SinglePlantMenu.class));
+                startActivity(new Intent(this,PlantSelect.class));
                 break;
             case R.id.logo_main_menu:
                 easteregg--;
                 if(easteregg==0)
-                    Easteregg();
+                    easteregg();
                 break;
             default: //nothing
         }
     }
-    public void Easteregg(){
+    public void easteregg(){
         ImageView logo = (ImageView) findViewById(R.id.logo_main_menu);
         logo.setVisibility(INVISIBLE);
         logo.setImageDrawable(null);

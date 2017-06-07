@@ -8,8 +8,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class SettingsMenu extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
+public class SettingsMenu extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     public Switch alarmSw;
     public Switch ledSw;
     public Switch bluetoothSw;
@@ -21,13 +21,14 @@ public class SettingsMenu extends AppCompatActivity implements CompoundButton.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_menu);
+
         ledSw = (Switch) findViewById(R.id.SWled);
-        Switch SWnotification = (Switch) findViewById(R.id.SWnotifications);
+        //Switch SWnotification = (Switch) findViewById(R.id.SWnotifications);
         alarmSw = (Switch) findViewById(R.id.SWsounds);
 
         //SetOnListener
         ledSw.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
-        SWnotification.setOnCheckedChangeListener(this);
+        //SWnotification.setOnCheckedChangeListener(this);
         alarmSw.setOnCheckedChangeListener(BluetoothAdministration.getInstance(this));
 
         //===============================
@@ -44,7 +45,7 @@ public class SettingsMenu extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
-            case R.id.SWnotifications:
+            /*case R.id.SWnotifications:
                 if (isChecked) {
                     Toast toast_notifications_enabled = Toast.makeText
                             (getApplicationContext(), "Notifications enabled", Toast.LENGTH_LONG);
@@ -54,7 +55,7 @@ public class SettingsMenu extends AppCompatActivity implements CompoundButton.On
                             (getApplicationContext(), "Notifications disabled", Toast.LENGTH_LONG);
                     toast_notifications_disabled.show();
                 }
-                break;
+                break;*/
             case R.id.SWbluetooth:
                 if(isChecked) {
                     if(hasBluetooth && !BA.isEnabled())

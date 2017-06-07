@@ -1,6 +1,7 @@
 package com.project.gta.demo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,10 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_plant_menu);
+
+        SharedPreferences pref = getSharedPreferences("Plant1",0);
+        setTitle(pref.getString("Plant1Name", "MyPlant"));
+
         lastUpdatedTxt = (TextView) findViewById(R.id.TXTlastUpdate);
         Button graphB = (Button) findViewById(R.id.BTNgraph);
         getHumidityB = (Button) findViewById(BTNgetHumidity);

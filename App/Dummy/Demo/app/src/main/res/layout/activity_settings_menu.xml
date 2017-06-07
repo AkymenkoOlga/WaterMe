@@ -23,27 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/SWnotifications"
-                android:layout_gravity="center_vertical|end" />
-
-            <TextView
-                android:text="@string/notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
         </FrameLayout>
 
         <FrameLayout
