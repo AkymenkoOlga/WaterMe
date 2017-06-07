@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,7 +59,7 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
         verifyStoragePermissions(this);
 
         if(readDataPlant1("image") != ""){
-            image.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(readDataPlant1("image")),200,200,false));
+            image.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(readDataPlant1("image")),350,350,false));
         }
     }
 
@@ -95,7 +94,7 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
 
             cursor.close();
 
-            image.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath),200,200,false));
+            image.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imagePath),500,500,false));
             //image.setImageURI(pickedImage)
         }
     }
