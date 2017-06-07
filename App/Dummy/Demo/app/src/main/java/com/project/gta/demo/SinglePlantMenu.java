@@ -2,7 +2,6 @@ package com.project.gta.demo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +27,6 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
     private Button getHumidityB;
     public TextView lastUpdatedTxt;
     private Plant plant;
-    private SharedPreferences  mPrefs;
     private ImageView image;
     public int pubID;
     //PlantSelect ps = new PlantSelect();

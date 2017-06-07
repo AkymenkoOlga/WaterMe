@@ -12,18 +12,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,7 +38,6 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private static int LOAD_IMAGE_RESULTS = 1;
-    private String imgpath;
 
     private String plantName = "";
     private String plantImage = "";
