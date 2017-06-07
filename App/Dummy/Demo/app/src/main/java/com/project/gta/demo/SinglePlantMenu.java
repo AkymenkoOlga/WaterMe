@@ -20,13 +20,13 @@ import static com.project.gta.demo.R.id.BTNgetHumidity;
 public class SinglePlantMenu extends AppCompatActivity implements View.OnClickListener {
 
     private Button getHumidityB;
-    public TextView TXTlastUpdated;
+    public TextView lastUpdatedTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_plant_menu);
-        TXTlastUpdated = (TextView) findViewById(R.id.TXTlastUpdate);
+        lastUpdatedTxt = (TextView) findViewById(R.id.TXTlastUpdate);
         Button graphB = (Button) findViewById(R.id.BTNgraph);
         getHumidityB = (Button) findViewById(BTNgetHumidity);
         getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
@@ -50,22 +50,22 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
 
     public void setColor(String s) {
 
-    int int_data = Integer.parseInt(s);
+    int intData = Integer.parseInt(s);
     Drawable green = getResources().getDrawable(R.drawable.buttonshape_green);
     Drawable yellow = getResources().getDrawable(R.drawable.buttonshape_yellow);
     Drawable red = getResources().getDrawable(R.drawable.buttonshape_red);
 
-    if(int_data >= 60)
+    if(intData >= 60)
     {
         getButton().setBackgroundDrawable(green); //grün
     }
 
-    if(int_data < 60 && int_data > 20)
+    if(intData < 60 && intData > 20)
 
     {
        getButton().setBackgroundDrawable(yellow);//gelb
     }
-    if(int_data <= 20)
+    if(intData <= 20)
     {
         getButton().setBackgroundDrawable(red); //rot
     }
@@ -79,10 +79,10 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
              BufferedReader br = new BufferedReader(isr)) {
             String s;
             if((s = br.readLine())!=null) {
-                TXTlastUpdated.setText("Last Update: " + s);
+                lastUpdatedTxt.setText("Last Update: " + s);
             }
             else {
-                TXTlastUpdated.setText("Last Update: N/V");
+                lastUpdatedTxt.setText("Last Update: N/V");
             }
 
             if((s = br.readLine())!=null) {
@@ -103,7 +103,7 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         //Context has to be set again.
         getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
-        readData();
+        //readData();
 
     }
 }

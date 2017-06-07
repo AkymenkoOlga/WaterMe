@@ -3,6 +3,7 @@ import sys
 import oled
 import Controller
 from thread import allocate_lock
+import time
 
 class BluetoothManager:
 
@@ -33,7 +34,7 @@ class BluetoothManager:
         s.listen(self.backlog)
         self.oled.showtext('wait for clients')
         print ('Waiting for connection on RFCOMM channel %d' % self.port)
-      
+
         try:
             client, address = s.accept()
             print "Accepted connection from", address
@@ -41,10 +42,10 @@ class BluetoothManager:
             while 1:
                 data = client.recv(self.size)
                 if data == 'alarm on':
-                    self.controller.setBeepEnable(True) 
-                    print('alarm on')                   
+                    self.controller.setBeepEnable(True)
+                    print('alarm on')
                 if data == 'alarm off':
-                    self.controller.setBeepEnable(False) 
+                    self.controller.setBeepEnable(False)
                     print('alarm off')
                 if data == "LED on":
                     self.controller.startLedControl()
@@ -53,6 +54,7 @@ class BluetoothManager:
                     self.controller.stopLedControl()
                     client.send('LEDs off!')
                 if data == "graph":
+                    client.send('#total' + str(getNumberOfLines()) + '!')
                     self.sendValues(client)
                 if data == "request":
                     try:
@@ -69,37 +71,44 @@ class BluetoothManager:
             self.btlisten()
             return
 
-
     def sendValues(self, client):
+        data = client.recv(1024)
+
+        if (not (data == "next")):
+            print('Error in transmission')
+            return
+        print('next received\n')
+
         self.lock.acquire()
-        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")        
+        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
         for line in fobj:
-            client.send('begin'+ line + '!')
+            client.send('#'+ line + '!')
             print('send: '+ line)
             data = client.recv(1024)
             if (not (data == "next")):
                 print('Error in transmission')
                 return
-        client.send('YYY!') #EOT       
+        client.send('#EOT!')
         fobj.close()
         self.lock.release()
-       
+
         print('End of Transmission')
-        return     
+        return
+		
+def getNumberOfLines():
+    lock = allocate_lock()
+    lineCounter = 0
+    lock.acquire()
+    fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
+    for line in fobj:
+        lineCounter = lineCounter + 1
+    fobj.close()
+    lock.release()
+    print('Total Lines: ' + str(lineCounter))
+    return lineCounter
+
 
 if __name__ == "__main__":
     btmgr = BluetoothManager()
     btmgr.btlisten()
-
-
-
-
-
-
-
-
-
-
-
-
 

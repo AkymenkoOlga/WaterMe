@@ -41,7 +41,6 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
     final private byte delimiter = 33;
     private int readBufferPosition = 0;
     private static BlockingQueue<Runnable> mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
-    private boolean firstConnection =true;
     private final int KEEP_ALIVE_TIME = 1;
     // Sets the Time Unit to seconds
     private final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
@@ -60,11 +59,12 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
     private Handler handler = new Handler();
     private Context context;
     private ProgressDialog connectDialog;
+    private ProgressDialog progressDialog;
     private Toast toast;
+    private volatile boolean polling = true;
 
     private volatile boolean keeprunning;
     //endregion
-
 
     //region Singleton
     public static BluetoothAdministration getInstance(Context context_) {
@@ -96,15 +96,14 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
 
         try {
              mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(mmDevice, 3);
-             showProgressBar(true);
+             showConnectDialog(true);
              Log.e("", "connecting...");
              mmSocket.connect();
              Log.e("", "Connected");
              isconnected = true;
-             showProgressBar(false);
+             showConnectDialog(false);
              mDecodeThreadPool.execute(new checkConnectionState());
              showToast("Connected");
-
         }
         catch(Exception e){
                 Log.e("", "Couldn't establish Bluetooth connection!: " + e.toString());
@@ -120,7 +119,6 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         } catch (IOException e3) {e3.printStackTrace();
             Log.e("", "failed to transmit data!");
         }
-
     }
 
     public void dialogTimeOut(long time){
@@ -135,15 +133,12 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                }
            }
         }, time);
-
-
     }
 
-    private void showProgressBar(boolean b){
-
-        if(b){
+    private void showConnectDialog(boolean b) {
+        if (b) {
             keeprunning = true;
-            dialogTimeOut(10000);
+            dialogTimeOut(30000);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -160,46 +155,17 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                     connectDialog.show();
                 }
             });
-        }
-        else
-        {
+        } else {
             handler.post(new Runnable() {
                 @Override
-                    public void run() {
-                    try{
-                    connectDialog.dismiss();}
-                    catch(Exception exe){
+                public void run() {
+                    try {
+                        connectDialog.dismiss();
+                    } catch (Exception exe) {
                         Log.e("", exe.toString());
                     }
                 }
             });
-        }
-    }
-
- //Methode, um alle laufenden Threads zu beenden
-    public static void cancelAll() {
-        /*
-         * Creates an array of Runnables that's the same size as the
-         * thread pool work queue
-         */
-        Runnable[] runnableArray = new Runnable[mDecodeWorkQueue.size()];
-        // Populates the array with the Runnables in the queue
-        mDecodeWorkQueue.toArray(runnableArray);
-        // Stores the array length in order to iterate over the array
-        int len = runnableArray.length;
-        /*
-         * Iterates over the array of Runnables and interrupts each one's Thread.
-         */
-        synchronized (getInstance(null)) {
-            // Iterates over the array of tasks
-            for (int runnableIndex = 0; runnableIndex < len; runnableIndex++) {
-                // Gets the current thread
-                Thread thread = (Thread) runnableArray[runnableIndex];
-                // if the Thread exists, post an interrupt to it
-                if (null != thread) {
-                    thread.interrupt();
-                }
-            }
         }
     }
 
@@ -212,18 +178,18 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         }
         @Override
         public void run() {
+            polling = false;
             if (!isconnected) {
                 connect();
             }
-
             if (!(btMsg == null) && keeprunning){
                 sendBtMsg(btMsg);
-                }
+            }
             StringBuilder sb = new StringBuilder();
             while (keeprunning) {
                 int bytesAvailable;
                 boolean workDone = false;
-
+                
                 try {
                     final InputStream mmInputStream;
                     mmInputStream = mmSocket.getInputStream();
@@ -234,9 +200,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                         byte[] readBuffer = new byte[1024];
                         mmInputStream.read(packetBytes);
 
-
                         for (int i = 0; i < bytesAvailable; i++) {
-
                             byte b = packetBytes[i];
                             if (b == delimiter) {
                                 byte[] encodedBytes = new byte[readBufferPosition];
@@ -244,48 +208,75 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                 final String data = new String(encodedBytes, "US-ASCII");
                                 readBufferPosition = 0;
 
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (context instanceof SinglePlantMenu)
-                                        {
-                                            String newString = "";
+                                if (context instanceof SinglePlantMenu){
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
                                             for(int i = 0; i < data.length(); i++) {
                                                 if (Character.isDigit(data.charAt(i))) {
-                                                    newString = data.substring(i);
+                                                    String newString = data.substring(i);
+                                                    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                                                    writeToFile(currentDateTimeString + "\n" + newString, "CurrentValue.txt", context);
                                                     break;
                                                 }
                                             }
-                                            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                                            writeToFile(currentDateTimeString + "\n" + newString,"CurrentValue.txt", context);
                                             ((SinglePlantMenu) context).readData();
                                         }
-                                    }
-                                });
+                                    });
+                                    workDone = true;
+                                }
 
                                 if (context instanceof HumidityGraph){
 
-                                    if(data.substring(0,1).equals("Y")) {
-                                        workDone = true;
+                                    if (data.contains("total"))
+                                    {
+                                        for(int j = 0; j < data.length(); j++){
+                                            if(Character.isDigit(data.charAt(j))){
+                                                final int l = j;
+                                                handler.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        progressDialog = new ProgressDialog(context);
+                                                        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                                        progressDialog.setMax(Integer.parseInt(data.substring(l)));
+                                                        progressDialog.setTitle("Receiving data sets...");
+                                                        progressDialog.show();
+                                                    }
+                                                });
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if(data.contains("EOT")) {
                                         writeToFile(sb.toString(), "Values.txt", context);
 
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
                                                ((HumidityGraph) context).refreshGraph();
-                                                showToast("graph refreshed");
+                                                progressDialog.dismiss();
                                             }
                                         });
-                                        break;
+                                        workDone = true;
                                     }
 
-                                    for(int k = 0; k < data.length(); k++) {
-                                        if(Character.isDigit(data.charAt(k))){
-                                            sb.append(data.substring(k));
-                                            break;
+                                    if(!data.contains("total")) {
+                                        for (int k = 0; k < data.length(); k++) {
+                                            if (Character.isDigit(data.charAt(k))) {
+                                                sb.append(data.substring(k));
+                                                break;
+                                            }
                                         }
                                     }
                                     sendBtMsg("next");
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressDialog.incrementProgressBy(1);
+                                        }
+                                    });
+
                                 }
                                 else
                                 {
@@ -314,19 +305,19 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                     }
                 }
             }
-
+            polling = true;
         }
-    }
 
-    private void writeToFile(String text, String FILENAME, Context c) {
-        try (
-                FileOutputStream stream = c.openFileOutput(FILENAME, MODE_PRIVATE);
-                OutputStreamWriter osw = new OutputStreamWriter(stream)) {
+        private void writeToFile(String text, String FILENAME, Context c) {
+            try (
+                    FileOutputStream stream = c.openFileOutput(FILENAME, MODE_PRIVATE);
+                    OutputStreamWriter osw = new OutputStreamWriter(stream)) {
                 osw.write(text);
                 osw.close();
                 stream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            } catch (IOException e) {
+                Log.e("Exception", "File write failed: " + e.toString());
+            }
         }
     }
 
@@ -349,6 +340,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                 break;
             case R.id.BTNrefresh:
                 execute("graph");
+
                 break;
         }
     }
@@ -381,8 +373,8 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
             showAlertBox(1);
             if (context instanceof SettingsMenu)
             {
-                ((SettingsMenu) context).SWled.setChecked(false);
-                ((SettingsMenu) context).SWsounds.setChecked(false);
+                ((SettingsMenu) context).ledSw.setChecked(false);
+                ((SettingsMenu) context).alarmSw.setChecked(false);
             }
             return;
         }
@@ -423,6 +415,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         }
 
         dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int which) {return;}
         });
         dlgAlert.setCancelable(true);
@@ -434,24 +427,25 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         public void run(){
             while(!Thread.currentThread().isInterrupted())
             {
-                try {
-                    mmSocket.getInputStream().read();
+                if(polling) {
                     try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                catch (IOException ex){
-                    Log.e("IOException",ex.toString());
-                    isconnected = false;
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                           showToast("Connection lost");
+                        mmSocket.getInputStream().read();
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    Thread.currentThread().interrupt();
+                    } catch (IOException ex) {
+                        Log.e("IOException", ex.toString());
+                        isconnected = false;
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                showToast("Connection lost");
+                            }
+                        });
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
         }

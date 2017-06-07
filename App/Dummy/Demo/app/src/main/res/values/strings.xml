@@ -104,6 +104,7 @@
     <string name="optimal">optimal</string>
     <string name="alarm">Alarm</string>
     <string name="changescale">Change scale</string>
+    <string name="clickme">Click me</string>
 
 
 </resources>
