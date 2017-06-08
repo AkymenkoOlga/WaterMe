@@ -107,6 +107,11 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
         image3 = (ImageView) findViewById(R.id.image3);
         image4 = (ImageView) findViewById(R.id.image4);
 
+        layout1.setVisibility(View.GONE);
+        layout2.setVisibility(View.GONE);
+        layout3.setVisibility(View.GONE);
+        layout4.setVisibility(View.GONE);
+
         tvplant1.setOnClickListener(this);
         tvplant2.setOnClickListener(this);
         tvplant3.setOnClickListener(this);
@@ -289,7 +294,7 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
     }
     public void dialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Create your fucking plant (.Y.)");
+        builder.setTitle("Give your plant a name:");
 
         // Set up the input
         final EditText input = new EditText(this);

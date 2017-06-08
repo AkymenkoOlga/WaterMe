@@ -105,7 +105,7 @@ class Controller:
      return
     
     def readChannel(self,channel):
-        self.bus.write_byte(0x48 , 0x40)	  #A0 = 0x40 A1 = 0x41 A2 = 0xA2 A3 = 0xA3
+        self.bus.write_byte(0x48 , channel)	  #A0 = 0x40 A1 = 0x41 A2 = 0xA2 A3 = 0xA3
         dataRaw = self.bus.read_byte(0x48) *4
         if (dataRaw != 0):
             data = int(round(100 - dataRaw/1020.0*100))

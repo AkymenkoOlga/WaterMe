@@ -56,12 +56,18 @@ class BluetoothManager:
                 if data == "graph":
                     client.send('#total' + str(getNumberOfLines()) + '!')
                     self.sendValues(client)
-                if data == "request":
-                    try:
-                        val = self.controller.readChannel(0)
+                if data == "request1":
+                        val = self.controller.readChannel(0x40)
                         client.send('begin' + str(val) + '!')
-                    except KeyboardInterrupt:
-                        print ('Cancel')
+                if data == "request2":
+                        val = self.controller.readChannel(0x41)
+                        client.send('begin' + str(val) + '!')
+                if data == "request3":
+                        val = self.controller.readChannel(0xA2)
+                        client.send('begin' + str(val) + '!')
+                if data == "request4":
+                        val = self.controller.readChannel(0xA3)
+                        client.send('begin' + str(val) + '!')
         except:
             print('Unexpected error:' + str(sys.exc_info()[0]))
             print('Closing socket')

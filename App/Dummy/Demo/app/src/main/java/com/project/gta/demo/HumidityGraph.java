@@ -59,8 +59,8 @@ public class HumidityGraph extends AppCompatActivity{
         format = new SimpleDateFormat("HH:mm");
 
         refreshGraph();
-        graph.getViewport().setMaxX(series.getHighestValueX());
         graph.getViewport().setMinX(series.getLowestValueX());
+        graph.getViewport().setMaxX(series.getHighestValueX());
     }
 
     @Override
@@ -95,16 +95,19 @@ public class HumidityGraph extends AppCompatActivity{
                 switch (item) {
                     case 0:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000);
+                        graph.getViewport().setMaxX(System.currentTimeMillis());
                         format = new SimpleDateFormat("HH:mm");
                         refreshGraph();
                         break;
                     case 1:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000*3);
+                        graph.getViewport().setMaxX(System.currentTimeMillis());
                         format = new SimpleDateFormat("dd-MM");
                         refreshGraph();
                         break;
                     case 2:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000*7);
+                        graph.getViewport().setMaxX(System.currentTimeMillis());
                         format = new SimpleDateFormat("dd-MM");
                         refreshGraph();
                         break;
@@ -157,18 +160,21 @@ public class HumidityGraph extends AppCompatActivity{
         series.setColor(0xFF02a721);
         graph.addSeries(series);
 
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(100);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
-        graph.getGridLabelRenderer().setNumVerticalLabels(5);
-
-        graph.getGridLabelRenderer().setNumVerticalLabels(7);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
+
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(100);
+
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graph.getGridLabelRenderer().setNumVerticalLabels(6);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Humidity in %");
+
         graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext(),format));
         //graph.getGridLabelRenderer().setHumanRounding(false);
+
 
     }
     public void extractData(String line) {

@@ -336,11 +336,10 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
     public  void onClick(View v){
         switch(v.getId()) {
             case R.id.BTNgetHumidity:
-                execute("request");
+                execute("request" + ((SinglePlantMenu) context).sensorId);
                 break;
             case R.id.BTNrefresh:
                 execute("graph");
-
                 break;
         }
     }
