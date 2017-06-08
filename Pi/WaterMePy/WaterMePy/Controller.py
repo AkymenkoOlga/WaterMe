@@ -100,7 +100,10 @@ class Controller:
 
     def readChannelFrequent(self):
      while 1:
-         self.readChannel(0)
+         self.readChannel(0x40)
+         self.readChannel(0x41)
+         self.readChannel(0xA2)
+         self.readChannel(0xA3)
          sleep(self.rate)
      return
     
@@ -111,14 +114,14 @@ class Controller:
             data = int(round(100 - dataRaw/1020.0*100))
         if (dataRaw == 0):
             data = 100       
-        self.writeToFile(data)
+        self.writeToFile(data,channel)
         self.lock.acquire()
         self.currentHumidity = data
         self.lock.release()
         self.oled.showsmiley(data)
         return data
     
-    def writeToFile(self,val):
+    def writeToFile(self,val, channel):
         if val >= 1000:
             myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t" + str(val) + "\n"
         elif val >=100:
@@ -129,6 +132,7 @@ class Controller:
             myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t000" + str(val) + "\n"
         print(myString)
         self.lock.acquire()
+        if(channel == 0x40):
         fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt","a")
         fobj.write(myString)
         fobj.close()
