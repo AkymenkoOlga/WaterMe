@@ -216,7 +216,8 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                                 if (Character.isDigit(data.charAt(i))) {
                                                     String newString = data.substring(i);
                                                     String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                                                    writeToFile(currentDateTimeString + "\n" + newString, "CurrentValue.txt", context);
+                                                    String id = toString();
+                                                    writeToFile(currentDateTimeString + "\n" + newString, "CurVal" + id + ".txt", context);
                                                     break;
                                                 }
                                             }
@@ -254,7 +255,8 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
-                                               ((HumidityGraph) context).refreshGraph();
+                                                int id = ((SinglePlantMenu) context).sensorId;
+                                               ((HumidityGraph) context).refreshGraph(id);
                                                 progressDialog.dismiss();
                                             }
                                         });
@@ -339,7 +341,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                 execute("request" + ((SinglePlantMenu) context).sensorId);
                 break;
             case R.id.BTNrefresh:
-                execute("graph");
+                execute("graph" + ((SinglePlantMenu) context).sensorId);
                 break;
         }
     }

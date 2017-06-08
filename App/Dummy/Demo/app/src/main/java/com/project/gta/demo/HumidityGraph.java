@@ -34,7 +34,6 @@ public class HumidityGraph extends AppCompatActivity{
 
     private GraphView graph;
     private LineGraphSeries<DataPoint> series;
-    private static final String FILENAME = "Values.txt";
     public int numberOfValues = 0;
     private SimpleDateFormat format;
     public Queue<String> date = new LinkedList<>();
@@ -125,11 +124,11 @@ public class HumidityGraph extends AppCompatActivity{
         alert.show();
     }
 
-    public void readData() {
+    public void readData(int id) {
 
         numberOfValues = 0;
         StringBuilder sb = new StringBuilder();
-        try (FileInputStream fis = openFileInput(FILENAME);
+        try (FileInputStream fis = openFileInput("CurVal" + id);
              InputStreamReader isr = new InputStreamReader(fis);
              BufferedReader br = new BufferedReader(isr)) {
             String s;
@@ -151,9 +150,9 @@ public class HumidityGraph extends AppCompatActivity{
         }
     }
 
-    public void refreshGraph(){
+    public void refreshGraph(int id){
 
-        readData();
+        readData(id);
         DataPoint[] points = setDataPoints();
         series = new LineGraphSeries<>(points);
         series.setDrawDataPoints(true);
