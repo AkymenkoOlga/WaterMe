@@ -67,7 +67,8 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         Button graphB = (Button) findViewById(R.id.BTNgraph);
         getHumidityB = (Button) findViewById(BTNgetHumidity);
         getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
-
+        TextView sensorIntTv = (TextView) findViewById(R.id.TXTsensorInt);
+        sensorIntTv.setText("Sensor Interface: A" + String.valueOf(sensorId - 1));
         graphB.setOnClickListener(this);
         readData();
     }
@@ -110,8 +111,8 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
 }
 
     public void readData() {
-
-        try (FileInputStream fis = openFileInput("CurrentValue.txt");
+        final String id = String.valueOf(sensorId);
+        try (FileInputStream fis = openFileInput("CurVal" + id + ".txt");
              InputStreamReader isr = new InputStreamReader(fis);
              BufferedReader br = new BufferedReader(isr)) {
             String s;

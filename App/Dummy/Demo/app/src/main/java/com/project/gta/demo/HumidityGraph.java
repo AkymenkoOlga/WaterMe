@@ -38,6 +38,7 @@ public class HumidityGraph extends AppCompatActivity{
     private SimpleDateFormat format;
     public Queue<String> date = new LinkedList<>();
     public Queue<Integer> val = new LinkedList<>();
+    public String plantID;
 
     @Override
     protected void onStart() {
@@ -56,8 +57,9 @@ public class HumidityGraph extends AppCompatActivity{
         final Button refreshB = (Button) findViewById(R.id.BTNrefresh);
         refreshB.setOnClickListener(BluetoothAdministration.getInstance(this));
         format = new SimpleDateFormat("HH:mm");
-
+        plantID = String.valueOf(PlantSelect.id);
         refreshGraph();
+
         graph.getViewport().setMinX(series.getLowestValueX());
         graph.getViewport().setMaxX(series.getHighestValueX());
     }
@@ -124,11 +126,11 @@ public class HumidityGraph extends AppCompatActivity{
         alert.show();
     }
 
-    public void readData(int id) {
+    public void readData() {
 
         numberOfValues = 0;
         StringBuilder sb = new StringBuilder();
-        try (FileInputStream fis = openFileInput("CurVal" + id);
+        try (FileInputStream fis = openFileInput("Val" + plantID + ".txt");
              InputStreamReader isr = new InputStreamReader(fis);
              BufferedReader br = new BufferedReader(isr)) {
             String s;
@@ -150,9 +152,8 @@ public class HumidityGraph extends AppCompatActivity{
         }
     }
 
-    public void refreshGraph(int id){
-
-        readData(id);
+    public void refreshGraph(){
+        readData();
         DataPoint[] points = setDataPoints();
         series = new LineGraphSeries<>(points);
         series.setDrawDataPoints(true);

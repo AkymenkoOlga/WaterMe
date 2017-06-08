@@ -136,16 +136,16 @@ class Controller:
         
         
         self.lock.acquire()
-        if(channel == 0x41):
+        if(channel == 0x40):
             fobj = open("/home/pi/WaterMe/WaterMePy/Val0.txt","a")
             print('sensor 0: ' + myString)
-        if(channel == 0x42):
+        if(channel == 0x41):
             fobj = open("/home/pi/WaterMe/WaterMePy/Val1.txt","a")
             print('sensor 1: ' + myString)
-        if(channel == 0x43):
+        if(channel == 0x42):
             fobj = open("/home/pi/WaterMe/WaterMePy/Val2.txt","a")
             print('sensor 2: ' + myString)        
-        if(channel == 0x40):
+        if(channel == 0x43):
             fobj = open("/home/pi/WaterMe/WaterMePy/Val3.txt","a")
             print('sensor 3: ' + myString)
         fobj.write(myString)

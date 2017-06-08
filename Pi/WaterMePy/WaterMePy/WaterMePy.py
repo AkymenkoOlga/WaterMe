@@ -67,14 +67,17 @@ class BluetoothManager:
                     self.sendValues(client,3)
 
                 if data == "request1":
-                        val = self.controller.readChannel(0x41)
+                    val = self.controller.readChannel(0x40)
+                    client.send('begin' + str(val) + '!')
                 if data == "request2":
-                        val = self.controller.readChannel(0x43)
+                    val = self.controller.readChannel(0x41)
+                    client.send('begin' + str(val) + '!')
                 if data == "request3":
-                        val = self.controller.readChannel(0x40)
+                    val = self.controller.readChannel(0x42)
+                    client.send('begin' + str(val) + '!')
                 if data == "request4":
-                        val = self.controller.readChannel(0x40)
-                client.send('begin' + str(val) + '!')
+                    val = self.controller.readChannel(0x43)
+                    client.send('begin' + str(val) + '!')
 
         except:
             print('Unexpected error:' + str(sys.exc_info()[0]))
@@ -94,7 +97,7 @@ class BluetoothManager:
         print('next received\n')
 
         self.lock.acquire()
-        fobj = open("/home/pi/WaterMe/WaterMePy/Val" + ident + ".txt", "r")
+        fobj = open("/home/pi/WaterMe/WaterMePy/Val" + str(ident) + ".txt", "r")
         for line in fobj:
             client.send('#'+ line + '!')
             print('send: '+ line)
@@ -113,7 +116,7 @@ def getNumberOfLines(ident):
     lock = allocate_lock()
     lineCounter = 0
     lock.acquire()
-    fobj = open("/home/pi/WaterMe/WaterMePy/Val" + ident + ".txt", "r")
+    fobj = open("/home/pi/WaterMe/WaterMePy/Val" + str(ident) + ".txt", "r")
     for line in fobj:
         lineCounter = lineCounter + 1
     fobj.close()
