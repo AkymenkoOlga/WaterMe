@@ -99,26 +99,32 @@ class Controller:
         return
 
     def readChannelFrequent(self):
+     sleep(1)
      while 1:
-         self.readChannel(0)
+         self.readChannel(0x40)
+         self.readChannel(0x41)
+         self.readChannel(0x42)
+         self.readChannel(0x43)
          sleep(self.rate)
      return
     
     def readChannel(self,channel):
-        self.bus.write_byte(0x48 , 0x40)	  #A0 = 0x40 A1 = 0x41 A2 = 0xA2 A3 = 0xA3
+        self.bus.write_byte(0x48 , channel)	 
         dataRaw = self.bus.read_byte(0x48) *4
         if (dataRaw != 0):
             data = int(round(100 - dataRaw/1020.0*100))
         if (dataRaw == 0):
             data = 100       
-        self.writeToFile(data)
-        self.lock.acquire()
-        self.currentHumidity = data
-        self.lock.release()
-        self.oled.showsmiley(data)
+        self.writeToFile(data,channel)
+        #smileys and led only for sensor Interface 0
+        if(channel == 0x41):
+            self.lock.acquire()
+            self.currentHumidity = data
+            self.lock.release()
+            self.oled.showsmiley(data)
         return data
     
-    def writeToFile(self,val):
+    def writeToFile(self,val, channel):
         if val >= 1000:
             myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t" + str(val) + "\n"
         elif val >=100:
@@ -127,9 +133,21 @@ class Controller:
             myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t00" + str(val) + "\n"
         else:
             myString = strftime("%Y-%m-%dT%H:%M:%SZ", localtime()) + "\t000" + str(val) + "\n"
-        print(myString)
+        
+        
         self.lock.acquire()
-        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt","a")
+        if(channel == 0x40):
+            fobj = open("/home/pi/WaterMe/WaterMePy/Val0.txt","a")
+            print('sensor 0: ' + myString)
+        if(channel == 0x41):
+            fobj = open("/home/pi/WaterMe/WaterMePy/Val1.txt","a")
+            print('sensor 1: ' + myString)
+        if(channel == 0x42):
+            fobj = open("/home/pi/WaterMe/WaterMePy/Val2.txt","a")
+            print('sensor 2: ' + myString)        
+        if(channel == 0x43):
+            fobj = open("/home/pi/WaterMe/WaterMePy/Val3.txt","a")
+            print('sensor 3: ' + myString)
         fobj.write(myString)
         fobj.close()
         self.lock.release() 

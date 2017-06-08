@@ -59,7 +59,6 @@
         <activity
             android:name=".HumidityGraph"
             android:label="@string/graph"
-            android:screenOrientation="portrait"
             android:parentActivityName=".SinglePlantMenu" />
         <activity
             android:name=".PlantSelect"

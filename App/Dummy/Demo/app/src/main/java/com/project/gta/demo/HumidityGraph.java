@@ -34,11 +34,11 @@ public class HumidityGraph extends AppCompatActivity{
 
     private GraphView graph;
     private LineGraphSeries<DataPoint> series;
-    private static final String FILENAME = "Values.txt";
     public int numberOfValues = 0;
     private SimpleDateFormat format;
     public Queue<String> date = new LinkedList<>();
     public Queue<Integer> val = new LinkedList<>();
+    public String plantID;
 
     @Override
     protected void onStart() {
@@ -57,10 +57,11 @@ public class HumidityGraph extends AppCompatActivity{
         final Button refreshB = (Button) findViewById(R.id.BTNrefresh);
         refreshB.setOnClickListener(BluetoothAdministration.getInstance(this));
         format = new SimpleDateFormat("HH:mm");
-
+        plantID = String.valueOf(PlantSelect.id);
         refreshGraph();
-        graph.getViewport().setMaxX(series.getHighestValueX());
+
         graph.getViewport().setMinX(series.getLowestValueX());
+        graph.getViewport().setMaxX(series.getHighestValueX());
     }
 
     @Override
@@ -95,16 +96,19 @@ public class HumidityGraph extends AppCompatActivity{
                 switch (item) {
                     case 0:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000);
+                        graph.getViewport().setMaxX(System.currentTimeMillis());
                         format = new SimpleDateFormat("HH:mm");
                         refreshGraph();
                         break;
                     case 1:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000*3);
+                        graph.getViewport().setMaxX(System.currentTimeMillis());
                         format = new SimpleDateFormat("dd-MM");
                         refreshGraph();
                         break;
                     case 2:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000*7);
+                        graph.getViewport().setMaxX(System.currentTimeMillis());
                         format = new SimpleDateFormat("dd-MM");
                         refreshGraph();
                         break;
@@ -126,7 +130,7 @@ public class HumidityGraph extends AppCompatActivity{
 
         numberOfValues = 0;
         StringBuilder sb = new StringBuilder();
-        try (FileInputStream fis = openFileInput(FILENAME);
+        try (FileInputStream fis = openFileInput("Val" + plantID + ".txt");
              InputStreamReader isr = new InputStreamReader(fis);
              BufferedReader br = new BufferedReader(isr)) {
             String s;
@@ -149,7 +153,6 @@ public class HumidityGraph extends AppCompatActivity{
     }
 
     public void refreshGraph(){
-
         readData();
         DataPoint[] points = setDataPoints();
         series = new LineGraphSeries<>(points);
@@ -157,18 +160,21 @@ public class HumidityGraph extends AppCompatActivity{
         series.setColor(0xFF02a721);
         graph.addSeries(series);
 
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(100);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
-        graph.getGridLabelRenderer().setNumVerticalLabels(5);
-
-        graph.getGridLabelRenderer().setNumVerticalLabels(7);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
+
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(100);
+
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graph.getGridLabelRenderer().setNumVerticalLabels(6);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Humidity in %");
+
         graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext(),format));
         //graph.getGridLabelRenderer().setHumanRounding(false);
+
 
     }
     public void extractData(String line) {

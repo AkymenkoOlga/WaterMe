@@ -53,15 +53,32 @@ class BluetoothManager:
                 if data == "LED off":
                     self.controller.stopLedControl()
                     client.send('LEDs off!')
-                if data == "graph":
-                    client.send('#total' + str(getNumberOfLines()) + '!')
-                    self.sendValues(client)
-                if data == "request":
-                    try:
-                        val = self.controller.readChannel(0)
-                        client.send('begin' + str(val) + '!')
-                    except KeyboardInterrupt:
-                        print ('Cancel')
+                if data == "graph1":
+                    client.send('#total' + str(getNumberOfLines(0)) + '!')
+                    self.sendValues(client,0)
+                if data == "graph2":
+                    client.send('#total' + str(getNumberOfLines(1)) + '!')
+                    self.sendValues(client,1)
+                if data == "graph3":
+                    client.send('#total' + str(getNumberOfLines(2)) + '!')
+                    self.sendValues(client,2)
+                if data == "graph4":
+                    client.send('#total' + str(getNumberOfLines(3)) + '!')
+                    self.sendValues(client,3)
+
+                if data == "request1":
+                    val = self.controller.readChannel(0x40)
+                    client.send('begin' + str(val) + '!')
+                if data == "request2":
+                    val = self.controller.readChannel(0x41)
+                    client.send('begin' + str(val) + '!')
+                if data == "request3":
+                    val = self.controller.readChannel(0x42)
+                    client.send('begin' + str(val) + '!')
+                if data == "request4":
+                    val = self.controller.readChannel(0x43)
+                    client.send('begin' + str(val) + '!')
+
         except:
             print('Unexpected error:' + str(sys.exc_info()[0]))
             print('Closing socket')
@@ -71,7 +88,7 @@ class BluetoothManager:
             self.btlisten()
             return
 
-    def sendValues(self, client):
+    def sendValues(self, client, ident):
         data = client.recv(1024)
 
         if (not (data == "next")):
@@ -80,7 +97,7 @@ class BluetoothManager:
         print('next received\n')
 
         self.lock.acquire()
-        fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
+        fobj = open("/home/pi/WaterMe/WaterMePy/Val" + str(ident) + ".txt", "r")
         for line in fobj:
             client.send('#'+ line + '!')
             print('send: '+ line)
@@ -94,19 +111,18 @@ class BluetoothManager:
 
         print('End of Transmission')
         return
-		
-def getNumberOfLines():
+
+def getNumberOfLines(ident):
     lock = allocate_lock()
     lineCounter = 0
     lock.acquire()
-    fobj = open("/home/pi/WaterMe/WaterMePy/HumidityValues.txt", "r")
+    fobj = open("/home/pi/WaterMe/WaterMePy/Val" + str(ident) + ".txt", "r")
     for line in fobj:
         lineCounter = lineCounter + 1
     fobj.close()
     lock.release()
     print('Total Lines: ' + str(lineCounter))
     return lineCounter
-
 
 if __name__ == "__main__":
     btmgr = BluetoothManager()
