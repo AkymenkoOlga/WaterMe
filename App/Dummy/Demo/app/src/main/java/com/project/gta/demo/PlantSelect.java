@@ -289,7 +289,7 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
     }
     public void dialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Create your fucking plant (.Y.)");
+        builder.setTitle("Create your plant <3");
 
         // Set up the input
         final EditText input = new EditText(this);
