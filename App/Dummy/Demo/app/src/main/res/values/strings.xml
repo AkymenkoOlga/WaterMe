@@ -48,14 +48,21 @@
     <string name="helpInstallPi">Install Pi</string>
     <string name="helpAddPlant">Add plant</string>
     <string name="help_connect_bluetooth_and_pi">
+        Prequisite: \n
+        Your Smartphone has to be paired with the Pi. \n
+        To do so head to the Bluetooth-Menu of your Smartphone, enable Bluetooth and click on your Pi. \n
+        \n
+        \n
+        \n
         First enable Bluetooth: \n
         \n
         From the main menu \n
         1: Press Settings \n
         2: Press the switch "Bluetooth" \n
         3: Agree to the notification \n
-        \n \n
-        Then the app automatically connects to the PI when you are trying to perfom an action which reuqires bluetooth-connection.
+        \n
+        \n
+        Then the app automatically connects to the PIí when you are trying to perfom an action which reuqires bluetooth-connection.
 
     </string>
     <string name="help_install_pi">
