@@ -121,21 +121,6 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         }
     }
 
-
-    public void dialogTimeOut(){
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                if(connectDialog.isShowing()){
-                    connectDialog.dismiss();
-                    showAlertBox(4);
-                }
-            }
-        });
-    }
-
     private void showConnectDialog(boolean b) {
         if (b) {
             keeprunning = true;
@@ -150,27 +135,15 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             keeprunning = false;
+                            isconnected = false;
                         }
                     });
                     connectDialog.show();
+                    mDecodeThreadPool.execute(new ConnectionTimeOut());
                 }
             });
-            int timeOut=0;
-            while(timeOut< 10000){
-                if(keeprunning) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    timeOut += 100;
-                }
-                else
-                    break;
-            }
-            dialogTimeOut();
-
-        } else {
+        }
+        else {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -183,6 +156,45 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
             });
         }
     }
+
+    final class ConnectionTimeOut implements Runnable {
+
+        @Override
+        public void run() {
+            int timeOut = 0;
+            while (timeOut < 15000) {
+                if (!isconnected) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    timeOut += 100;
+                } else
+                    return;
+            }
+            dialogTimeOut();
+            keeprunning = false;
+        }
+
+        public void dialogTimeOut(){
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    if(connectDialog.isShowing()){
+                        connectDialog.dismiss();
+                        showAlertBox(4);
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
 
     final class workerThread implements Runnable {
 
