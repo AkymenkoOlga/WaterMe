@@ -107,6 +107,11 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
         image3 = (ImageView) findViewById(R.id.image3);
         image4 = (ImageView) findViewById(R.id.image4);
 
+        layout1.setVisibility(View.GONE);
+        layout2.setVisibility(View.GONE);
+        layout3.setVisibility(View.GONE);
+        layout4.setVisibility(View.GONE);
+
         tvplant1.setOnClickListener(this);
         tvplant2.setOnClickListener(this);
         tvplant3.setOnClickListener(this);
@@ -225,19 +230,23 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
                 startActivity(new Intent(this, SinglePlantMenu.class));
                 break;
             case R.id.btnDel1:
-                delete(plant1,"plant1");
+                delete("plant1");
+                plant1 = null;
                 layout1.setVisibility(View.GONE);
                 break;
             case R.id.btnDel2:
-                delete(plant2,"plant2");
+                delete("plant2");
+                plant2 = null;
                 layout2.setVisibility(View.GONE);
                 break;
             case R.id.btnDel3:
-                delete(plant3,"plant3");
+                delete("plant3");
+                plant3 = null;
                 layout3.setVisibility(View.GONE);
                 break;
             case R.id.btnDel4:
-                delete(plant4,"plant4");
+                delete("plant4");
+                plant4 = null;
                 layout4.setVisibility(View.GONE);
                 break;
             default:
@@ -281,15 +290,16 @@ public class PlantSelect extends AppCompatActivity implements View.OnClickListen
         prefsEditor.commit();
     }
 
-    private void delete(Plant plant ,String name){
+    private void delete(String name){
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         prefsEditor.putString(name, null);
         prefsEditor.apply();
-        plant = null;
     }
     public void dialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create your plant <3");
+        builder.setTitle("Give your plant a name:");
+
 
         // Set up the input
         final EditText input = new EditText(this);

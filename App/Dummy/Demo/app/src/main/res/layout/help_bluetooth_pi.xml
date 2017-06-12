@@ -9,5 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/help_connect_bluetooth_and_pi"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_margin="5dp" />
 </LinearLayout>

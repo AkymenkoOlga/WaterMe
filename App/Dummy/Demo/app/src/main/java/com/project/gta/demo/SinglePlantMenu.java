@@ -28,7 +28,7 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
     public TextView lastUpdatedTxt;
     private Plant plant;
     private ImageView image;
-    public int pubID;
+    public int sensorId;
     //PlantSelect ps = new PlantSelect();
 
     @Override
@@ -39,11 +39,13 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         image = (ImageView) findViewById(R.id.imgPlantBig);
         Gson gson = new Gson();
         String json;
+        sensorId = PlantSelect.id;
 
         switch(PlantSelect.id){
             case 1:
                 json = PlantSelect.mPrefs.getString("plant1", "");
                 plant = gson.fromJson(json, Plant.class);
+
                 break;
             case 2:
                 json = PlantSelect.mPrefs.getString("plant2", "");
@@ -65,7 +67,8 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
         Button graphB = (Button) findViewById(R.id.BTNgraph);
         getHumidityB = (Button) findViewById(BTNgetHumidity);
         getHumidityB.setOnClickListener(BluetoothAdministration.getInstance(this));
-
+        TextView sensorIntTv = (TextView) findViewById(R.id.TXTsensorInt);
+        sensorIntTv.setText("Sensor Interface: A" + String.valueOf(sensorId - 1));
         graphB.setOnClickListener(this);
         readData();
     }
@@ -108,8 +111,8 @@ public class SinglePlantMenu extends AppCompatActivity implements View.OnClickLi
 }
 
     public void readData() {
-
-        try (FileInputStream fis = openFileInput("CurrentValue.txt");
+        final String id = String.valueOf(sensorId);
+        try (FileInputStream fis = openFileInput("CurVal" + id + ".txt");
              InputStreamReader isr = new InputStreamReader(fis);
              BufferedReader br = new BufferedReader(isr)) {
             String s;

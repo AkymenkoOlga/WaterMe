@@ -121,24 +121,24 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         }
     }
 
-    public void dialogTimeOut(long time){
 
-       handler.postDelayed(new Runnable() {
-           @Override
+    public void dialogTimeOut(){
+
+        handler.post(new Runnable() {
+            @Override
             public void run() {
 
-               if(connectDialog.isShowing()){
-                   connectDialog.dismiss();
-                   showAlertBox(4);
-               }
-           }
-        }, time);
+                if(connectDialog.isShowing()){
+                    connectDialog.dismiss();
+                    showAlertBox(4);
+                }
+            }
+        });
     }
 
     private void showConnectDialog(boolean b) {
         if (b) {
             keeprunning = true;
-            dialogTimeOut(30000);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -155,6 +155,21 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                     connectDialog.show();
                 }
             });
+            int timeOut=0;
+            while(timeOut< 10000){
+                if(keeprunning) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    timeOut += 100;
+                }
+                else
+                    break;
+            }
+            dialogTimeOut();
+
         } else {
             handler.post(new Runnable() {
                 @Override
@@ -216,7 +231,8 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                                 if (Character.isDigit(data.charAt(i))) {
                                                     String newString = data.substring(i);
                                                     String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                                                    writeToFile(currentDateTimeString + "\n" + newString, "CurrentValue.txt", context);
+                                                    String id = String.valueOf(((SinglePlantMenu) context).sensorId);
+                                                    writeToFile(currentDateTimeString + "\n" + newString, "CurVal" + id + ".txt", context);
                                                     break;
                                                 }
                                             }
@@ -249,8 +265,8 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
                                     }
 
                                     if(data.contains("EOT")) {
-                                        writeToFile(sb.toString(), "Values.txt", context);
-
+                                        final String id = String.valueOf(((HumidityGraph) context).plantID);
+                                        writeToFile(sb.toString(), "Val" + id + ".txt", context);
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -336,11 +352,10 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
     public  void onClick(View v){
         switch(v.getId()) {
             case R.id.BTNgetHumidity:
-                execute("request");
+                execute("request" + ((SinglePlantMenu) context).sensorId);
                 break;
             case R.id.BTNrefresh:
-                execute("graph");
-
+                execute("graph" + ((HumidityGraph) context).plantID);
                 break;
         }
     }

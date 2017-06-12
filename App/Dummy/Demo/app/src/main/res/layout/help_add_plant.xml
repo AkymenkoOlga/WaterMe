@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:id="@+id/TXTaddPlant"
-        android:text="@string/help_add_plant" />
+        android:text="@string/help_add_plant"
+        android:layout_margin="5dp" />
 
 
 </LinearLayout>
