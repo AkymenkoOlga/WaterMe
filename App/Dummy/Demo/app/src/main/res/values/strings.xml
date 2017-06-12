@@ -52,20 +52,33 @@
         \n
         From the main menu \n
         1: Press Settings \n
-        2: Press Bluetooth \n
-        3: Press the switch "Bluetooth" \n
-        4: Agree to the notification \n
+        2: Press the switch "Bluetooth" \n
+        3: Agree to the notification \n
         \n \n
-        Then you can connect to the Pi:\n
-        1: Press Reload \n
-        2: Press Connect
+        Then the app automatically connects to the PI when you are trying to perfom an action which reuqires bluetooth-connection.
+
     </string>
     <string name="help_install_pi">
         To make the Pi work properly it has to be installed according to the image below. \n
         For a larger picture, please visit:
     </string>
     <string name="set_up_link">https://github.com/AkymenkoOlga/WaterMe/blob/master/App/Dummy/Demo/app/src/main/res/drawable/set_up.png</string>
-    <string name="help_add_plant">To be determined in 2nd semester</string>
+    <string name="help_add_plant">
+        To add an additional plant \n
+        \n
+        From the main menu \n
+        1: Press MyPlants \n
+        2: Press the + in the top-right corner \n
+        3: Choose an image \n
+        4: Enter the name of your plant \n
+        5: Press OK \n
+        \n
+        \n
+        To delete a plant: \n
+        \n
+        In the MyPlants menu: \n
+        1: Press the trashcan next to the plant
+    </string>
 
     <!-- Plant Menu -->
     <string name="loewenzahn">Mein Löwenzahn</string>
@@ -108,5 +121,6 @@
 
     <!--PlantSelect/MyPlants-->
     <string name="MyPlants">MyPlants</string>
+
 
 </resources>

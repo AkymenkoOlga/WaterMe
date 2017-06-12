@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="101dp"
         android:id="@+id/LayoutPlants1"
-        android:visibility="visible"
+        android:visibility="gone"
         android:weightSum="1">
 
         <ImageView
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="101dp"
         android:id="@+id/LayoutPlants2"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image2"
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="101dp"
         android:id="@+id/LayoutPlants3"
-        android:visibility="visible"
+        android:visibility="gone"
         android:weightSum="1">
 
         <ImageView
@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="101dp"
         android:id="@+id/LayoutPlants4"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image4"
