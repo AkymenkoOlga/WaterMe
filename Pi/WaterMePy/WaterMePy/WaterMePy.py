@@ -78,6 +78,24 @@ class BluetoothManager:
                 if data == "request4":
                     val = self.controller.readChannel(0x43)
                     client.send('begin' + str(val) + '!')
+                
+                if data =="delete1":
+                    self.controller.deleteFile("Val0.txt")
+                    client.send('#total' + str(getNumberOfLines(0)) + '!')
+                    self.sendValues(client,0)
+                if data =="delete2":
+                    self.controller.deleteFile("Val1.txt")
+                    client.send('#total' + str(getNumberOfLines(1)) + '!')
+                    self.sendValues(client,1)
+                if data =="delete3":
+                    self.controller.deleteFile("Val2.txt")
+                    client.send('#total' + str(getNumberOfLines(1)) + '!')
+                    self.sendValues(client,2)
+                if data =="delete4":
+                    self.controller.deleteFile("Val3.txt")
+                    client.send('#total' + str(getNumberOfLines(1)) + '!')
+                    self.sendValues(client,3)
+
 
         except:
             print('Unexpected error:' + str(sys.exc_info()[0]))
