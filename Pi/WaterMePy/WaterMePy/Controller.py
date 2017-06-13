@@ -42,17 +42,17 @@ class Controller:
 
         self.ThreadLed = True
         self.beepInhibit = 0
-        self.readChannel(0)
+        self.readChannel(0x40)
         while self.ThreadLed:
             #green
             if (self.currentHumidity >= 60):
                 self.setLed(False, False, True)
             #yellow
             if (self.currentHumidity < 60 and self.currentHumidity > 20):
-                self.setLed(True, False, False)
+                self.setLed(False, True, False)
             #red
             if(self.currentHumidity <= 20):
-                self.setLed(False, True, False)
+                self.setLed(True, False, False)
                 if (self.beepEnable):
                     if (self.beepInhibit % 4 == 0):
                         self.beep()
@@ -118,7 +118,7 @@ class Controller:
             data = 100       
         self.writeToFile(data,channel)
         #smileys and led only for sensor Interface 0
-        if(channel == 0x41):
+        if(channel == 0x40):
             self.lock.acquire()
             self.currentHumidity = data
             self.lock.release()
