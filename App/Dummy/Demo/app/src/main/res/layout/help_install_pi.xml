@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,10 +24,47 @@
         android:textSize="10sp"
         android:paddingLeft="20dp" />
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        app:srcCompat="@drawable/set_up"
-        android:id="@+id/IMGset_up"
-        android:rotation="90"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="519dp"
+                android:id="@+id/imageView2"
+                app:srcCompat="@drawable/help_complete_small" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/help_pi_small"
+                android:id="@+id/imageView7"
+                android:layout_weight="0.11" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/help_leds_small"
+                android:id="@+id/imageView8"
+                android:layout_weight="0.11" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/help_ad_small"
+                android:id="@+id/imageView9" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/help_sensor_small"
+                android:id="@+id/imageView10" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
