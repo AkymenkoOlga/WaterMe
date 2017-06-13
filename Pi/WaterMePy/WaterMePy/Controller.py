@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import smbus
 import oled
+import os
 from thread import start_new_thread, allocate_lock
 from time import*
 
@@ -150,6 +151,14 @@ class Controller:
             print('sensor 3: ' + myString)
         fobj.write(myString)
         fobj.close()
-        self.lock.release() 
+        self.lock.release()
+    
+    def deleteFile(self, File):
+        self.lock.acquire()
+        fobj = open("/home/pi/WaterMe/WaterMePy/" + File ,"w")
+        fobj.write("")
+        fobj.close()
+        self.lock.release()
+        return
     
 

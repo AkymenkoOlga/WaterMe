@@ -125,6 +125,7 @@
     <string name="alarm">Alarm</string>
     <string name="changescale">Change scale</string>
     <string name="clickme">Click me</string>
+    <string name="delete">delete data</string>
 
     <!--PlantSelect/MyPlants-->
     <string name="MyPlants">MyPlants</string>

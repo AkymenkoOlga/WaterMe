@@ -12,6 +12,7 @@ import java.util.Queue;
 
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -59,7 +60,6 @@ public class HumidityGraph extends AppCompatActivity{
         format = new SimpleDateFormat("HH:mm");
         plantID = String.valueOf(PlantSelect.id);
         refreshGraph();
-
         graph.getViewport().setMinX(series.getLowestValueX());
         graph.getViewport().setMaxX(series.getHighestValueX());
     }
@@ -73,18 +73,45 @@ public class HumidityGraph extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if(android.R.id.home == item.getItemId()){
             Intent intent = new Intent(this, SinglePlantMenu.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-        else
-        {
-            dialog();
+        else {
+            if (item.getTitle().equals("Change scale"))
+                dialog();
+            if (item.getTitle().equals("Delete data"))
+
+            {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                delete();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure you want to delete all humidity data of the current plant?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
         }
         return true;
     }
 
+    void delete()
+    {
+        BluetoothAdministration.getInstance(this).execute("delete" + plantID);
+    }
     void dialog(){
         final String[] grpname = {"24h","three days", "one week", "optimal"};
         AlertDialog.Builder altBld = new AlertDialog.Builder(this);
