@@ -1,6 +1,7 @@
 package com.project.gta.demo;
 
 
+import android.os.SystemClock;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -89,6 +90,7 @@ public class UCShowHumidityDiagram {
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
         appCompatButton4.perform(click());
+        SystemClock.sleep(10000);
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 

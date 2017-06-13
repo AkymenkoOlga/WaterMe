@@ -1,6 +1,7 @@
 package com.project.gta.demo;
 
 
+import android.os.SystemClock;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -20,7 +21,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UCEnableBluetooth {
+public class UCEnableA {
 
     @Rule
     public ActivityTestRule<MainMenu> mActivityTestRule = new ActivityTestRule<>(MainMenu.class);
@@ -37,6 +38,7 @@ public class UCEnableBluetooth {
         ViewInteraction switch_ = onView(
                 allOf(withId(R.id.SWbluetooth), isDisplayed()));
         switch_.perform(click());
+        SystemClock.sleep(5000);
 
     }
 

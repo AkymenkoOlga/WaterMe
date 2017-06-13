@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UCVisithelpMenu {
+public class UCVisitHelpMenu {
 
     @Rule
     public ActivityTestRule<MainMenu> mActivityTestRule = new ActivityTestRule<>(MainMenu.class);
