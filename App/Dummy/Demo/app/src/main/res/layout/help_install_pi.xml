@@ -22,11 +22,13 @@
         android:ems="8"
         android:id="@+id/set_up_link"
         android:textSize="10sp"
-        android:paddingLeft="20dp" />
+        android:paddingLeft="20dp"
+        android:gravity="left" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,14 +39,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="519dp"
                 android:id="@+id/imageView2"
-                app:srcCompat="@drawable/help_complete_small" />
+                app:srcCompat="@drawable/help_complete_small"
+                android:adjustViewBounds="false"
+                android:cropToPadding="false" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/help_pi_small"
                 android:id="@+id/imageView7"
-                android:layout_weight="0.11" />
+                android:layout_weight="0.02"
+                android:isScrollContainer="false" />
 
             <ImageView
                 android:layout_width="match_parent"
