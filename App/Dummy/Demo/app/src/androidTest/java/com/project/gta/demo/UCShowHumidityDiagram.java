@@ -5,12 +5,20 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
@@ -72,31 +80,94 @@ public class UCShowHumidityDiagram {
         appCompatImageView.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.BTNgetHumidity), isDisplayed()));
+                allOf(withId(R.id.BTNgraph), withText("View Graph"), isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.BTNgraph), withText("View Graph"), isDisplayed()));
-        appCompatButton4.perform(click());
-
-        ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.BTNrefresh), withText("Refresh"),
                         withParent(allOf(withId(R.id.activity_humidity_diagram),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatButton5.perform(click());
+        appCompatButton4.perform(click());
 
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Nach oben"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+        ViewInteraction appCompatTextView = onView(
+                allOf(withId(R.id.title), withText("Change scale"), isDisplayed()));
+        appCompatTextView.perform(click());
+
+        ViewInteraction appCompatCheckedTextView = onView(
+                allOf(withId(android.R.id.text1), withText("24h"),
+                        childAtPosition(
+                                allOf(withId(R.id.select_dialog_listview),
+                                        withParent(withId(R.id.contentPanel))),
+                                0),
                         isDisplayed()));
-        appCompatImageButton.perform(click());
+        appCompatCheckedTextView.perform(click());
 
-        ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.BTNgraph), withText("View Graph"), isDisplayed()));
-        appCompatButton6.perform(click());
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+        ViewInteraction appCompatTextView2 = onView(
+                allOf(withId(R.id.title), withText("Change scale"), isDisplayed()));
+        appCompatTextView2.perform(click());
+
+        ViewInteraction appCompatCheckedTextView2 = onView(
+                allOf(withId(android.R.id.text1), withText("three days"),
+                        childAtPosition(
+                                allOf(withId(R.id.select_dialog_listview),
+                                        withParent(withId(R.id.contentPanel))),
+                                1),
+                        isDisplayed()));
+        appCompatCheckedTextView2.perform(click());
+
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+        ViewInteraction appCompatTextView3 = onView(
+                allOf(withId(R.id.title), withText("Change scale"), isDisplayed()));
+        appCompatTextView3.perform(click());
+
+        ViewInteraction appCompatCheckedTextView3 = onView(
+                allOf(withId(android.R.id.text1), withText("one week"),
+                        childAtPosition(
+                                allOf(withId(R.id.select_dialog_listview),
+                                        withParent(withId(R.id.contentPanel))),
+                                2),
+                        isDisplayed()));
+        appCompatCheckedTextView3.perform(click());
+
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+        ViewInteraction appCompatTextView4 = onView(
+                allOf(withId(R.id.title), withText("Change scale"), isDisplayed()));
+        appCompatTextView4.perform(click());
+
+        ViewInteraction appCompatCheckedTextView4 = onView(
+                allOf(withId(android.R.id.text1), withText("optimal"),
+                        childAtPosition(
+                                allOf(withId(R.id.select_dialog_listview),
+                                        withParent(withId(R.id.contentPanel))),
+                                3),
+                        isDisplayed()));
+        appCompatCheckedTextView4.perform(click());
 
     }
 
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
+
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
 }
