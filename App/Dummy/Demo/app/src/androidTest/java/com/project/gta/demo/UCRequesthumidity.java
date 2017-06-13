@@ -25,13 +25,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UCManagePlants {
+public class UCRequesthumidity {
 
     @Rule
     public ActivityTestRule<MainMenu> mActivityTestRule = new ActivityTestRule<>(MainMenu.class);
 
     @Test
-    public void uCManagePlants() {
+    public void uCRequesthumidity() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.BTNmyplants), withText("My plants"),
                         withParent(allOf(withId(R.id.mainmenu),
@@ -63,6 +63,17 @@ public class UCManagePlants {
                                 withParent(withId(R.id.parentPanel)))),
                         isDisplayed()));
         appCompatButton2.perform(click());
+
+        ViewInteraction appCompatImageView = onView(
+                allOf(withId(R.id.image1),
+                        withParent(allOf(withId(R.id.LayoutPlants1),
+                                withParent(withId(R.id.activity_single_plant_menu)))),
+                        isDisplayed()));
+        appCompatImageView.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.BTNgetHumidity), isDisplayed()));
+        appCompatButton3.perform(click());
 
     }
 

@@ -21,13 +21,13 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UCVisitHelpMenu {
+public class UCVisithelpMenu {
 
     @Rule
     public ActivityTestRule<MainMenu> mActivityTestRule = new ActivityTestRule<>(MainMenu.class);
 
     @Test
-    public void uCVisitHelpMenu() {
+    public void uCVisithelpMenu() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.BTNhelp), withText("Help"),
                         withParent(allOf(withId(R.id.mainmenu),
@@ -102,13 +102,6 @@ public class UCVisitHelpMenu {
                                 withParent(withId(R.id.action_bar_container)))),
                         isDisplayed()));
         appCompatImageButton4.perform(click());
-
-        ViewInteraction appCompatImageButton5 = onView(
-                allOf(withContentDescription("Nach oben"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
-                        isDisplayed()));
-        appCompatImageButton5.perform(click());
 
     }
 

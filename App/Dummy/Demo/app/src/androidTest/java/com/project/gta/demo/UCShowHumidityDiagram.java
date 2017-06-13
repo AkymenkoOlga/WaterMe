@@ -25,13 +25,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UCManagePlants {
+public class UCShowHumidityDiagram {
 
     @Rule
     public ActivityTestRule<MainMenu> mActivityTestRule = new ActivityTestRule<>(MainMenu.class);
 
     @Test
-    public void uCManagePlants() {
+    public void uCShowHumidityDiagram() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.BTNmyplants), withText("My plants"),
                         withParent(allOf(withId(R.id.mainmenu),
@@ -63,6 +63,39 @@ public class UCManagePlants {
                                 withParent(withId(R.id.parentPanel)))),
                         isDisplayed()));
         appCompatButton2.perform(click());
+
+        ViewInteraction appCompatImageView = onView(
+                allOf(withId(R.id.image1),
+                        withParent(allOf(withId(R.id.LayoutPlants1),
+                                withParent(withId(R.id.activity_single_plant_menu)))),
+                        isDisplayed()));
+        appCompatImageView.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.BTNgetHumidity), isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.BTNgraph), withText("View Graph"), isDisplayed()));
+        appCompatButton4.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.BTNrefresh), withText("Refresh"),
+                        withParent(allOf(withId(R.id.activity_humidity_diagram),
+                                withParent(withId(android.R.id.content)))),
+                        isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Nach oben"),
+                        withParent(allOf(withId(R.id.action_bar),
+                                withParent(withId(R.id.action_bar_container)))),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction appCompatButton6 = onView(
+                allOf(withId(R.id.BTNgraph), withText("View Graph"), isDisplayed()));
+        appCompatButton6.perform(click());
 
     }
 
