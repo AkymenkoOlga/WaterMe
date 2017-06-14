@@ -3,7 +3,7 @@ package com.project.gta.demo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class about extends AppCompatActivity {
+public class About extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

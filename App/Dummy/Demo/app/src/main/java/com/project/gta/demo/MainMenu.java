@@ -51,7 +51,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 startActivity(new Intent(this,HelpMenu.class));
                 break;
             case R.id.BTNabout:
-                startActivity(new Intent(this,about.class));
+                startActivity(new Intent(this,About.class));
                 break;
             case R.id.BTNmyplants:
                 startActivity(new Intent(this,PlantSelect.class));

@@ -102,7 +102,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
              Log.e("", "Connected");
              isconnected = true;
              showConnectDialog(false);
-             mDecodeThreadPool.execute(new checkConnectionState());
+             mDecodeThreadPool.execute(new CheckConnectionState());
              showToast("Connected");
         }
         catch(Exception e){
@@ -196,11 +196,11 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
 
 
 
-    final class workerThread implements Runnable {
+    final class BluetoothCommunication implements Runnable {
 
         private String btMsg;
 
-        workerThread(String msg) {
+        BluetoothCommunication(String msg) {
             btMsg = msg;
         }
         @Override
@@ -407,7 +407,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         }
         else {
             keeprunning = true;
-            mDecodeThreadPool.execute(new workerThread(command));
+            mDecodeThreadPool.execute(new BluetoothCommunication(command));
         }
     }
 
@@ -449,7 +449,7 @@ public class BluetoothAdministration implements View.OnClickListener, CompoundBu
         dlgAlert.create().show();
     }
 
-    final class checkConnectionState implements Runnable {
+    final class CheckConnectionState implements Runnable {
         @Override
         public void run(){
             while(!Thread.currentThread().isInterrupted())

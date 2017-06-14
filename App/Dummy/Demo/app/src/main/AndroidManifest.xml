@@ -37,7 +37,7 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
         <activity
-            android:name=".about"
+            android:name=".About"
             android:label="@string/about"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainMenu" />
