@@ -123,16 +123,19 @@ public class HumidityGraph extends AppCompatActivity{
                 switch (item) {
                     case 0:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000);
+                        graph.getViewport().setMaxX(System.currentTimeMillis()+60000*40);
                         format = new SimpleDateFormat("HH:mm");
                         refreshGraph();
                         break;
                     case 1:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000*3);
+                        graph.getViewport().setMaxX(System.currentTimeMillis()+60000*40*3);
                         format = new SimpleDateFormat("dd-MM");
                         refreshGraph();
                         break;
                     case 2:
                         graph.getViewport().setMinX(System.currentTimeMillis()-86400000*7);
+                        graph.getViewport().setMaxX(System.currentTimeMillis()+60000*40*7);
                         format = new SimpleDateFormat("dd-MM");
                         refreshGraph();
                         break;
