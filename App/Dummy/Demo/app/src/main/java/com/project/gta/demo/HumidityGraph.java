@@ -82,7 +82,7 @@ public class HumidityGraph extends AppCompatActivity{
         else {
             if (item.getTitle().equals("Change scale"))
                 dialog();
-            if (item.getTitle().equals("Delete data"))
+            if (item.getTitle().equals("delete data"))
 
             {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
